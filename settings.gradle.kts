@@ -20,5 +20,12 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Health Kiosk"
-include(":app")
+
+val modules = listOf(
+    ":app",
+    ":core"
+)
+
+modules.forEach { include(it) }
+
  

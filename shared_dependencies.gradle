@@ -1,0 +1,14 @@
+dependencies {
+    // AndroidX
+    implementation(libs.activity)
+    implementation(libs.appcompat)
+
+    // Dagger - Hilt
+    implementation(libs.hilt.android)
+    annotationProcessor(libs.hilt.compiler)
+
+    // Testing
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+}

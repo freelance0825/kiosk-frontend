@@ -1,22 +1,19 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.dagger.hilt)
 }
 
 apply(from = "../shared_dependencies.gradle")
 
 android {
-    namespace = "com.fmv.healthkiosk"
+    namespace = "com.fmv.healthkiosk.core"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.fmv.healthkiosk"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
     buildFeatures {
         viewBinding = true
@@ -37,8 +34,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
 
-    implementation(libs.material)
-    implementation(libs.constraintlayout)
 }

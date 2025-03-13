@@ -6,11 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewbinding.ViewBinding;
 
 
@@ -47,43 +50,24 @@ public abstract class BaseFragment<VB extends ViewBinding, VM extends BaseViewMo
     }
 
     /**
-     * Navigators
+     * Fragment Navigators with Jetpack Navigation
+     */
+    protected void navigateToFragment(@IdRes int actionId, Bundle args) {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(actionId, args);
+    }
+
+    protected void navigateBack() {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigateUp();
+    }
+
+    /**
+     * Activity Navigator
      */
     protected void navigateToActivity(Class<? extends AppCompatActivity> destination, Bundle extras) {
-        if (getActivity() != null) {
-            Intent intent = new Intent(getActivity(), destination);
-            if (extras != null) intent.putExtras(extras);
-            startActivity(intent);
-        }
-    }
-
-    protected void navigateToFragment(
-            int fragmentContainer,
-            Fragment destinationFragment,
-            Bundle args,
-            boolean addToBackStack
-    ) {
-        if (getActivity() == null) return;
-
-        if (args != null) {
-            destinationFragment.setArguments(args);
-        }
-
-        FragmentTransaction transaction = getActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .replace(fragmentContainer, destinationFragment);
-
-        if (addToBackStack) {
-            transaction.addToBackStack(null);
-        }
-
-        transaction.commit();
-    }
-
-    protected void navigateBackFragment() {
-        if (getActivity() != null) {
-            getActivity().getSupportFragmentManager().popBackStack();
-        }
+        Intent intent = new Intent(requireContext(), destination);
+        if (extras != null) intent.putExtras(extras);
+        startActivity(intent);
     }
 }

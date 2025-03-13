@@ -3,10 +3,13 @@ package com.fmv.healthkiosk.core.base;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.viewbinding.ViewBinding;
 
 public abstract class BaseActivity<VB extends ViewBinding, VM extends BaseViewModel> extends AppCompatActivity {
@@ -31,25 +34,20 @@ public abstract class BaseActivity<VB extends ViewBinding, VM extends BaseViewMo
 
     protected abstract VB getViewBinding();
 
+    /**
+     * Fragment Navigators with Jetpack Navigation
+     */
+    protected void navigateToFragment(@IdRes int actionId, @IdRes int navHostId, Bundle args) {
+        NavController navController = Navigation.findNavController(this, navHostId);
+        navController.navigate(actionId, args);
+    }
+
+    /**
+     * Activity Navigator
+     */
     protected void navigateToActivity(Class<? extends AppCompatActivity> destination, Bundle extras) {
         Intent intent = new Intent(this, destination);
         if (extras != null) intent.putExtras(extras);
         startActivity(intent);
-    }
-
-    protected void addFragment(
-            int fragmentContainer,
-            Fragment destinationFragment,
-            boolean addToBackStack
-    ) {
-        FragmentTransaction transaction = getSupportFragmentManager()
-                .beginTransaction()
-                .add(fragmentContainer, destinationFragment);
-
-        if (addToBackStack) {
-            transaction.addToBackStack(null);
-        }
-
-        transaction.commit();
     }
 }

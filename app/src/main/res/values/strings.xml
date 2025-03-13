@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Health Kiosk</string>
+
+    <!-- Main Screen -->
+    <string name="main_screen_patient_name">Patient Name</string>
+    <string name="main_screen_age">Age</string>
+    <string name="main_screen_date_of_birth">Date of Birth</string>
+    <string name="main_screen_gender">Gender</string>
+    <string name="main_screen_phone">Phone</string>
+    <string name="main_screen_device_status_connected">DEVICE CONNECTED</string>
+    <string name="main_screen_device_status_disconnected">DEVICE DISCONNECT</string>
+
+    <!-- Content Description Main Screen -->
+    <string name="cd_fischer_logo">Fischer Logo</string>
 </resources>

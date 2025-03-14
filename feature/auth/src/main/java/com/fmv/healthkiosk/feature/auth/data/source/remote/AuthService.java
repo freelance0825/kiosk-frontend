@@ -2,26 +2,29 @@ package com.fmv.healthkiosk.feature.auth.data.source.remote;
 
 import com.fmv.healthkiosk.feature.auth.data.source.remote.model.AuthResponse;
 import com.fmv.healthkiosk.feature.auth.data.source.remote.model.LoginRequest;
-import com.fmv.healthkiosk.feature.auth.data.source.remote.model.RegisterRequest;
 
 import io.reactivex.Single;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
+import retrofit2.http.Part;
 
 public interface AuthService {
 
     @POST("login")
     Single<AuthResponse> loginPhoneNumber(@Body LoginRequest loginRequest);
 
-    @POST("users/Add")
+    @Multipart
+    @POST("users/add")
     Single<AuthResponse> register(
-            @Query("name") String name,
-            @Query("address") String address,
-            @Query("gender") String gender,
-            @Query("age") String age,
-            @Query("dob") String dob,
-            @Query("phoneNumber") String phoneNumber,
-            @Body RegisterRequest request
+            @Part("name") RequestBody name,
+            @Part("address") RequestBody address,
+            @Part("gender") RequestBody gender,
+            @Part("age") RequestBody age,
+            @Part("dob") RequestBody dob,
+            @Part("phoneNumber") RequestBody phoneNumber,
+            @Part MultipartBody.Part image
     );
 }

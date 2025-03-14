@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
 import com.fmv.healthkiosk.databinding.FragmentPinBinding;
-import com.fmv.healthkiosk.ui.auth.landing.LandingFragmentDirections;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class PinFragment extends BaseFragment<FragmentPinBinding, PinViewModel> {
 
     @Override
@@ -31,7 +33,9 @@ public class PinFragment extends BaseFragment<FragmentPinBinding, PinViewModel> 
 
     private void observeViewModel() {
         viewModel.isLoggedIn.observe(this, isLoggedIn -> {
-            navigateToFragment(PinFragmentDirections.actionNavigationPinToNavigationHomeLanding(), true);
+            if (isLoggedIn) {
+                navigateToFragment(PinFragmentDirections.actionNavigationPinToNavigationHomeLanding(), true);
+            }
         });
     }
 

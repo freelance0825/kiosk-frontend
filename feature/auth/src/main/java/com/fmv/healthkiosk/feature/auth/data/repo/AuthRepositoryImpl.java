@@ -1,22 +1,38 @@
 package com.fmv.healthkiosk.feature.auth.data.repo;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import com.fmv.healthkiosk.feature.auth.R;
 import com.fmv.healthkiosk.feature.auth.data.source.local.AuthDataStore;
 import com.fmv.healthkiosk.feature.auth.data.source.remote.AuthService;
 import com.fmv.healthkiosk.feature.auth.data.source.remote.model.LoginRequest;
-import com.fmv.healthkiosk.feature.auth.data.source.remote.model.RegisterRequest;
 import com.fmv.healthkiosk.feature.auth.domain.repo.AuthRepository;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 
 public class AuthRepositoryImpl implements AuthRepository {
 
+    private final Context context;
     private final AuthService authService;
     private final AuthDataStore authDataStore;
 
-    public AuthRepositoryImpl(AuthService authService, AuthDataStore authDataStore) {
+    @Inject
+    public AuthRepositoryImpl(Context context, AuthService authService, AuthDataStore authDataStore) {
+        this.context = context;
         this.authService = authService;
         this.authDataStore = authDataStore;
     }
@@ -35,8 +51,24 @@ public class AuthRepositoryImpl implements AuthRepository {
 
     @Override
     public Single<String> registerUser(String name, String gender, String age, String dob, String phoneNumber) {
-        RegisterRequest request = new RegisterRequest("image");
-        return authService.register(name, "address", gender, age, dob, phoneNumber, request)
+        RequestBody namePart = RequestBody.create(name, MediaType.parse("text/plain"));
+        RequestBody addressPart = RequestBody.create("address", MediaType.parse("text/plain"));
+        RequestBody genderPart = RequestBody.create(gender, MediaType.parse("text/plain"));
+        RequestBody agePart = RequestBody.create(age, MediaType.parse("text/plain"));
+        RequestBody dobPart = RequestBody.create(dob, MediaType.parse("text/plain"));
+        RequestBody phoneNumberPart = RequestBody.create(phoneNumber, MediaType.parse("text/plain"));
+
+        File imageFile;
+        try {
+            imageFile = getFileFromDrawable(context, R.drawable.img);
+        } catch (IOException e) {
+            return Single.error(e);
+        }
+
+        RequestBody requestFile = RequestBody.create(imageFile, MediaType.parse("image/*"));
+        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", imageFile.getName(), requestFile);
+
+        return authService.register(namePart, addressPart, genderPart, agePart, dobPart, phoneNumberPart, imagePart)
                 .flatMap(authResponse -> Completable.concatArray(
                         authDataStore.setPhoneNumber(phoneNumber),
                         authDataStore.setUsername(authResponse.getName()),
@@ -84,5 +116,16 @@ public class AuthRepositoryImpl implements AuthRepository {
     @Override
     public Completable logout() {
         return authDataStore.clearData();
+    }
+
+    private File getFileFromDrawable(Context context, int drawableId) throws IOException {
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), drawableId);
+        File file = new File(context.getCacheDir(), "temp_image.jpg");
+
+        try (FileOutputStream out = new FileOutputStream(file)) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+        }
+        return file;
     }
 }

@@ -5,11 +5,11 @@ import android.content.Context;
 import androidx.datastore.preferences.core.Preferences;
 import androidx.datastore.preferences.core.PreferencesKeys;
 
-import com.fmv.healthkiosk.core.BuildConfig;
 import com.fmv.healthkiosk.core.base.data.BaseDataStore;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+
 public class AuthDataStore extends BaseDataStore {
 
     private static final Preferences.Key<String> USERNAME = PreferencesKeys.stringKey("name_preferences");

@@ -1,15 +1,20 @@
 package com.fmv.healthkiosk.ui.auth.loginlanding.login;
 
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 
 import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
 import com.fmv.healthkiosk.feature.auth.domain.usecase.LoginUseCase;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
+@HiltViewModel
 public class LoginViewModel extends BaseViewModel {
 
     private final LoginUseCase loginUseCase;
@@ -22,6 +27,7 @@ public class LoginViewModel extends BaseViewModel {
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
+    @Inject
     public LoginViewModel(SavedStateHandle savedStateHandle, LoginUseCase loginUseCase) {
         super(savedStateHandle);
         this.loginType = getArgument("loginType");

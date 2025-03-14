@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
 import com.fmv.healthkiosk.databinding.FragmentHomeLandingBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class HomeLandingFragment extends BaseFragment<FragmentHomeLandingBinding, HomeLandingViewModel> {
 
     @Override

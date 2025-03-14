@@ -8,6 +8,9 @@ import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
 import com.fmv.healthkiosk.databinding.FragmentLoginLandingBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class LoginLandingFragment extends BaseFragment<FragmentLoginLandingBinding, LoginLandingViewModel> {
 
     @Override

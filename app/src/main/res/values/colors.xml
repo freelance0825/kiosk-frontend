@@ -2,4 +2,16 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="primaryBlue">#5BEAFF</color>
+
+    <color name="primaryGreen">#58FFCF</color>
+    <color name="secondaryGreen">#06FFB8</color>
+    <color name="textGreen">#12FFBB</color>
+
+    <color name="primaryRed">#FF2E31</color>
+
+    <color name="onWhiteSurface">#1C2129</color>
+
+    <color name="grayOpacity80">#CC34414E</color>
 </resources>

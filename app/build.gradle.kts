@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.android.navigation)
 }
 
 apply(from = "../shared_dependencies.gradle")
@@ -38,6 +39,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":feature:auth"))
 
     implementation(libs.material)
     implementation(libs.constraintlayout)

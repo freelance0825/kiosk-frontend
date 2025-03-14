@@ -1,12 +1,21 @@
 package com.fmv.healthkiosk.feature.auth.domain.usecase;
 
 import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.Observable;
 
 public interface AccountUseCase {
-    Single<String> getUsername();
-    Completable setUsername(String username);
-    Single<Boolean> isLoggedIn();
+    Observable<Boolean> isLoggedIn();
+
+    Observable<String> getUsername();
+
+    Observable<String> getDateOfBirth();
+
+    Observable<String> getGender();
+
+    Observable<String> getPhoneNumber();
+
+    Observable<Integer> getAge();
+
     Completable logout();
-    Completable clearUserData();
+    Completable setIsLoggedIn(boolean isLoggedIn);
 }

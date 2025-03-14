@@ -4,7 +4,7 @@ import com.fmv.healthkiosk.feature.auth.domain.repo.AuthRepository;
 import com.fmv.healthkiosk.feature.auth.domain.usecase.AccountUseCase;
 
 import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.Observable;
 
 public class AccountInteractor implements AccountUseCase {
     private final AuthRepository authRepository;
@@ -13,19 +13,35 @@ public class AccountInteractor implements AccountUseCase {
         this.authRepository = authRepository;
     }
 
+
     @Override
-    public Single<String> getUsername() {
+    public Observable<Boolean> isLoggedIn() {
+        return authRepository.isLoggedIn();
+    }
+
+    @Override
+    public Observable<String> getUsername() {
         return authRepository.getUsername();
     }
 
     @Override
-    public Completable setUsername(String username) {
-        return authRepository.setUsername(username);
+    public Observable<String> getDateOfBirth() {
+        return authRepository.getDateOfBirth();
     }
 
     @Override
-    public Single<Boolean> isLoggedIn() {
-        return authRepository.isLoggedIn();
+    public Observable<String> getGender() {
+        return authRepository.getGender();
+    }
+
+    @Override
+    public Observable<String> getPhoneNumber() {
+        return authRepository.getPhoneNumber();
+    }
+
+    @Override
+    public Observable<Integer> getAge() {
+        return authRepository.getAge();
     }
 
     @Override
@@ -34,7 +50,7 @@ public class AccountInteractor implements AccountUseCase {
     }
 
     @Override
-    public Completable clearUserData() {
-        return authRepository.clearUserData();
+    public Completable setIsLoggedIn(boolean isLoggedIn) {
+        return authRepository.setIsLoggedIn(isLoggedIn);
     }
 }

@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":feature:auth"))
 
     implementation(libs.material)
     implementation(libs.constraintlayout)

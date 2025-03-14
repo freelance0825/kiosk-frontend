@@ -2,6 +2,7 @@ package com.fmv.healthkiosk.ui.auth.register;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -26,8 +27,28 @@ public class RegisterFragment extends BaseFragment<FragmentRegisterBinding, Regi
 
     @Override
     protected void setupUI(Bundle savedInstanceState) {
+        observeViewModel();
+
         setViews();
         setListeners();
+    }
+
+    private void observeViewModel() {
+        viewModel.isLoading.observe(this, isLoading -> {
+
+        });
+
+        viewModel.registerSuccessMessage.observe(this, successMessage -> {
+            if (successMessage != null) {
+                navigateToPin();
+            }
+        });
+
+        viewModel.errorMessage.observe(this, errorMessage -> {
+            if (errorMessage != null) {
+
+            }
+        });
     }
 
     private void setViews() {
@@ -51,6 +72,7 @@ public class RegisterFragment extends BaseFragment<FragmentRegisterBinding, Regi
                     (view, selectedYear, selectedMonth, selectedDay) -> {
                         String formattedDate = String.format("%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear);
                         binding.edDateOfBirth.setText(formattedDate);
+                        viewModel.updateAge(formattedDate);
                     },
                     year, month, day
             );
@@ -62,10 +84,50 @@ public class RegisterFragment extends BaseFragment<FragmentRegisterBinding, Regi
     private void setListeners() {
         binding.btnBack.setOnClickListener(v -> navigateBack());
 
-        binding.btnSubmit.setOnClickListener(v -> {
-            boolean isCreatingPin = true;
 
-            navigateToFragment(RegisterFragmentDirections.actionNavigationRegisterToNavigationPin(isCreatingPin), false);
+        binding.btnSubmit.setOnClickListener(v -> {
+            String name = binding.edName.getText().toString().trim();
+            String gender = binding.edGender.getText().toString(); // Jika pakai Spinner
+            String dob = binding.edDateOfBirth.getText().toString().trim();
+            String phoneNumber = binding.edPhoneNumber.getText().toString().trim();
+            String email = binding.edEmail.getText().toString().trim();
+
+            if (isValid(name, gender, dob, phoneNumber, email)) {
+                String phoneNumberUpdated = getString(R.string.fragment_login_mobile_number_country_code) + binding.edPhoneNumber.getText().toString().trim();
+
+                viewModel.register(name, gender, dob, phoneNumberUpdated);
+            }
         });
+    }
+
+    private boolean isValid(String name, String gender, String dob, String phoneNumber, String email) {
+        boolean valid = true;
+
+        if (name.isEmpty()) {
+            valid = false;
+        }
+
+        if (gender.isEmpty()) {
+            valid = false;
+        }
+
+        if (dob.isEmpty()) {
+            valid = false;
+        }
+
+        if (!phoneNumber.matches("^\\d{0,15}$")) {
+            valid = false;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    private void navigateToPin() {
+        boolean isCreatingPin = true;
+        navigateToFragment(RegisterFragmentDirections.actionNavigationRegisterToNavigationPin(isCreatingPin), false);
     }
 }

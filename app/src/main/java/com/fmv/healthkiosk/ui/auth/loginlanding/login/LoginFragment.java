@@ -23,8 +23,28 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding, LoginViewM
 
     @Override
     protected void setupUI(Bundle savedInstanceState) {
+        observeViewModel();
+
         setViews();
         setListeners();
+    }
+
+    private void observeViewModel() {
+        viewModel.isLoading.observe(this, isLoading -> {
+
+        });
+
+        viewModel.loginSuccessMessage.observe(this, successMessage -> {
+            if (successMessage != null) {
+                navigateToPin();
+            }
+        });
+
+        viewModel.errorMessage.observe(this, errorMessage -> {
+            if (errorMessage != null) {
+
+            }
+        });
     }
 
     private void setViews() {
@@ -44,9 +64,24 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding, LoginViewM
         binding.btnBack.setOnClickListener(v -> navigateBack());
 
         binding.btnSubmit.setOnClickListener(v -> {
-            boolean isCreatingPin = false;
+            String phoneNumber = binding.edPhoneNumber.getText().toString().trim();
 
-            navigateToFragment(LoginFragmentDirections.actionNavigationLoginToNavigationPin(isCreatingPin), false);
+            if (viewModel.loginType.equals(getString(R.string.fragment_login_landing_mobile_number))) {
+                if (isValid(phoneNumber)) {
+                    viewModel.loginPhoneNumber(getString(R.string.fragment_login_mobile_number_country_code) + phoneNumber);
+                }
+            } else {
+
+            }
         });
+    }
+
+    private boolean isValid(String edField) {
+        return !edField.isEmpty();
+    }
+
+    private void navigateToPin() {
+        boolean isCreatingPin = false;
+        navigateToFragment(LoginFragmentDirections.actionNavigationLoginToNavigationPin(isCreatingPin), false);
     }
 }

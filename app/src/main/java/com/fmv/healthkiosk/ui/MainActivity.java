@@ -1,6 +1,7 @@
 package com.fmv.healthkiosk.ui;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.navigation.NavController;
@@ -31,7 +32,29 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     }
 
     private void observeViewModel() {
+        viewModel.isLoggedIn.observe(this, isLoggedIn -> {
+            binding.layoutProfile.setVisibility(isLoggedIn ? View.VISIBLE : View.GONE);
+        });
 
+        viewModel.username.observe(this, username -> {
+            binding.tvPatientName.setText(username);
+        });
+
+        viewModel.dateOfBirth.observe(this, dateOfBirth -> {
+            binding.tvPatientDateOfBirth.setText(dateOfBirth);
+        });
+
+        viewModel.gender.observe(this, gender -> {
+            binding.tvPatientGender.setText(gender);
+        });
+
+        viewModel.phoneNumber.observe(this, phoneNumber -> {
+            binding.tvPatientPhone.setText(phoneNumber);
+        });
+
+        viewModel.age.observe(this, age -> {
+            binding.tvPatientAge.setText(String.valueOf(age));
+        });
     }
 
     private void setListeners() {

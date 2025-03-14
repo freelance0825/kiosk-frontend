@@ -9,7 +9,7 @@ import com.fmv.healthkiosk.core.BuildConfig;
 import com.fmv.healthkiosk.core.base.data.BaseDataStore;
 
 import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.Observable;
 public class AuthDataStore extends BaseDataStore {
 
     private static final Preferences.Key<String> USERNAME = PreferencesKeys.stringKey("name_preferences");
@@ -23,48 +23,48 @@ public class AuthDataStore extends BaseDataStore {
         super(context);
     }
 
-    public Single<String> getUsername() {
-        return getValue(USERNAME, "");
+    public Observable<String> getUsername() {
+        return observeValue(USERNAME, "");
     }
 
     public Completable setUsername(String username) {
         return setValue(USERNAME, username);
     }
 
-    public Single<String> getDateOfBirth() {
-        return getValue(DATE_OF_BIRTH, "");
+    public Observable<String> getDateOfBirth() {
+        return observeValue(DATE_OF_BIRTH, "");
     }
 
     public Completable setDateOfBirth(String dob) {
         return setValue(DATE_OF_BIRTH, dob);
     }
 
-    public Single<String> getGender() {
-        return getValue(GENDER, "");
+    public Observable<String> getGender() {
+        return observeValue(GENDER, "");
     }
 
     public Completable setGender(String gender) {
         return setValue(GENDER, gender);
     }
 
-    public Single<String> getPhoneNumber() {
-        return getValue(PHONE_NUMBER, "");
+    public Observable<String> getPhoneNumber() {
+        return observeValue(PHONE_NUMBER, "");
     }
 
     public Completable setPhoneNumber(String phoneNumber) {
         return setValue(PHONE_NUMBER, phoneNumber);
     }
 
-    public Single<Integer> getAge() {
-        return getValue(AGE, 0);
+    public Observable<Integer> getAge() {
+        return observeValue(AGE, 0);
     }
 
     public Completable setAge(int age) {
         return setValue(AGE, age);
     }
 
-    public Single<Boolean> isLoggedIn() {
-        return getValue(IS_LOGGED_IN, false);
+    public Observable<Boolean> isLoggedIn() {
+        return observeValue(IS_LOGGED_IN, false);
     }
 
     public Completable setLoggedIn(boolean isLoggedIn) {

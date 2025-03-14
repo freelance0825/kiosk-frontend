@@ -2,6 +2,7 @@ package com.fmv.healthkiosk.ui.auth.landing;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
@@ -21,7 +22,15 @@ public class LandingFragment extends BaseFragment<FragmentLandingBinding, Landin
 
     @Override
     protected void setupUI(Bundle savedInstanceState) {
+        observeViewModel();
+
         setListeners();
+    }
+
+    private void observeViewModel() {
+        viewModel.isLoggedIn.observe(this, isLoggedIn -> {
+            navigateToFragment(LandingFragmentDirections.actionNavigationLandingToNavigationHomeLanding(), true);
+        });
     }
 
     private void setListeners() {

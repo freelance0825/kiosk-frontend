@@ -10,6 +10,7 @@ import androidx.datastore.preferences.rxjava2.RxPreferenceDataStoreBuilder;
 import com.fmv.healthkiosk.core.BuildConfig;
 
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 public abstract class BaseDataStore {
@@ -21,10 +22,10 @@ public abstract class BaseDataStore {
         this.dataStore = new RxPreferenceDataStoreBuilder(context, STORE_NAME).build();
     }
 
-    protected <T> Single<T> getValue(Preferences.Key<T> key, T defaultValue) {
+    protected <T> Observable<T> observeValue(Preferences.Key<T> key, T defaultValue) {
         return dataStore.data()
                 .map(preferences -> preferences.get(key) != null ? preferences.get(key) : defaultValue)
-                .firstOrError();
+                .distinctUntilChanged().toObservable();
     }
 
     protected <T> Completable setValue(Preferences.Key<T> key, T value) {

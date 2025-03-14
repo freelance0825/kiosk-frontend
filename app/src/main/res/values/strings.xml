@@ -12,4 +12,76 @@
 
     <!-- Content Description Main Screen -->
     <string name="cd_fischer_logo">Fischer Logo</string>
+    <string name="cd_digihealth_atm_logo">DigiHealth ATM Logo</string>
+    <string name="cd_button_back">Back Button</string>
+    <string name="cd_mobile_icon">Mobile Icon</string>
+    <string name="cd_health_card_icon">Health Card Icon</string>
+    <string name="cd_unique_code_icon">Unique Code Icon</string>
+
+    <!-- Fragment Titles -->
+    <string name="fragment_title_landing">Landing Fragment</string>
+    <string name="fragment_title_login_landing">Login Landing Fragment</string>
+    <string name="fragment_title_login">Login Fragment</string>
+    <string name="fragment_title_register">Register Fragment</string>
+    <string name="fragment_title_pin">Pin Fragment</string>
+    <string name="fragment_title_home_landing">Home Landing Fragment</string>
+
+    <!-- Fragment Landing -->
+    <string name="fragment_landing_login_patient_account">Login Patient Account</string>
+    <string name="fragment_landing_no_account_question">No account?</string>
+    <string name="fragment_landing_register">Register</string>
+    <string name="fragment_landing_submit">Submit</string>
+
+    <!-- Fragment Login Landing -->
+    <string name="fragment_login_landing_select_login_option">Select Login Option</string>
+    <string name="fragment_login_landing_mobile_number">Mobile Number</string>
+    <string name="fragment_login_landing_health_card">Health Card</string>
+    <string name="fragment_login_landing_unique_code">Unique Code</string>
+
+    <!-- Fragment Login -->
+    <string name="fragment_login_login_with">Login With</string>
+    <string name="fragment_login_mobile_number_hint_placeholder">xxxxxxxxxx</string>
+    <string name="fragment_login_mobile_number_country_code">+62</string>
+    <string name="fragment_login_input_your_health_card_number">Input your health card number</string>
+
+    <!-- Fragment Pin -->
+    <string name="fragment_pin_create">Create</string>
+    <string name="fragment_pin_input">Input</string>
+    <string name="fragment_pin_pin_verification">Pin Verification</string>
+    <string name="fragment_pin_verify">Verify</string>
+
+    <!-- Fragment Register -->
+    <string name="fragment_register_create_patient_account">Create Patient Account</string>
+    <string name="fragment_register_required">*Required</string>
+    <string name="fragment_register_name">Name*</string>
+    <string name="fragment_register_gender">Gender*</string>
+    <string name="fragment_register_date_of_birth">Date of birth*</string>
+    <string name="fragment_register_phone_number">Phone Number*</string>
+    <string name="fragment_register_email">Email*</string>
+    <string name="fragment_register_blood_group">Blood Group</string>
+    <string name="fragment_register_aadhar_card_number">Aadhar Card Number</string>
+    <string name="fragment_register_unique_id">Unique ID</string>
+    <string name="fragment_register_name_without_aposthrope">Name</string>
+    <string name="fragment_register_email_without_aposthrope">Email</string>
+    <string name="fragment_register_card_number">Card Number</string>
+    <string name="fragment_register_id_number">ID Number</string>
+    <string name="fragment_register_select_gender">Select Gender</string>
+    <string name="fragment_register_select_blood_group">Select Blood Group</string>
+    <string name="fragment_register_date_format">mm/dd/yy</string>
+    <string name="fragment_home_welcome_name">Welcome, %1$s.</string>
+    <string name="fragment_home_what_do_you_need_today">What do you need today?</string>
+    <string-array name="fragment_register_gender_options">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string-array name="fragment_register_blood_group_options">
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>O+</item>
+        <item>O-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+    </string-array>
 </resources>

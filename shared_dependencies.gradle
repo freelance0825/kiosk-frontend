@@ -1,4 +1,11 @@
 dependencies {
+    // RxJava
+    implementation(libs.rxjava)
+    implementation(libs.rxandroid)
+
+    // DataStore
+    implementation(libs.datastore.preferences.rxjava2)
+
     // AndroidX
     implementation(libs.activity)
     implementation(libs.appcompat)

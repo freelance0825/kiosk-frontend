@@ -1,4 +1,4 @@
-package com.fmv.healthkiosk.core.base;
+package com.fmv.healthkiosk.core.base.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,13 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewbinding.ViewBinding;
 
@@ -52,10 +52,18 @@ public abstract class BaseFragment<VB extends ViewBinding, VM extends BaseViewMo
     /**
      * Fragment Navigators with Jetpack Navigation
      */
-    protected void navigateToFragment(@IdRes int actionId, Bundle args) {
+    protected void navigateToFragment(@NonNull NavDirections action, boolean clearBackStack) {
         NavController navController = NavHostFragment.findNavController(this);
-        navController.navigate(actionId, args);
+
+        NavOptions.Builder navOptionsBuilder = new NavOptions.Builder();
+
+        if (clearBackStack) {
+            navOptionsBuilder.setPopUpTo(navController.getGraph().getStartDestinationId(), true);
+        }
+
+        navController.navigate(action, navOptionsBuilder.build());
     }
+
 
     protected void navigateBack() {
         NavController navController = NavHostFragment.findNavController(this);

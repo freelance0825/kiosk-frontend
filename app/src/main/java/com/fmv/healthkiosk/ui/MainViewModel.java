@@ -2,7 +2,7 @@ package com.fmv.healthkiosk.ui;
 
 import androidx.lifecycle.SavedStateHandle;
 
-import com.fmv.healthkiosk.core.base.BaseViewModel;
+import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
 
 import javax.inject.Inject;
 

@@ -5,6 +5,76 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_landing">
 
+    <!-- AUTH FRAGMENTS-->
+    <fragment
+        android:id="@+id/navigation_landing"
+        android:name="com.fmv.healthkiosk.ui.auth.landing.LandingFragment"
+        android:label="@string/fragment_title_landing"
+        tools:layout="@layout/fragment_landing">
+        <action
+            android:id="@+id/action_navigation_landing_to_navigation_login_landing"
+            app:destination="@id/navigation_login_landing" />
+        <action
+            android:id="@+id/action_navigation_landing_to_navigation_register"
+            app:destination="@id/navigation_register" />
+        <action
+            android:id="@+id/action_navigation_landing_to_navigation_home_landing"
+            app:destination="@id/navigation_home_landing" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/navigation_login_landing"
+        android:name="com.fmv.healthkiosk.ui.auth.loginlanding.LoginLandingFragment"
+        android:label="@string/fragment_title_login_landing"
+        tools:layout="@layout/fragment_login_landing" >
+        <action
+            android:id="@+id/action_navigation_login_landing_to_navigation_login"
+            app:destination="@id/navigation_login" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.fmv.healthkiosk.ui.auth.loginlanding.login.LoginFragment"
+        android:label="@string/fragment_title_login_landing"
+        tools:layout="@layout/fragment_login" >
+        <argument
+            android:name="loginType"
+            app:argType="java.lang.String"
+            app:nullable="false" />
+        <action
+            android:id="@+id/action_navigation_login_to_navigation_pin"
+            app:destination="@id/navigation_pin" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_register"
+        android:name="com.fmv.healthkiosk.ui.auth.register.RegisterFragment"
+        android:label="@string/fragment_title_register"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_navigation_register_to_navigation_pin"
+            app:destination="@id/navigation_pin" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_pin"
+        android:name="com.fmv.healthkiosk.ui.auth.pin.PinFragment"
+        android:label="@string/fragment_title_login_landing"
+        tools:layout="@layout/fragment_pin" >
+        <argument
+            android:name="isCreatingPin"
+            app:argType="boolean"
+            app:nullable="false" />
+        <action
+            android:id="@+id/action_navigation_pin_to_navigation_home_landing"
+            app:destination="@id/navigation_home_landing" />
+    </fragment>
+
+    <!-- MAIN FRAGMENTS-->
+    <fragment
+        android:id="@+id/navigation_home_landing"
+        android:name="com.fmv.healthkiosk.ui.home.landing.HomeLandingFragment"
+        android:label="@string/fragment_title_home_landing"
+        tools:layout="@layout/fragment_home_landing"/>
 
 </navigation>

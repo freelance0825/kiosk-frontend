@@ -1,4 +1,4 @@
-package com.fmv.healthkiosk.core.base;
+package com.fmv.healthkiosk.core.base.ui;
 
 import android.content.Intent;
 import android.os.Bundle;

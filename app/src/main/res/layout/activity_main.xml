@@ -194,13 +194,12 @@
 
     </LinearLayout>
 
-<!--    <fragment-->
-<!--        android:id="@+id/nav_host_fragment"-->
-<!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_marginTop="12dp"-->
-<!--        android:background="@drawable/bg_rounded_green_border"-->
-<!--        app:navGraph="@navigation/mobile_navigation"-->
-<!--        tools:context=".ui.auth.AuthActivity" />-->
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="32dp"
+        app:navGraph="@navigation/mobile_navigation"
+        tools:context=".ui.auth.AuthActivity" />
 </LinearLayout>

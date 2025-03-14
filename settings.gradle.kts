@@ -23,9 +23,8 @@ rootProject.name = "Health Kiosk"
 
 val modules = listOf(
     ":app",
-    ":core"
+    ":core",
+    ":feature:auth"
 )
 
 modules.forEach { include(it) }
-
- 

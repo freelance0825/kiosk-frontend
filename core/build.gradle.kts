@@ -13,11 +13,15 @@ android {
     defaultConfig {
         minSdk = 24
 
+        buildConfigField("String", "APP_DATASTORE_NAME", "\"HEALTH_KIOSK_DATASTORE\"")
+        buildConfigField("String", "APP_ENDPOINT", "\"https://127.0.0.1:8080/api/\"")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
     buildTypes {
         release {
@@ -36,4 +40,9 @@ android {
 
 dependencies {
 
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    implementation(libs.adapter.rxjava3)
 }

@@ -75,6 +75,26 @@
         android:id="@+id/navigation_home_landing"
         android:name="com.fmv.healthkiosk.ui.home.landing.HomeLandingFragment"
         android:label="@string/fragment_title_home_landing"
-        tools:layout="@layout/fragment_home_landing"/>
+        tools:layout="@layout/fragment_home_landing">
+        <action
+            android:id="@+id/action_navigation_home_landing_to_navigation_medical_package"
+            app:destination="@id/navigation_medical_package" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_medical_package"
+        android:name="com.fmv.healthkiosk.ui.home.medicalpackage.MedicalPackageFragment"
+        android:label="@string/fragment_title_medical_package"
+        tools:layout="@layout/fragment_medical_package">
+        <action
+            android:id="@+id/action_navigation_medical_package_to_navigation_customize_test"
+            app:destination="@id/navigation_customize_test" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_customize_test"
+        android:name="com.fmv.healthkiosk.ui.home.customizetest.CustomizeTestFragment"
+        android:label="@string/fragment_title_customize_test"
+        tools:layout="@layout/fragment_customize_test" />
 
 </navigation>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
 import com.fmv.healthkiosk.databinding.FragmentHomeLandingBinding;
 
@@ -24,10 +25,16 @@ public class HomeLandingFragment extends BaseFragment<FragmentHomeLandingBinding
 
     @Override
     protected void setupUI(Bundle savedInstanceState) {
+        observeViewModel();
+
         setListeners();
     }
 
-    private void setListeners() {
+    private void observeViewModel() {
+        viewModel.username.observe(this, username -> binding.tvTitlePinType.setText(getString(R.string.fragment_home_welcome_name, username)));
+    }
 
+    private void setListeners() {
+        binding.btnAdvancedTest.setOnClickListener(v -> navigateToFragment(HomeLandingFragmentDirections.actionNavigationHomeLandingToNavigationMedicalPackage(), false));
     }
 }

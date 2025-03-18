@@ -25,6 +25,8 @@
     <string name="fragment_title_register">Register Fragment</string>
     <string name="fragment_title_pin">Pin Fragment</string>
     <string name="fragment_title_home_landing">Home Landing Fragment</string>
+    <string name="fragment_title_medical_package">Medical Package Fragment</string>
+    <string name="fragment_title_customize_test">Customize Test Fragment</string>
 
     <!-- Fragment Landing -->
     <string name="fragment_landing_login_patient_account">Login Patient Account</string>
@@ -70,6 +72,14 @@
     <string name="fragment_register_date_format">mm/dd/yy</string>
     <string name="fragment_home_welcome_name">Welcome, %1$s.</string>
     <string name="fragment_home_what_do_you_need_today">What do you need today?</string>
+    <string name="fragment_home_landing_general_checkup">General Checkup</string>
+    <string name="fragment_home_landing_advanced_test">Advanced Test</string>
+    <string name="fragment_home_landing_report">Report</string>
+    <string name="fragment_medical_package_select_medical_package">Select Medical Package</string>
+    <string name="fragment_medical_package_customize_test">Customize Test</string>
+    <string name="fragment_medical_package_select_test_based_on_your_needs">Select test based on your needs</string>
+    <string name="fragment_medical_package_start_test">Start Test</string>
+    <string name="fragment_customize_test_custom_test">Customize Your Test</string>
     <string-array name="fragment_register_gender_options">
         <item>Male</item>
         <item>Female</item>

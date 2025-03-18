@@ -15,10 +15,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
+@HiltViewModel
 public class RegisterViewModel extends BaseViewModel {
 
     private final RegisterUseCase registerUseCase;
@@ -30,6 +34,7 @@ public class RegisterViewModel extends BaseViewModel {
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
+    @Inject
     public RegisterViewModel(SavedStateHandle savedStateHandle, RegisterUseCase registerUseCase) {
         super(savedStateHandle);
 
@@ -68,7 +73,7 @@ public class RegisterViewModel extends BaseViewModel {
 
             userAge.setValue(String.valueOf(age));
         } catch (ParseException e) {
-            Log.e("RegisterViewModel", "updateAge: " + e.getMessage() );
+            Log.e("RegisterViewModel", "updateAge: " + e.getMessage());
         }
     }
 

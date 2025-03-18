@@ -6,6 +6,7 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
@@ -13,6 +14,9 @@ import com.fmv.healthkiosk.databinding.FragmentRegisterBinding;
 
 import java.util.Calendar;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class RegisterFragment extends BaseFragment<FragmentRegisterBinding, RegisterViewModel> {
 
     @Override
@@ -86,8 +90,10 @@ public class RegisterFragment extends BaseFragment<FragmentRegisterBinding, Regi
 
 
         binding.btnSubmit.setOnClickListener(v -> {
+            Toast.makeText(requireContext(), "CLICKED", Toast.LENGTH_SHORT).show();
+
             String name = binding.edName.getText().toString().trim();
-            String gender = binding.edGender.getText().toString(); // Jika pakai Spinner
+            String gender = binding.edGender.getText().toString();
             String dob = binding.edDateOfBirth.getText().toString().trim();
             String phoneNumber = binding.edPhoneNumber.getText().toString().trim();
             String email = binding.edEmail.getText().toString().trim();
@@ -96,34 +102,35 @@ public class RegisterFragment extends BaseFragment<FragmentRegisterBinding, Regi
                 String phoneNumberUpdated = getString(R.string.fragment_login_mobile_number_country_code) + binding.edPhoneNumber.getText().toString().trim();
 
                 viewModel.register(name, gender, dob, phoneNumberUpdated);
+            } else {
+                Toast.makeText(requireContext(), "EYOW", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private boolean isValid(String name, String gender, String dob, String phoneNumber, String email) {
-        boolean valid = true;
-
         if (name.isEmpty()) {
-            valid = false;
-        }
+            Toast.makeText(requireContext(), "name", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (gender.isEmpty()) {
+            Toast.makeText(requireContext(), "gender", Toast.LENGTH_SHORT).show();
 
-        if (gender.isEmpty()) {
-            valid = false;
-        }
+            return false;
+        } else if (dob.isEmpty()) {
+            Toast.makeText(requireContext(), "dob", Toast.LENGTH_SHORT).show();
 
-        if (dob.isEmpty()) {
-            valid = false;
-        }
+            return false;
+        } else if (phoneNumber.isEmpty()) {
+            Toast.makeText(requireContext(), "phnumb", Toast.LENGTH_SHORT).show();
 
-        if (!phoneNumber.matches("^\\d{0,15}$")) {
-            valid = false;
-        }
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(requireContext(), "name", Toast.LENGTH_SHORT).show();
 
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            valid = false;
+            return false;
+        } else {
+            return true;
         }
-
-        return valid;
     }
 
     private void navigateToPin() {

@@ -12,8 +12,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center|start"
         android:layout_marginTop="24dp"
+        android:gravity="center|start"
         android:orientation="horizontal">
 
         <ImageView
@@ -91,7 +91,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/main_screen_date_of_birth"
-                    android:textColor="@color/textGreen"/>
+                    android:textColor="@color/textGreen" />
 
                 <TextView
                     android:id="@+id/tv_patient_date_of_birth"
@@ -181,10 +181,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:text="@string/main_screen_device_status_connected"
                         android:textColor="@color/white"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        tools:text="@string/main_screen_device_status_connected" />
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 

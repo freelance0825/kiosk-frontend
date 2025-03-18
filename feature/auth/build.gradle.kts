@@ -39,5 +39,5 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
-    implementation(libs.adapter.rxjava3)
+    implementation(libs.retrofit2.adapter.rxjava2)
 }

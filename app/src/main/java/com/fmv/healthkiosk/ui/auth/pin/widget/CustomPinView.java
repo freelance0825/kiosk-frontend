@@ -1,4 +1,5 @@
 package com.fmv.healthkiosk.ui.auth.pin.widget;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.text.InputFilter;
@@ -79,7 +80,8 @@ public class CustomPinView extends LinearLayout {
 
             editText.addTextChangedListener(new android.text.TextWatcher() {
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {

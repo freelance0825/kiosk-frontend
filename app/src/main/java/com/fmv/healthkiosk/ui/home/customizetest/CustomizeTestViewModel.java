@@ -1,4 +1,4 @@
-package com.fmv.healthkiosk.ui.auth.loginlanding;
+package com.fmv.healthkiosk.ui.home.customizetest;
 
 import androidx.lifecycle.SavedStateHandle;
 
@@ -9,10 +9,10 @@ import javax.inject.Inject;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 
 @HiltViewModel
-public class LoginLandingViewModel extends BaseViewModel {
+public class CustomizeTestViewModel extends BaseViewModel {
 
     @Inject
-    public LoginLandingViewModel(SavedStateHandle savedStateHandle) {
+    public CustomizeTestViewModel(SavedStateHandle savedStateHandle) {
         super(savedStateHandle);
     }
 }

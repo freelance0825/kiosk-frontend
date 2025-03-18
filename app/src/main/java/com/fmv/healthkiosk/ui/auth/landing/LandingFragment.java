@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
 import com.fmv.healthkiosk.databinding.FragmentLandingBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class LandingFragment extends BaseFragment<FragmentLandingBinding, LandingViewModel> {
 
     @Override
@@ -29,7 +32,9 @@ public class LandingFragment extends BaseFragment<FragmentLandingBinding, Landin
 
     private void observeViewModel() {
         viewModel.isLoggedIn.observe(this, isLoggedIn -> {
-            navigateToFragment(LandingFragmentDirections.actionNavigationLandingToNavigationHomeLanding(), true);
+            if (isLoggedIn) {
+                navigateToFragment(LandingFragmentDirections.actionNavigationLandingToNavigationHomeLanding(), true);
+            }
         });
     }
 

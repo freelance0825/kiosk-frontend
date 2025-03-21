@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="48dp"
+    tools:background="@color/primaryGray"
+    tools:context=".ui.home.test.widgets.height.HeightTestFragment">
+
+    <LinearLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:background="@drawable/bg_rounded_child_card"
+        android:orientation="vertical"
+        android:padding="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/cd_mobile_icon"
+            android:src="@drawable/asset_image_height_placeholder" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/fragment_test_steps_to_follow"
+            android:textColor="@color/primaryGreen"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_steps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:text="@tools:sample/lorem[20]" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_start_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="64dp"
+            android:text="@string/fragment_test_start"
+            android:textAllCaps="true"
+            android:textColor="@color/onWhiteSurface"
+            android:textSize="18sp"
+            app:cornerRadius="8dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="32dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/speedometerView"
+            app:layout_constraintEnd_toEndOf="@id/speedometerView"
+            app:layout_constraintStart_toStartOf="@id/speedometerView"
+            app:layout_constraintTop_toTopOf="@id/speedometerView">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fragment_test_height"
+                android:textAllCaps="true"
+                android:textColor="@color/primaryGreen"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="56sp"
+                    android:textStyle="bold"
+                    tools:text="165" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="@string/fragment_height_test_cm"
+                    android:textColor="@color/lightGray"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="100dp"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.fmv.healthkiosk.core.customview.HeightScaleView
+                android:id="@+id/height_scale_view"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="64dp"
+            android:text="@string/fragment_test_start"
+            android:textAllCaps="true"
+            android:textColor="@color/onWhiteSurface"
+            android:textSize="18sp"
+            app:cornerRadius="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="64dp"
+            android:text="@string/fragment_test_stop"
+            android:textAllCaps="true"
+            android:textColor="@color/onWhiteSurface"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:cornerRadius="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_retake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="64dp"
+            android:text="@string/fragment_test_retake"
+            android:textAllCaps="true"
+            android:textColor="@color/onWhiteSurface"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:cornerRadius="8dp" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

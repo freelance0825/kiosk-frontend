@@ -7,8 +7,24 @@ plugins {
 apply(from = "../shared_dependencies.gradle")
 
 android {
+    packaging {
+        resources {
+            excludes += setOf(
+                "proguard.txt",
+                "AndroidManifest.xml",
+                "R.txt"
+            )
+        }
+    }
+
     namespace = "com.fmv.healthkiosk"
     compileSdk = 35
+
+    packaging {
+        resources {
+            excludes += setOf("resources.arsc", "AndroidManifest.xml")
+        }
+    }
 
     defaultConfig {
         applicationId = "com.fmv.healthkiosk"
@@ -40,7 +56,12 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":feature:auth"))
+    implementation(project(":feature:tests"))
 
     implementation(libs.material)
     implementation(libs.constraintlayout)
+
+    // Bluetooth
+    implementation(fileTree(mapOf("dir" to "../libs", "include" to listOf("*.jar"))))
+    implementation(fileTree(mapOf("dir" to "../libs", "include" to listOf("*.aar"))))
 }

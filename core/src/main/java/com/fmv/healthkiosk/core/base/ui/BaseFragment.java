@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -31,9 +32,16 @@ public abstract class BaseFragment<VB extends ViewBinding, VM extends BaseViewMo
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(getViewModelClass());
-
+        initViewModel(false);
         setupUI(savedInstanceState);
+    }
+
+    protected void initViewModel(boolean isRequiringActivity) {
+        ViewModelProvider provider = isRequiringActivity
+                ? new ViewModelProvider(requireActivity())
+                : new ViewModelProvider(this);
+
+        viewModel = provider.get(getViewModelClass());
     }
 
     protected abstract void setupUI(Bundle savedInstanceState);

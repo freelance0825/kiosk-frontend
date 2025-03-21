@@ -26,7 +26,7 @@
         android:id="@+id/navigation_login_landing"
         android:name="com.fmv.healthkiosk.ui.auth.loginlanding.LoginLandingFragment"
         android:label="@string/fragment_title_login_landing"
-        tools:layout="@layout/fragment_login_landing" >
+        tools:layout="@layout/fragment_login_landing">
         <action
             android:id="@+id/action_navigation_login_landing_to_navigation_login"
             app:destination="@id/navigation_login" />
@@ -36,7 +36,7 @@
         android:id="@+id/navigation_login"
         android:name="com.fmv.healthkiosk.ui.auth.loginlanding.login.LoginFragment"
         android:label="@string/fragment_title_login_landing"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <argument
             android:name="loginType"
             app:argType="java.lang.String"
@@ -60,7 +60,7 @@
         android:id="@+id/navigation_pin"
         android:name="com.fmv.healthkiosk.ui.auth.pin.PinFragment"
         android:label="@string/fragment_title_login_landing"
-        tools:layout="@layout/fragment_pin" >
+        tools:layout="@layout/fragment_pin">
         <argument
             android:name="isCreatingPin"
             app:argType="boolean"
@@ -95,6 +95,30 @@
         android:id="@+id/navigation_customize_test"
         android:name="com.fmv.healthkiosk.ui.home.customizetest.CustomizeTestFragment"
         android:label="@string/fragment_title_customize_test"
-        tools:layout="@layout/fragment_customize_test" />
+        tools:layout="@layout/fragment_customize_test">
+        <argument
+            android:name="medicalPackage"
+            app:argType="com.fmv.healthkiosk.feature.tests.domain.model.MedicalPackage"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_navigation_customize_test_to_navigation_test"
+            app:destination="@id/navigation_test" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_test"
+        android:name="com.fmv.healthkiosk.ui.home.test.TestFragment"
+        android:label="@string/fragment_title_test"
+        tools:layout="@layout/fragment_test">
+        <argument
+            android:name="testItemList"
+            app:argType="com.fmv.healthkiosk.feature.tests.domain.model.TestItemList"
+            app:nullable="false" />
+        <argument
+            android:name="medicalPackage"
+            app:argType="com.fmv.healthkiosk.feature.tests.domain.model.MedicalPackage"
+            app:nullable="true" />
+    </fragment>
+
 
 </navigation>

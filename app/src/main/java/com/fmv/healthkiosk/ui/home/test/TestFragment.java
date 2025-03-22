@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -13,6 +14,7 @@ import com.fmv.healthkiosk.core.base.ui.BaseFragment;
 import com.fmv.healthkiosk.databinding.FragmentTestBinding;
 import com.fmv.healthkiosk.feature.tests.domain.model.MedicalPackage;
 import com.fmv.healthkiosk.feature.tests.domain.model.TestItemList;
+import com.fmv.healthkiosk.ui.home.customizetest.CustomizeTestFragmentDirections;
 import com.fmv.healthkiosk.ui.home.test.adapters.TestAdapter;
 import com.fmv.healthkiosk.ui.home.test.widgets.handler.TestLayoutHandler;
 
@@ -93,9 +95,26 @@ public class TestFragment extends BaseFragment<FragmentTestBinding, TestViewMode
     private void setListeners() {
         binding.btnBack.setOnClickListener(v -> navigateBack());
 
+        binding.btnComplete.setOnClickListener(v -> {
+            TestItemList testItemList = new TestItemList(viewModel.testItemList.getValue());
+            MedicalPackage medicalPackage = viewModel.medicalPackage;
+
+            if (testItemList.getTestItemList().isEmpty()) {
+                Toast.makeText(requireContext(), "Complete the remaining test first", Toast.LENGTH_SHORT).show();
+            } else {
+                navigateToFragment(TestFragmentDirections.actionNavigationTestToNavigationTestReport(testItemList, medicalPackage), true);
+            }
+        });
+
         testAdapter.setOnItemClickListener((testItem, position) -> {
             viewModel.selectTestItem(testItem);
             testAdapter.notifyDataSetChanged();
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
     }
 }

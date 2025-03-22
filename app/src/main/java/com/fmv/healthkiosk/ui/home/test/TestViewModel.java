@@ -59,9 +59,9 @@ public class TestViewModel extends BaseViewModel {
             boolean isCurrentSelected = currentSelectedItem != null && item.getId().equals(currentSelectedItem.getId());
 
             if (isCurrentSelected && currentSelectedItem.isTested() < 2) {
-                item = new TestItem(item.getId(), item.getName(), null, item.getIcon(), 0, false); // Reset test state
+                item = new TestItem(item.getId(), item.getName(), null, item.getIcon(), 0, false, item.getTestExtension(), item.isGeneral()); // Reset test state
             } else {
-                item = new TestItem(item.getId(), item.getName(), item.getTestResult(), item.getIcon(), item.isTested(), isSelected);
+                item = new TestItem(item.getId(), item.getName(), item.getTestResult(), item.getIcon(), item.isTested(), isSelected, item.getTestExtension(), item.isGeneral());
             }
 
             updatedList.add(item);
@@ -89,7 +89,9 @@ public class TestViewModel extends BaseViewModel {
                         testResult,
                         item.getIcon(),
                         isTestedValue,
-                        item.isActive()
+                        item.isActive(),
+                        item.getTestExtension(),
+                        item.isGeneral()
                 );
                 updatedList.add(updatedItem);
             } else {
@@ -101,4 +103,54 @@ public class TestViewModel extends BaseViewModel {
         if (updatedItem != null) selectedTestItem.setValue(updatedItem);
     }
 
+    public void updateTestExtension(String id, String testExtension) {
+        List<TestItem> currentList = testItemList.getValue();
+        if (currentList == null) return;
+
+        List<TestItem> updatedList = new ArrayList<>();
+        TestItem updatedItem = null;
+
+        for (TestItem item : currentList) {
+            if (item.getId().equals(id)) {
+                updatedItem = new TestItem(
+                        item.getId(),
+                        item.getName(),
+                        item.getTestResult(),
+                        item.getIcon(),
+                        item.isTested(),
+                        item.isActive(),
+                        testExtension,
+                        item.isGeneral()
+                );
+                updatedList.add(updatedItem);
+            } else {
+                updatedList.add(item);
+            }
+        }
+
+        testItemList.setValue(updatedList);
+        if (updatedItem != null) selectedTestItem.setValue(updatedItem);
+    }
+
+    public List<TestItem> getSelectedTestItems() {
+        List<TestItem> currentList = testItemList.getValue();
+        if (currentList == null) return new ArrayList<>();
+        List<TestItem> updatedList = new ArrayList<>();
+
+        if (medicalPackage != null) {
+            for (TestItem item : currentList) {
+                item.setActive(false);
+                updatedList.add(item);
+            }
+        } else {
+            for (TestItem item : currentList) {
+                if (item.isActive()) {
+                    item.setActive(false);
+                    updatedList.add(item);
+                }
+            }
+        }
+
+        return updatedList;
+    }
 }

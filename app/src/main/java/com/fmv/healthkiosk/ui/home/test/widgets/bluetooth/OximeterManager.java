@@ -1,10 +1,7 @@
-package com.fmv.healthkiosk.ui.home.test.widgets.oximeter;
+package com.fmv.healthkiosk.ui.home.test.widgets.bluetooth;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-
-import com.fmv.healthkiosk.ui.home.test.widgets.weight.UsbSerialManager;
 
 import java.util.Random;
 

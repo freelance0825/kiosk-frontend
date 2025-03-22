@@ -1,8 +1,8 @@
 package com.fmv.healthkiosk.ui.home.customizetest;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -10,23 +10,20 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
 import com.fmv.healthkiosk.databinding.FragmentCustomizeTestBinding;
-import com.fmv.healthkiosk.databinding.FragmentMedicalPackageBinding;
 import com.fmv.healthkiosk.feature.tests.domain.model.MedicalPackage;
-import com.fmv.healthkiosk.feature.tests.domain.model.TestItem;
 import com.fmv.healthkiosk.feature.tests.domain.model.TestItemList;
 import com.fmv.healthkiosk.ui.home.customizetest.adapters.CustomPackageTestAdapter;
 import com.fmv.healthkiosk.ui.home.customizetest.adapters.PackageTestAdapter;
-import com.fmv.healthkiosk.ui.home.medicalpackage.MedicalPackageViewModel;
-
-import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class CustomizeTestFragment extends BaseFragment<FragmentCustomizeTestBinding, CustomizeTestViewModel> {
 
-    private PackageTestAdapter packageTestAdapter = new PackageTestAdapter();
-    private CustomPackageTestAdapter customPackageTestAdapter = new CustomPackageTestAdapter();
+    private PackageTestAdapter packageTestAdapterGeneral = new PackageTestAdapter();
+    private PackageTestAdapter packageTestAdapterAdvanced = new PackageTestAdapter();
+    private CustomPackageTestAdapter customPackageTestAdapterGeneral = new CustomPackageTestAdapter();
+    private CustomPackageTestAdapter customPackageTestAdapterAdvanced = new CustomPackageTestAdapter();
 
     @Override
     protected Class<CustomizeTestViewModel> getViewModelClass() {
@@ -53,28 +50,46 @@ public class CustomizeTestFragment extends BaseFragment<FragmentCustomizeTestBin
             binding.tvTitle.setText(getString(com.fmv.healthkiosk.R.string.fragment_customize_test_custom_test));
         }
 
-        viewModel.testItemList.observe(getViewLifecycleOwner(), testItems -> {
-            packageTestAdapter.submitList(testItems);
-            customPackageTestAdapter.submitList(testItems);
+        viewModel.testItemListGeneral.observe(getViewLifecycleOwner(), testItems -> {
+            packageTestAdapterGeneral.submitList(testItems);
+            customPackageTestAdapterGeneral.submitList(testItems);
+        });
+
+        viewModel.testItemListAdvanced.observe(getViewLifecycleOwner(), testItems -> {
+            if (testItems.isEmpty()) {
+                binding.tvAdvanced.setVisibility(View.GONE);
+            }
+
+            packageTestAdapterAdvanced.submitList(testItems);
+            customPackageTestAdapterAdvanced.submitList(testItems);
         });
     }
 
     private void setViews() {
         if (viewModel.medicalPackage != null) {
-            binding.rvGeneralCheckup.setAdapter(packageTestAdapter);
+            binding.rvGeneralCheckup.setAdapter(packageTestAdapterGeneral);
             binding.rvGeneralCheckup.setLayoutManager(new GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false));
+            binding.rvAdvancedTest.setAdapter(packageTestAdapterAdvanced);
+            binding.rvAdvancedTest.setLayoutManager(new GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false));
         } else {
-            binding.rvGeneralCheckup.setAdapter(customPackageTestAdapter);
+            binding.rvGeneralCheckup.setAdapter(customPackageTestAdapterGeneral);
             binding.rvGeneralCheckup.setLayoutManager(new GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false));
+            binding.rvAdvancedTest.setAdapter(customPackageTestAdapterAdvanced);
+            binding.rvAdvancedTest.setLayoutManager(new GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false));
         }
     }
 
     private void setListeners() {
         binding.btnBack.setOnClickListener(v -> navigateBack());
 
-        customPackageTestAdapter.setOnItemClickListener((testItem, position) -> {
-            viewModel.toggleTestItem(testItem);
-            customPackageTestAdapter.notifyItemChanged(position);
+        customPackageTestAdapterGeneral.setOnItemClickListener((testItem, position) -> {
+            viewModel.toggleTestItemGeneral(testItem);
+            customPackageTestAdapterGeneral.notifyItemChanged(position);
+        });
+
+        customPackageTestAdapterAdvanced.setOnItemClickListener((testItem, position) -> {
+            viewModel.toggleTestItemAdvanced(testItem);
+            customPackageTestAdapterAdvanced.notifyItemChanged(position);
         });
 
         binding.btnStartTest.setOnClickListener(v -> {

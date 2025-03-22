@@ -122,11 +122,23 @@ public class WeightTestFragment extends BaseFragment<FragmentWeightTestBinding, 
 
     private void setListeners() {
         binding.btnKgs.setOnClickListener(v -> {
-            viewModel.selectedWeightType.setValue(ContextCompat.getString(requireContext(), R.string.fragment_weight_kg));
+            String kg = ContextCompat.getString(requireContext(), R.string.fragment_weight_kg);
+
+            testViewModel.updateTestExtension("weight", kg);
+            testViewModel.updateTestItem("weight", 0, null);
+            viewModel.resetWeight();
+
+            viewModel.selectedWeightType.setValue(kg);
         });
 
         binding.btnLbs.setOnClickListener(v -> {
-            viewModel.selectedWeightType.setValue(ContextCompat.getString(requireContext(), R.string.fragment_weight_lbs));
+            String lbs = ContextCompat.getString(requireContext(), R.string.fragment_weight_lbs);
+
+            testViewModel.updateTestExtension("weight", lbs);
+            testViewModel.updateTestItem("weight", 0, null);
+            viewModel.resetWeight();
+
+            viewModel.selectedWeightType.setValue(lbs);
         });
 
         binding.btnStartHeader.setOnClickListener(v -> {

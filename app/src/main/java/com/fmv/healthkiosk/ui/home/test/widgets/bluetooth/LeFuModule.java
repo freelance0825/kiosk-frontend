@@ -1,23 +1,12 @@
-package com.fmv.healthkiosk.ui.home.test.widgets.weight;
+package com.fmv.healthkiosk.ui.home.test.widgets.bluetooth;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.lefu.ppbase.PPBodyBaseModel;
 import com.lefu.ppbase.PPDeviceModel;
-import com.lefu.ppbase.util.PPUtil;
-import com.lefu.ppbase.vo.PPBodyFatInScaleVo;
-import com.lefu.ppbase.vo.PPScaleState;
-import com.peng.ppscale.PPBluetoothKit;
-import com.peng.ppscale.business.ble.listener.PPBleStateInterface;
-import com.peng.ppscale.business.ble.listener.PPDataChangeListener;
 import com.peng.ppscale.business.state.PPBleWorkState;
-import com.peng.ppscale.device.PeripheralIce.PPBlutoothPeripheralIceController;
-import com.peng.ppscale.search.PPSearchManager;
-
-import java.lang.reflect.Field;
 
 import javax.inject.Inject;
 

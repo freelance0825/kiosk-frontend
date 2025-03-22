@@ -143,16 +143,16 @@
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_toggle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/primaryGreen"
-        android:contentDescription="@string/cd_button_back"
-        android:src="@drawable/icon_next"
-        app:layout_constraintStart_toEndOf="@id/layout_menu"
-        app:layout_constraintEnd_toEndOf="@id/layout_menu"
-        app:layout_constraintBottom_toBottomOf="@id/layout_menu"
-        app:layout_constraintTop_toTopOf="@id/layout_menu" />
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/btn_toggle"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:backgroundTint="@color/primaryGreen"-->
+<!--        android:contentDescription="@string/cd_button_back"-->
+<!--        android:src="@drawable/icon_next"-->
+<!--        app:layout_constraintStart_toEndOf="@id/layout_menu"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/layout_menu"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/layout_menu"-->
+<!--        app:layout_constraintTop_toTopOf="@id/layout_menu" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

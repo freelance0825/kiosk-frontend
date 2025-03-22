@@ -1,20 +1,16 @@
 package com.fmv.healthkiosk.ui.home.test.widgets.oximeter;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 
 import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
-
-import java.util.Locale;
+import com.fmv.healthkiosk.ui.home.test.widgets.bluetooth.OximeterManager;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
-import io.reactivex.disposables.CompositeDisposable;
 
 @HiltViewModel
 public class OximeterTestViewModel extends BaseViewModel implements OximeterManager.OximeterListener {

@@ -1,4 +1,4 @@
-package com.fmv.healthkiosk.ui.home.test.widgets.weight;
+package com.fmv.healthkiosk.ui.home.test.widgets.bluetooth;
 
 import android.content.Context;
 import android.hardware.usb.UsbDevice;

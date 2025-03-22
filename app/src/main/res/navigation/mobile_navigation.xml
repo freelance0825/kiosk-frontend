@@ -118,6 +118,24 @@
             android:name="medicalPackage"
             app:argType="com.fmv.healthkiosk.feature.tests.domain.model.MedicalPackage"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_navigation_test_to_navigation_test_report"
+            app:destination="@id/navigation_test_report" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_test_report"
+        android:name="com.fmv.healthkiosk.ui.home.testreport.TestReportFragment"
+        android:label="@string/fragment_title_test_report"
+        tools:layout="@layout/fragment_test_report">
+        <argument
+            android:name="testItemList"
+            app:argType="com.fmv.healthkiosk.feature.tests.domain.model.TestItemList"
+            app:nullable="false" />
+        <argument
+            android:name="medicalPackage"
+            app:argType="com.fmv.healthkiosk.feature.tests.domain.model.MedicalPackage"
+            app:nullable="true" />
     </fragment>
 
 

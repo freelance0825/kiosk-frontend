@@ -10,14 +10,18 @@ public class TestItem implements Parcelable {
     private int icon;
     private int isTested;
     private boolean isActive;
+    private String testExtension = "";
+    private boolean isGeneral;
 
-    public TestItem(String id, String name, String testResult, int icon, int isTested, boolean isActive) {
+    public TestItem(String id, String name, String testResult, int icon, int isTested, boolean isActive, String testExtension, boolean isGeneral) {
         this.id = id;
         this.name = name;
         this.testResult = testResult;
         this.icon = icon;
         this.isTested = isTested;
         this.isActive = isActive;
+        this.testExtension = testExtension;
+        this.isGeneral = isGeneral;
     }
 
     protected TestItem(Parcel in) {
@@ -27,6 +31,8 @@ public class TestItem implements Parcelable {
         icon = in.readInt();
         isTested = in.readInt();
         isActive = in.readByte() != 0;
+        testExtension = in.readString();
+        isGeneral = in.readByte() != 0;
     }
 
     public static final Creator<TestItem> CREATOR = new Creator<TestItem>() {
@@ -49,6 +55,8 @@ public class TestItem implements Parcelable {
         dest.writeInt(icon);
         dest.writeInt(isTested);
         dest.writeByte((byte) (isActive ? 1 : 0));
+        dest.writeString(testExtension);
+        dest.writeByte((byte) (isGeneral ? 1 : 0));
     }
 
     @Override
@@ -90,5 +98,17 @@ public class TestItem implements Parcelable {
 
     public void setTestResult(String testResult) {
         this.testResult = testResult;
+    }
+
+    public String getTestExtension() {
+        return this.testExtension;
+    }
+
+    public void setTestExtension(String testExtension) {
+        this.testExtension = testExtension;
+    }
+
+    public boolean isGeneral() {
+        return isGeneral;
     }
 }

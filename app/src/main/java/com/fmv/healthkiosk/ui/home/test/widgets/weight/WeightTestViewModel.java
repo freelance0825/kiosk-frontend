@@ -1,6 +1,5 @@
 package com.fmv.healthkiosk.ui.home.test.widgets.weight;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
@@ -10,15 +9,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 
 import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
-import com.fmv.healthkiosk.feature.tests.domain.model.MedicalPackage;
-import com.fmv.healthkiosk.feature.tests.domain.model.TestItem;
-import com.fmv.healthkiosk.feature.tests.domain.model.TestItemList;
+import com.fmv.healthkiosk.ui.home.test.widgets.bluetooth.LeFuModule;
 import com.lefu.ppbase.PPDeviceModel;
 import com.peng.ppscale.business.state.PPBleWorkState;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 

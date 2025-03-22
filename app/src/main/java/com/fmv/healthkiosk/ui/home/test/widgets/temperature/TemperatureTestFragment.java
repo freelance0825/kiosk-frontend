@@ -115,11 +115,23 @@ public class TemperatureTestFragment extends BaseFragment<FragmentTemperatureTes
 
     private void setListeners() {
         binding.btnFahrenheit.setOnClickListener(v -> {
-            viewModel.selectedTemperatureType.setValue(ContextCompat.getString(requireContext(), R.string.fragment_temperature_test_fahrenheit));
+            String fahrenheit = ContextCompat.getString(requireContext(), R.string.fragment_temperature_test_fahrenheit);
+
+            testViewModel.updateTestExtension("temperature", fahrenheit);
+            testViewModel.updateTestItem("temperature", 0, null);
+            viewModel.resetTemperature();
+
+            viewModel.selectedTemperatureType.setValue(fahrenheit);
         });
 
         binding.btnCelcius.setOnClickListener(v -> {
-            viewModel.selectedTemperatureType.setValue(ContextCompat.getString(requireContext(), R.string.fragment_temperature_test_celcius));
+            String celcius = ContextCompat.getString(requireContext(), R.string.fragment_temperature_test_celcius);
+
+            testViewModel.updateTestExtension("temperature", celcius);
+            testViewModel.updateTestItem("temperature", 0, null);
+            viewModel.resetTemperature();
+
+            viewModel.selectedTemperatureType.setValue(celcius);
         });
 
         binding.btnStartHeader.setOnClickListener(v -> {

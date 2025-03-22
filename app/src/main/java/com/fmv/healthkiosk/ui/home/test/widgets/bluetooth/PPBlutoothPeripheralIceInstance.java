@@ -1,4 +1,4 @@
-package com.fmv.healthkiosk.ui.home.test.widgets.weight;
+package com.fmv.healthkiosk.ui.home.test.widgets.bluetooth;
 
 import com.peng.ppscale.device.PeripheralIce.PPBlutoothPeripheralIceController;
 

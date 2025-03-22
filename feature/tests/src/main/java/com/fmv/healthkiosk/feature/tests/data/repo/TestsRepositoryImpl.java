@@ -3,13 +3,17 @@ package com.fmv.healthkiosk.feature.tests.data.repo;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Parcelable;
 import android.util.Log;
 
+import com.fmv.healthkiosk.feature.tests.R;
+import com.fmv.healthkiosk.feature.tests.data.mapper.TestResultMapper;
 import com.fmv.healthkiosk.feature.tests.data.source.local.TestItems;
 import com.fmv.healthkiosk.feature.tests.data.source.remote.TestsService;
 import com.fmv.healthkiosk.feature.tests.data.source.remote.model.MedicalPackageResponseItem;
 import com.fmv.healthkiosk.feature.tests.domain.model.MedicalPackage;
 import com.fmv.healthkiosk.feature.tests.domain.model.TestItem;
+import com.fmv.healthkiosk.feature.tests.domain.model.TestResult;
 import com.fmv.healthkiosk.feature.tests.domain.repo.TestsRepository;
 
 import org.json.JSONArray;
@@ -25,7 +29,6 @@ import javax.inject.Inject;
 import io.reactivex.Single;
 
 public class TestsRepositoryImpl implements TestsRepository {
-
 
     private final TestsService testsService;
 
@@ -69,5 +72,10 @@ public class TestsRepositoryImpl implements TestsRepository {
                 items.stream()
                         .map(item -> new MedicalPackage(item.getName(), item.getIcon(), item.getTests(), item.getId()))
                         .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TestResult> mapToTestResults(List<TestItem> testItems) {
+        return new TestResultMapper().mapToTestResults(testItems);
     }
 }

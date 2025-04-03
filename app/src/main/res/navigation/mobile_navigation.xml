@@ -79,6 +79,9 @@
         <action
             android:id="@+id/action_navigation_home_landing_to_navigation_medical_package"
             app:destination="@id/navigation_medical_package" />
+        <action
+            android:id="@+id/action_navigation_home_landing_to_navigation_customize_test"
+            app:destination="@id/navigation_customize_test" />
     </fragment>
 
     <fragment

@@ -7,6 +7,7 @@ import com.fmv.healthkiosk.feature.tests.domain.model.TestItem;
 import com.fmv.healthkiosk.ui.home.test.widgets.bloodpressure.BloodPressureTestFragment;
 import com.fmv.healthkiosk.ui.home.test.widgets.height.HeightTestFragment;
 import com.fmv.healthkiosk.ui.home.test.widgets.oximeter.OximeterTestFragment;
+import com.fmv.healthkiosk.ui.home.test.widgets.stethoscope.StethoscopeTestFragment;
 import com.fmv.healthkiosk.ui.home.test.widgets.temperature.TemperatureTestFragment;
 import com.fmv.healthkiosk.ui.home.test.widgets.weight.WeightTestFragment;
 
@@ -38,6 +39,9 @@ public class TestLayoutHandler {
                 break;
             case "blood_pressure":
                 fragment = new BloodPressureTestFragment();
+                break;
+            case "stethoscope":
+                fragment = new StethoscopeTestFragment();
                 break;
             default:
                 fragment = null;

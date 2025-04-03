@@ -1,5 +1,6 @@
 package com.fmv.healthkiosk.ui.home.customizetest;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 
@@ -40,13 +41,17 @@ public class CustomizeTestViewModel extends BaseViewModel {
         this.testsPresetUseCase = testsPresetUseCase;
 
         if (medicalPackage == null) {
-            getTestsPreset(null);
+            getTestsPreset(null, false);
         } else {
-            getTestsPreset(medicalPackage.getTestPresets());
+            if (medicalPackage.getName().equals("General Checkup")) {
+                getTestsPreset(null, true);
+            } else {
+                getTestsPreset(medicalPackage.getTestPresets(), false);
+            }
         }
     }
 
-    public void getTestsPreset(String testPresets) {
+    public void getTestsPreset(String testPresets, boolean isGeneralCheckup) {
         isLoading.setValue(true);
         errorMessage.setValue(null);
         List<TestItem> testItems = testsPresetUseCase.getTestItems(testPresets);
@@ -60,7 +65,10 @@ public class CustomizeTestViewModel extends BaseViewModel {
                 .collect(Collectors.toList());
 
         testItemListGeneral.setValue(generalItems);
-        testItemListAdvanced.setValue(advancedItems);
+
+        if (!isGeneralCheckup) {
+            testItemListAdvanced.setValue(advancedItems);
+        }
     }
 
     public void toggleTestItemGeneral(TestItem testItem) {

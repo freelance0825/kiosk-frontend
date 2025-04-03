@@ -114,6 +114,7 @@
     <string name="fragment_test_report_test_result">Test Result</string>
     <string name="fragment_test_report_health_analysis">Health Analysis</string>
     <string name="fragment_test_report_export_to_pdf">Export To PDF</string>
+    <string name="fragment_stethoscope_test_recording_time">Recording Time</string>
 
     <string-array name="height_steps">
         <item>Stand on the height measurement device</item>

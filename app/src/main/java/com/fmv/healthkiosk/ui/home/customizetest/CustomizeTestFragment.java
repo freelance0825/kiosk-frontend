@@ -1,6 +1,7 @@
 package com.fmv.healthkiosk.ui.home.customizetest;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
 import com.fmv.healthkiosk.databinding.FragmentCustomizeTestBinding;
 import com.fmv.healthkiosk.feature.tests.domain.model.MedicalPackage;
@@ -20,10 +22,10 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class CustomizeTestFragment extends BaseFragment<FragmentCustomizeTestBinding, CustomizeTestViewModel> {
 
-    private PackageTestAdapter packageTestAdapterGeneral = new PackageTestAdapter();
-    private PackageTestAdapter packageTestAdapterAdvanced = new PackageTestAdapter();
-    private CustomPackageTestAdapter customPackageTestAdapterGeneral = new CustomPackageTestAdapter();
-    private CustomPackageTestAdapter customPackageTestAdapterAdvanced = new CustomPackageTestAdapter();
+    private final PackageTestAdapter packageTestAdapterGeneral = new PackageTestAdapter();
+    private final PackageTestAdapter packageTestAdapterAdvanced = new PackageTestAdapter();
+    private final CustomPackageTestAdapter customPackageTestAdapterGeneral = new CustomPackageTestAdapter();
+    private final CustomPackageTestAdapter customPackageTestAdapterAdvanced = new CustomPackageTestAdapter();
 
     @Override
     protected Class<CustomizeTestViewModel> getViewModelClass() {
@@ -45,7 +47,7 @@ public class CustomizeTestFragment extends BaseFragment<FragmentCustomizeTestBin
 
     private void observeViewModel() {
         if (viewModel.medicalPackage != null) {
-            binding.tvTitle.setText(getString(com.fmv.healthkiosk.R.string.fragment_customize_test_test_on, viewModel.medicalPackage.getName()));
+            binding.tvTitle.setText(getString(R.string.fragment_customize_test_test_on, viewModel.medicalPackage.getName()));
         } else {
             binding.tvTitle.setText(getString(com.fmv.healthkiosk.R.string.fragment_customize_test_custom_test));
         }
@@ -56,8 +58,8 @@ public class CustomizeTestFragment extends BaseFragment<FragmentCustomizeTestBin
         });
 
         viewModel.testItemListAdvanced.observe(getViewLifecycleOwner(), testItems -> {
-            if (testItems.isEmpty()) {
-                binding.tvAdvanced.setVisibility(View.GONE);
+            if (!testItems.isEmpty()) {
+                binding.tvAdvanced.setVisibility(View.VISIBLE);
             }
 
             packageTestAdapterAdvanced.submitList(testItems);

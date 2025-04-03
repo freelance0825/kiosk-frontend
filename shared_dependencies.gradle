@@ -20,4 +20,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // USB SERIAL ANDROID
+    implementation(libs.usb.serial)
 }

@@ -90,7 +90,7 @@ public class RegisterFragment extends BaseFragment<FragmentRegisterBinding, Regi
 
 
         binding.btnSubmit.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "CLICKED", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(requireContext(), "CLICKED", Toast.LENGTH_SHORT).show();
 
             String name = binding.edName.getText().toString().trim();
             String gender = binding.edGender.getText().toString();

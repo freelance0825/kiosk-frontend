@@ -27,6 +27,8 @@
     <string name="fragment_title_home_landing">Home Landing Fragment</string>
     <string name="fragment_title_medical_package">Medical Package Fragment</string>
     <string name="fragment_title_customize_test">Customize Test Fragment</string>
+    <string name="fragment_title_test">Test Fragment</string>
+    <string name="fragment_title_test_report">Test Report Fragment</string>
 
     <!-- Fragment Landing -->
     <string name="fragment_landing_login_patient_account">Login Patient Account</string>
@@ -80,6 +82,65 @@
     <string name="fragment_medical_package_select_test_based_on_your_needs">Select test based on your needs</string>
     <string name="fragment_medical_package_start_test">Start Test</string>
     <string name="fragment_customize_test_custom_test">Customize Your Test</string>
+    <string name="fragment_customize_test_test_on">Test on %1$s</string>
+    <string name="fragment_medical_package_available_package">Available Package</string>
+    <string name="fragment_customize_test_general_checkup">General Checkup</string>
+    <string name="fragment_test_custom_test">Custom Test</string>
+    <string name="fragment_test_package_test">%1$s Test</string>
+    <string name="fragment_test_complete">Complete</string>
+    <string name="fragment_weight_kg">KG</string>
+    <string name="fragment_weight_lbs">LBS</string>
+    <string name="fragment_test_start">Start</string>
+    <string name="fragment_weight_test_weight">Weight</string>
+    <string name="fragment_test_stop">Stop</string>
+    <string name="fragment_test_retake">Retake</string>
+    <string name="fragment_test_steps_to_follow">Steps to follow</string>
+    <string name="fragment_temperature_test_fahrenheit">°F</string>
+    <string name="fragment_temperature_test_celcius">°C</string>
+    <string name="fragment_temperature_test_temperature">Temperature</string>
+    <string name="fragment_test_height">Height</string>
+    <string name="fragment_height_test_cm">Cm</string>
+    <string name="fragment_oximeter_test_spo2">SPO2</string>
+    <string name="fragment_test_percentage">%</string>
+    <string name="fragment_test_oxygen">Oxygen</string>
+    <string name="fragment_test_pulse">Pulse</string>
+    <string name="fragment_oximeter_test_prbpm">PRbpm</string>
+    <string name="fragment_oximeter_test_bpm">bpm</string>
+    <string name="fragment_blood_pressure_test_pulse_min">pulse/min</string>
+    <string name="fragment_blood_pressure_systolic">Systolic</string>
+    <string name="fragment_blood_pressure_test_mmhg">mmHg</string>
+    <string name="fragment_blood_pressure_test_diastolic">Diastolic</string>
+    <string name="fragment_test_report_report">%1$s Report</string>
+    <string name="fragment_test_report_test_result">Test Result</string>
+    <string name="fragment_test_report_health_analysis">Health Analysis</string>
+    <string name="fragment_test_report_export_to_pdf">Export To PDF</string>
+    <string name="fragment_stethoscope_test_recording_time">Recording Time</string>
+
+    <string-array name="height_steps">
+        <item>Stand on the height measurement device</item>
+        <item>Press the start button  on the device</item>
+    </string-array>
+
+    <string-array name="weight_steps">
+        <item>Stand on the weight measurement device</item>
+        <item>Press the start button  on the device</item>
+    </string-array>
+
+    <string-array name="temperature_steps">
+        <item>Place thermometer at the center of the forehead, just above the eyebrows. Ensure the sensor touches the skin lightly.</item>
+        <item>Press the start button  on the device</item>
+    </string-array>
+
+    <string-array name="oximeter_steps">
+        <item>Place your index finger into the oximeter’s clip with the sensor</item>
+        <item>Press the start button  on the device</item>
+    </string-array>
+
+    <string-array name="blood_pressure_steps">
+        <item>Stand on the height measurement device</item>
+        <item>Press the start button  on the device</item>
+    </string-array>
+
     <string-array name="fragment_register_gender_options">
         <item>Male</item>
         <item>Female</item>

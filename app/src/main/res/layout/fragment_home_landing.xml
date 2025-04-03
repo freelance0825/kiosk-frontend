@@ -23,136 +23,143 @@
             android:id="@+id/tv_title_pin_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="@string/fragment_home_welcome_name"
             android:textColor="@color/primaryGreen"
             android:textSize="32sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="@string/fragment_home_welcome_name" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
             android:layout_marginStart="8dp"
+            android:text="@string/fragment_home_what_do_you_need_today"
+            android:textColor="@color/white"
             android:textSize="32sp"
-            android:textStyle="bold"
-            android:text="@string/fragment_home_what_do_you_need_today" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 
 
     <LinearLayout
         android:id="@+id/layout_menu"
-        app:layout_constraintTop_toBottomOf="@id/layout_header"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="100dp"
         android:layout_marginVertical="50dp"
         android:baselineAligned="false"
-        android:gravity="center">
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_header">
 
-        <LinearLayout
-            android:id="@+id/btn_general_checkup"
-            android:layout_width="0dp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_menu"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bg_rounded_child_card"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            tools:listitem="@layout/item_menu_column" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/cd_mobile_icon"
-                android:src="@drawable/asset_icon_checkup" />
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/btn_general_checkup"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:background="@drawable/bg_rounded_child_card"-->
+        <!--            android:clickable="true"-->
+        <!--            android:focusable="true"-->
+        <!--            android:gravity="center"-->
+        <!--            android:orientation="vertical">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="@string/fragment_home_landing_general_checkup"
-                android:textAllCaps="true"
-                android:textColor="@color/primaryBlue"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+        <!--            <ImageView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:contentDescription="@string/cd_mobile_icon"-->
+        <!--                android:src="@drawable/asset_icon_checkup" />-->
 
-        </LinearLayout>
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="32dp"-->
+        <!--                android:text="@string/fragment_home_landing_general_checkup"-->
+        <!--                android:textAllCaps="true"-->
+        <!--                android:textColor="@color/primaryBlue"-->
+        <!--                android:textSize="24sp"-->
+        <!--                android:textStyle="bold" />-->
 
-        <LinearLayout
-            android:id="@+id/btn_advanced_test"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginStart="32dp"
+        <!--        </LinearLayout>-->
 
-            android:background="@drawable/bg_rounded_child_card"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:orientation="vertical">
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/btn_advanced_test"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:layout_marginStart="32dp"-->
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/cd_health_card_icon"
-                android:src="@drawable/asset_icon_advanced_test" />
+        <!--            android:background="@drawable/bg_rounded_child_card"-->
+        <!--            android:clickable="true"-->
+        <!--            android:focusable="true"-->
+        <!--            android:gravity="center"-->
+        <!--            android:orientation="vertical">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="@string/fragment_home_landing_advanced_test"
-                android:textAllCaps="true"
-                android:textColor="@color/primaryBlue"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+        <!--            <ImageView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:contentDescription="@string/cd_health_card_icon"-->
+        <!--                android:src="@drawable/asset_icon_advanced_test" />-->
 
-        </LinearLayout>
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="32dp"-->
+        <!--                android:text="@string/fragment_home_landing_advanced_test"-->
+        <!--                android:textAllCaps="true"-->
+        <!--                android:textColor="@color/primaryBlue"-->
+        <!--                android:textSize="24sp"-->
+        <!--                android:textStyle="bold" />-->
 
-        <LinearLayout
-            android:id="@+id/btn_report"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bg_rounded_child_card"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_marginStart="32dp"
-            android:gravity="center"
-            android:orientation="vertical">
+        <!--        </LinearLayout>-->
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/cd_unique_code_icon"
-                android:src="@drawable/asset_icon_health_report" />
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/btn_report"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:background="@drawable/bg_rounded_child_card"-->
+        <!--            android:clickable="true"-->
+        <!--            android:focusable="true"-->
+        <!--            android:layout_marginStart="32dp"-->
+        <!--            android:gravity="center"-->
+        <!--            android:orientation="vertical">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="@string/fragment_home_landing_report"
-                android:textAllCaps="true"
-                android:textColor="@color/primaryBlue"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+        <!--            <ImageView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:contentDescription="@string/cd_unique_code_icon"-->
+        <!--                android:src="@drawable/asset_icon_health_report" />-->
 
-        </LinearLayout>
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="32dp"-->
+        <!--                android:text="@string/fragment_home_landing_report"-->
+        <!--                android:textAllCaps="true"-->
+        <!--                android:textColor="@color/primaryBlue"-->
+        <!--                android:textSize="24sp"-->
+        <!--                android:textStyle="bold" />-->
+
+        <!--        </LinearLayout>-->
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_toggle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/primaryGreen"
-        android:contentDescription="@string/cd_button_back"
-        android:src="@drawable/icon_next"
-        app:layout_constraintStart_toEndOf="@id/layout_menu"
-        app:layout_constraintEnd_toEndOf="@id/layout_menu"
-        app:layout_constraintBottom_toBottomOf="@id/layout_menu"
-        app:layout_constraintTop_toTopOf="@id/layout_menu" />
+    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--        android:id="@+id/btn_toggle"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:backgroundTint="@color/primaryGreen"-->
+    <!--        android:contentDescription="@string/cd_button_back"-->
+    <!--        android:src="@drawable/icon_next"-->
+    <!--        app:layout_constraintStart_toEndOf="@id/layout_menu"-->
+    <!--        app:layout_constraintEnd_toEndOf="@id/layout_menu"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@id/layout_menu"-->
+    <!--        app:layout_constraintTop_toTopOf="@id/layout_menu" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

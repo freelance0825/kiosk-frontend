@@ -15,6 +15,7 @@ retrofit = "2.11.0"
 loggingInterceptor = "5.0.0-alpha.9"
 rxandroid = "2.1.1"
 rxjava = "2.2.21"
+usbSerialForAndroid = "3.9.0"
 
 [libraries]
 datastore-preferences-rxjava2 = { module = "androidx.datastore:datastore-preferences-rxjava2", version.ref = "datastorePreferences" }
@@ -35,6 +36,7 @@ converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref
 retrofit2-adapter-rxjava2 = { module = "com.squareup.retrofit2:adapter-rxjava2", version.ref = "adapterRxjava2" }
 rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "rxandroid" }
 rxjava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjava" }
+usb-serial = { module = "com.github.mik3y:usb-serial-for-android", version.ref = "usbSerialForAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

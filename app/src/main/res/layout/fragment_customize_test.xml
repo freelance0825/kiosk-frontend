@@ -23,6 +23,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/fragment_customize_test_custom_test"
@@ -48,10 +49,52 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="100dp"
-        android:layout_marginVertical="50dp"
+        android:layout_marginTop="50dp"
         android:layout_weight="1"
         android:baselineAligned="false"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_customize_test_general_checkup"
+            android:textColor="@color/primaryGreen" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_general_checkup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:id="@+id/tv_advanced"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/fragment_home_landing_advanced_test"
+            android:textColor="@color/primaryGreen" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_advanced_test"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:layout_weight="1" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_start_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/fragment_medical_package_start_test"
+            android:textAllCaps="true"
+            android:textColor="@color/onWhiteSurface"
+            android:textSize="18sp"
+            app:cornerRadius="8dp" />
 
     </LinearLayout>
 

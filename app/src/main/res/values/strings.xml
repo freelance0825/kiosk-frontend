@@ -141,6 +141,11 @@
         <item>Press the start button  on the device</item>
     </string-array>
 
+    <string-array name="stethoscope_steps">
+        <item>Put the stethoscope on the chest</item>
+        <item>Press the start button on the device</item>
+    </string-array>
+
     <string-array name="fragment_register_gender_options">
         <item>Male</item>
         <item>Female</item>

@@ -26,8 +26,6 @@ public class StethoscopeTestFragment extends BaseFragment<FragmentStethoscopeTes
 
     private TestViewModel testViewModel;
 
-
-
     @Override
     protected Class<StethoscopeTestViewModel> getViewModelClass() {
         return StethoscopeTestViewModel.class;
@@ -48,55 +46,139 @@ public class StethoscopeTestFragment extends BaseFragment<FragmentStethoscopeTes
         testViewModel = new ViewModelProvider(requireActivity()).get(TestViewModel.class);
 
         observeViewModel();
-//
-//        setViews();
-        setListeners();
 
+        setViews();
+        setListeners();
     }
 
     private void observeViewModel() {
-        viewModel.getEcgData1().observe(getViewLifecycleOwner(), data -> binding.ecgView1.addECGData(data));
-        viewModel.getEcgData2().observe(getViewLifecycleOwner(), data -> binding.ecgView2.addECGData(data));
-        viewModel.getEcgData3().observe(getViewLifecycleOwner(), data -> binding.ecgView3.addECGData(data));
-        viewModel.getEcgData4().observe(getViewLifecycleOwner(), data -> binding.ecgView4.addECGData(data));
+        if (testViewModel.selectedTestItem.getValue().getTestResult() != null) {
+            if (!testViewModel.selectedTestItem.getValue().getTestResult().isEmpty()) {
+                String stethoscopeData = testViewModel.selectedTestItem.getValue().getTestResult();
 
-        viewModel.getBpm().observe(getViewLifecycleOwner(), bpm -> binding.tvBpm.setText(String.valueOf(bpm)));
-        viewModel.getRecordingTime().observe(getViewLifecycleOwner(), time -> binding.tvRecordingTime.setText(time));
+                try {
+                    String[] values = stethoscopeData.split(",");
+                    float ecgData1 = Float.parseFloat(values[0].trim());
+                    float ecgData2 = Float.parseFloat(values[1].trim());
+                    float ecgData3 = Float.parseFloat(values[2].trim());
+                    float ecgData4 = Float.parseFloat(values[3].trim());
+                    int bpm = Integer.parseInt(values[4].trim());
+                    String recordingTime = values[5].trim();
+
+                    viewModel.ecgData1.setValue(ecgData1);
+                    viewModel.ecgData2.setValue(ecgData2);
+                    viewModel.ecgData3.setValue(ecgData3);
+                    viewModel.ecgData4.setValue(ecgData4);
+                    viewModel.bpm.setValue(bpm);
+                    viewModel.recordingTime.setValue(recordingTime);
+                } catch (Exception e) {
+                    resetState();
+                }
+            } else {
+                resetState();
+            }
+        } else {
+            resetState();
+        }
+
+        testViewModel.selectedTestItem.observe(getViewLifecycleOwner(), testItem -> {
+            if (testItem == null) return;
+
+            if (Objects.equals(testItem.getId(), "stethoscope")) {
+                binding.btnStart.setVisibility(testItem.isTested() == 0 ? View.VISIBLE : View.GONE);
+                binding.btnStop.setVisibility(testItem.isTested() == 1 ? View.VISIBLE : View.GONE);
+                binding.btnRetake.setVisibility(testItem.isTested() == 2 ? View.VISIBLE : View.GONE);
+
+                viewModel.isHeaderShowed.observe(getViewLifecycleOwner(), isHeaderShowed -> {
+                    Log.e("FTEST", "--> Updated to " + testItem.isTested());
+
+                    if (testItem.isTested() == 2) {
+                        if (!testItem.getTestResult().isEmpty()) {
+                            String stethoscopeData = testViewModel.selectedTestItem.getValue().getTestResult();
+
+                            try {
+                                String[] values = stethoscopeData.split(",");
+                                float ecgData1 = Float.parseFloat(values[0].trim());
+                                float ecgData2 = Float.parseFloat(values[1].trim());
+                                float ecgData3 = Float.parseFloat(values[2].trim());
+                                float ecgData4 = Float.parseFloat(values[3].trim());
+                                int bpm = Integer.parseInt(values[4].trim());
+                                String recordingTime = values[5].trim();
+
+                                Log.e("FTEST", "--> Setting Up");
+
+                                viewModel.ecgData1.setValue(ecgData1);
+                                viewModel.ecgData2.setValue(ecgData2);
+                                viewModel.ecgData3.setValue(ecgData3);
+                                viewModel.ecgData4.setValue(ecgData4);
+                                viewModel.bpm.setValue(bpm);
+                                viewModel.recordingTime.setValue(recordingTime);
+                            } catch (Exception e) {
+                                resetState();
+                            }
+                        }
+
+                        binding.layoutContent.setVisibility(View.VISIBLE);
+                        binding.layoutHeader.setVisibility(View.GONE);
+                    } else {
+                        binding.layoutContent.setVisibility(isHeaderShowed ? View.VISIBLE : View.GONE);
+                        binding.layoutHeader.setVisibility(isHeaderShowed ? View.GONE : View.VISIBLE);
+                    }
+                });
+            }
+        });
+
+        viewModel.ecgData1.observe(getViewLifecycleOwner(), data -> {
+                    Log.e("FTEST", "observeViewModel: " + data);
+                    binding.ecgView1.addECGData(data);
+                }
+        );
+        viewModel.ecgData2.observe(getViewLifecycleOwner(), data -> binding.ecgView2.addECGData(data));
+        viewModel.ecgData3.observe(getViewLifecycleOwner(), data -> binding.ecgView3.addECGData(data));
+        viewModel.ecgData4.observe(getViewLifecycleOwner(), data -> binding.ecgView4.addECGData(data));
+
+        viewModel.bpm.observe(getViewLifecycleOwner(), bpm -> binding.tvBpm.setText(String.valueOf(bpm)));
+        viewModel.recordingTime.observe(getViewLifecycleOwner(), time -> binding.tvRecordingTime.setText(time));
     }
 
-//    private void setViews() {
-//        String[] stepsArray = getResources().getStringArray(R.array.oximeter_steps);
-//
-//        StringBuilder formattedText = new StringBuilder();
-//        for (int i = 0; i < stepsArray.length; i++) {
-//            formattedText.append(i + 1).append(". ").append(stepsArray[i]).append("\n");
-//        }
-//
-//        binding.tvSteps.setText(formattedText.toString().trim());
-//    }
-//
+    private void setViews() {
+        String[] stepsArray = getResources().getStringArray(R.array.stethoscope_steps);
+
+        StringBuilder formattedText = new StringBuilder();
+        for (int i = 0; i < stepsArray.length; i++) {
+            formattedText.append(i + 1).append(". ").append(stepsArray[i]).append("\n");
+        }
+
+        binding.tvSteps.setText(formattedText.toString().trim());
+    }
+
     private void setListeners() {
         binding.btnStartHeader.setOnClickListener(v -> {
-//            viewModel.isHeaderShowed.setValue(true);
+            viewModel.isHeaderShowed.setValue(true);
         });
 
         binding.btnStart.setOnClickListener(v -> {
-            Log.e("FTEST", "setListeners: CLICKED" );
+            testViewModel.updateTestItem("stethoscope", 1, null);
             viewModel.startECGSimulation();
-//            testViewModel.updateTestItem("oximeter", 1, null);
-//            viewModel.startSimulatedOximeter();
         });
 
         binding.btnStop.setOnClickListener(v -> {
+            testViewModel.updateTestItem("stethoscope", 2, viewModel.ecgData1.getValue() + "," + viewModel.ecgData2.getValue() + "," + viewModel.ecgData3.getValue() + "," + viewModel.ecgData4.getValue() + "," + viewModel.bpm.getValue() + "," + viewModel.recordingTime.getValue());
             viewModel.stopECGSimulation();
-//            testViewModel.updateTestItem("oximeter", 2, viewModel.oxygenData.getValue() + "," + viewModel.pulseData.getValue());
-//            viewModel.stopSimulatedOximeter();
         });
 
         binding.btnRetake.setOnClickListener(v -> {
-            viewModel.stopECGSimulation();
-//            testViewModel.updateTestItem("oximeter", 0, null);
-//            viewModel.resetOximeter();
+            testViewModel.updateTestItem("stethoscope", 0, null);
+            viewModel.resetECG();
         });
+    }
+
+    private void resetState() {
+        viewModel.ecgData1.setValue(0F);
+        viewModel.ecgData2.setValue(0F);
+        viewModel.ecgData3.setValue(0F);
+        viewModel.ecgData4.setValue(0F);
+        viewModel.bpm.setValue(0);
+        viewModel.recordingTime.setValue("00:00");
     }
 }

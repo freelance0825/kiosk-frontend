@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 public class AuthResponse{
 
-	@SerializedName("imageBase64")
+	@SerializedName("image_base64")
 	private String imageBase64;
 
 	@SerializedName("address")
 	private String address;
 
-	@SerializedName("phoneNumber")
+	@SerializedName("phone_number")
 	private String phoneNumber;
 
 	@SerializedName("gender")
@@ -19,7 +19,7 @@ public class AuthResponse{
 	@SerializedName("name")
 	private String name;
 
-	@SerializedName("dateOfBirth")
+	@SerializedName("date_of_birth")
 	private String dateOfBirth;
 
 	@SerializedName("id")

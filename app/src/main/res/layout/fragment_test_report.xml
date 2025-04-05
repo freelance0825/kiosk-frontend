@@ -62,20 +62,21 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:text="@string/fragment_test_report_test_result"
+            android:textSize="18sp"
             android:textColor="@color/primaryGreen" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_test_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="12dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:layout_marginTop="24dp"
-            android:visibility="gone"
+            android:textSize="18sp"
             android:text="@string/fragment_test_report_health_analysis"
             android:textColor="@color/primaryGreen" />
 

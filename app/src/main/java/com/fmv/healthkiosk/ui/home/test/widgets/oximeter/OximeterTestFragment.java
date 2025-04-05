@@ -159,20 +159,5 @@ public class OximeterTestFragment extends BaseFragment<FragmentOximeterTestBindi
             testViewModel.updateTestItem("oximeter", 0, null);
             viewModel.resetOximeter();
         });
-
-//        binding.btnStart.setOnClickListener(v -> {
-//            testViewModel.updateTestItem("oximeter", 1, null);
-//            viewModel.startUpdatingOximeter();
-//        });
-//
-//        binding.btnStop.setOnClickListener(v -> {
-//            testViewModel.updateTestItem("oximeter", 2, viewModel.oxygenData.getValue() + "," + viewModel.pulseData.getValue());
-//            viewModel.stopUpdatingOximeter();
-//        });
-//
-//        binding.btnRetake.setOnClickListener(v -> {
-//            testViewModel.updateTestItem("oximeter", 0, null);
-//            viewModel.resetOximeter();
-//        });
     }
 }

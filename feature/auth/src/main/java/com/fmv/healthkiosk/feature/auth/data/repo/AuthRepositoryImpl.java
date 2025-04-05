@@ -3,6 +3,7 @@ package com.fmv.healthkiosk.feature.auth.data.repo;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.fmv.healthkiosk.feature.auth.R;
 import com.fmv.healthkiosk.feature.auth.data.source.local.AuthDataStore;
@@ -40,7 +41,8 @@ public class AuthRepositoryImpl implements AuthRepository {
     @Override
     public Single<String> login(String phoneNumber) {
         return authService.loginPhoneNumber(new LoginRequest(phoneNumber, "", ""))
-                .flatMap(authResponse -> Completable.concatArray(
+                .flatMap(authResponse ->
+                        Completable.concatArray(
                         authDataStore.setPhoneNumber(phoneNumber),
                         authDataStore.setUsername(authResponse.getName()),
                         authDataStore.setDateOfBirth(authResponse.getDateOfBirth()),

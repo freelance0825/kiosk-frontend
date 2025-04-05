@@ -68,6 +68,14 @@ public class MainViewModel extends BaseViewModel {
                 .subscribe(age::setValue, throwable -> age.setValue(0)));
     }
 
+    public void logout() {
+        disposables.add(accountUseCase.logout()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> isLoggedIn.setValue(false), throwable -> {
+                }));
+    }
+
     @Override
     protected void onCleared() {
         super.onCleared();

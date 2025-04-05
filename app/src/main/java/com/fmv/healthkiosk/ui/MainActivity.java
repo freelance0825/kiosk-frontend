@@ -1,5 +1,7 @@
 package com.fmv.healthkiosk.ui;
 
+import static androidx.navigation.ActivityKt.findNavController;
+
 import android.os.Bundle;
 import android.view.View;
 
@@ -34,6 +36,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     private void observeViewModel() {
         viewModel.isLoggedIn.observe(this, isLoggedIn -> {
             binding.layoutProfile.setVisibility(isLoggedIn ? View.VISIBLE : View.GONE);
+
+            if (!isLoggedIn) {
+                NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+                navController.navigate(R.id.navigation_landing);
+            }
         });
 
         viewModel.username.observe(this, username -> {
@@ -71,5 +78,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 getOnBackPressedDispatcher().onBackPressed();
             }
         });
+
+        binding.btnLogout.setOnClickListener(v -> viewModel.logout());
     }
 }

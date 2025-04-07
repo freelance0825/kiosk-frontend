@@ -23,10 +23,13 @@ public class AuthResponse{
 	private String dateOfBirth;
 
 	@SerializedName("id")
-	private long id;
+	private long userId;
 
 	@SerializedName("age")
 	private String age;
+
+	@SerializedName("email")
+	private String email;
 
 	public String getImageBase64(){
 		return imageBase64;
@@ -53,10 +56,12 @@ public class AuthResponse{
 	}
 
 	public long getId(){
-		return id;
+		return userId;
 	}
 
 	public String getAge(){
 		return age;
 	}
+
+	public String getEmail() { return  email; }
 }

@@ -40,9 +40,7 @@ public class AccountInteractor implements AccountUseCase {
     }
 
     @Override
-    public Observable<Integer> getAge() {
-        return authRepository.getAge();
-    }
+    public Observable<Integer> getAge() {return authRepository.getAge();}
 
     @Override
     public Completable logout() {

@@ -13,11 +13,13 @@ import io.reactivex.Observable;
 
 public class AuthDataStore extends BaseDataStore {
 
+    private static final Preferences.Key<Integer> USER_ID = PreferencesKeys.intKey("user_id_preferences");
     private static final Preferences.Key<String> USERNAME = PreferencesKeys.stringKey("name_preferences");
     private static final Preferences.Key<String> DATE_OF_BIRTH = PreferencesKeys.stringKey("date_of_birth_preferences");
     private static final Preferences.Key<String> GENDER = PreferencesKeys.stringKey("gender_preferences");
     private static final Preferences.Key<String> PHONE_NUMBER = PreferencesKeys.stringKey("phone_number_preferences");
     private static final Preferences.Key<Integer> AGE = PreferencesKeys.intKey("age_preferences");
+    private static final Preferences.Key<String> EMAIL = PreferencesKeys.stringKey("email_preferences");
     private static final Preferences.Key<Boolean> IS_LOGGED_IN = PreferencesKeys.booleanKey("is_logged_in");
 
     public AuthDataStore(Context context) {
@@ -51,6 +53,14 @@ public class AuthDataStore extends BaseDataStore {
     public Observable<String> getPhoneNumber() {
         return observeValue(PHONE_NUMBER, "");
     }
+
+    public Completable setEmail(String email){ return setValue(EMAIL, email); }
+
+    public Observable<String> getEmail() { return observeValue(EMAIL, ""); }
+
+    public Completable setUserId(int user_id) { return setValue(USER_ID, user_id); }
+
+    public Observable<Integer> getUserId() { return observeValue(USER_ID, 0); }
 
     public Completable setPhoneNumber(String phoneNumber) {
         return setValue(PHONE_NUMBER, phoneNumber);

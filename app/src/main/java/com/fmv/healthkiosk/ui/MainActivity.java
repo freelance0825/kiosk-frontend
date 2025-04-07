@@ -110,11 +110,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 int id = item.getItemId();
                 if (id == R.id.menu_edit_profile) {
                     // Handle Edit My Profile
-                    // Navigate to Edit Profile Like This (Setup and Add the Edit Profile Fragment First in the Mobile Navigation first in the res folder>navigation>mobile_navigation.xml )
-
-                    // NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-                    // navController.navigate(R.id.navigation_landing); // Change to the id of the fragment that you've created in the mobile navigation
-                    Toast.makeText(MainActivity.this, "Edit My Profile clicked", Toast.LENGTH_SHORT).show();
+                    NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+                    navController.navigate(R.id.navigation_edit_profile);
                     return true;
                 } else if (id == R.id.menu_logout) {
                     // Handle Logout

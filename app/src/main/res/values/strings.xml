@@ -32,6 +32,7 @@
     <string name="fragment_title_customize_test">Customize Test Fragment</string>
     <string name="fragment_title_test">Test Fragment</string>
     <string name="fragment_title_test_report">Test Report Fragment</string>
+    <string name="fragment_title_edit_profile">Edit Profile Fragment</string>
 
     <!-- Fragment Landing -->
     <string name="fragment_landing_login_patient_account">Login Patient Account</string>
@@ -118,6 +119,22 @@
     <string name="fragment_test_report_health_analysis">Health Analysis</string>
     <string name="fragment_test_report_export_to_pdf">Export To PDF</string>
     <string name="fragment_stethoscope_test_recording_time">Recording Time</string>
+
+    <!-- Fragment Edit Profile -->
+    <string name="fragment_edit_profile_edit_patient_account">Edit Patient Account</string>
+    <string name="fragment_edit_profile_required">*Required</string>
+    <string name="fragment_edit_profile_name">Name*</string>
+    <string name="fragment_edit_profile_name_without_aposthrope">Name</string>
+    <string name="fragment_edit_profile_gender">Gender*</string>
+    <string name="fragment_edit_profile_select_gender">Select Gender</string>
+    <string name="fragment_edit_profile_phone_number">Phone Number*</string>
+    <string name="fragment_edit_profile_mobile_number_hint_placeholder">xxxxxxxxxx</string>
+    <string name="fragment_edit_profile_email">Email*</string>
+    <string name="fragment_edit_profile_blood_group">Blood Group</string>
+    <string name="fragment_edit_profile_select_blood_group">Select Blood Group</string>
+    <string name="fragment_edit_profile_date_of_birth">Date of birth*</string>
+    <string name="fragment_edit_profile_save">Save</string>
+
 
     <string-array name="height_steps">
         <item>Stand on the height measurement device</item>

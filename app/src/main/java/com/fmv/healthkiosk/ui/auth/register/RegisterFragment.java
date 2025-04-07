@@ -101,7 +101,7 @@ public class RegisterFragment extends BaseFragment<FragmentRegisterBinding, Regi
             if (isValid(name, gender, dob, phoneNumber, email)) {
                 String phoneNumberUpdated = getString(R.string.fragment_login_mobile_number_country_code) + binding.edPhoneNumber.getText().toString().trim();
 
-                viewModel.register(name, gender, dob, phoneNumberUpdated);
+                viewModel.register(name, gender, dob, phoneNumberUpdated, email);
             } else {
                 Toast.makeText(requireContext(), "EYOW", Toast.LENGTH_SHORT).show();
             }

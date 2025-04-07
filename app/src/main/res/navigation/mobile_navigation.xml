@@ -82,6 +82,9 @@
         <action
             android:id="@+id/action_navigation_home_landing_to_navigation_customize_test"
             app:destination="@id/navigation_customize_test" />
+        <action
+            android:id="@+id/action_navigation_home_landing_to_navigation_telemedicine_fragment"
+            app:destination="@id/navigation_telemedicine_fragment" />
     </fragment>
 
     <fragment
@@ -150,5 +153,23 @@
             android:id="@+id/action_navigation_edit_profile_to_edit_profile"
             app:destination="@id/navigation_edit_profile" />
     </fragment>
+
+    <!-- TELEMEDICINE FRAGMENTS-->
+    <fragment
+        android:id="@+id/navigation_telemedicine_fragment"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.landing.TelemedicineLandingFragment"
+        android:label="@string/fragment_title_telemedicine_landing"
+        tools:layout="@layout/fragment_telemedicine_landing">
+        <action
+            android:id="@+id/action_navigation_telemedicine_fragment_to_navigation_my_appointment_fragment"
+            app:destination="@id/navigation_my_appointment_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_my_appointment_fragment"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.myappointment.MyAppointmentFragment"
+        android:label="@string/fragment_title_telemedicine_landing"
+        tools:layout="@layout/fragment_my_appointment"/>
+
 
 </navigation>

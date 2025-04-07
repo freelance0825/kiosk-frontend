@@ -33,6 +33,8 @@
     <string name="fragment_title_test">Test Fragment</string>
     <string name="fragment_title_test_report">Test Report Fragment</string>
     <string name="fragment_title_edit_profile">Edit Profile Fragment</string>
+    <string name="fragment_title_telemedicine_landing">Telemedicine Landing Fragment</string>
+    <string name="fragment_title_my_appointmet">My Appointment Fragment</string>
 
     <!-- Fragment Landing -->
     <string name="fragment_landing_login_patient_account">Login Patient Account</string>
@@ -76,11 +78,15 @@
     <string name="fragment_register_select_gender">Select Gender</string>
     <string name="fragment_register_select_blood_group">Select Blood Group</string>
     <string name="fragment_register_date_format">mm/dd/yy</string>
+
+    <!-- Fragment Home -->
     <string name="fragment_home_welcome_name">Welcome, %1$s.</string>
     <string name="fragment_home_what_do_you_need_today">What do you need today?</string>
     <string name="fragment_home_landing_general_checkup">General Checkup</string>
     <string name="fragment_home_landing_advanced_test">Advanced Test</string>
     <string name="fragment_home_landing_report">Report</string>
+
+    <!-- Fragment Medical Package -->
     <string name="fragment_medical_package_select_medical_package">Select Medical Package</string>
     <string name="fragment_medical_package_customize_test">Customize Test</string>
     <string name="fragment_medical_package_select_test_based_on_your_needs">Select test based on your needs</string>
@@ -88,7 +94,11 @@
     <string name="fragment_customize_test_custom_test">Customize Your Test</string>
     <string name="fragment_customize_test_test_on">Test on %1$s</string>
     <string name="fragment_medical_package_available_package">Available Package</string>
+
+    <!-- Fragment Customize Test -->
     <string name="fragment_customize_test_general_checkup">General Checkup</string>
+
+    <!-- Fragment Test -->
     <string name="fragment_test_custom_test">Custom Test</string>
     <string name="fragment_test_package_test">%1$s Test</string>
     <string name="fragment_test_complete">Complete</string>
@@ -114,11 +124,25 @@
     <string name="fragment_blood_pressure_systolic">Systolic</string>
     <string name="fragment_blood_pressure_test_mmhg">mmHg</string>
     <string name="fragment_blood_pressure_test_diastolic">Diastolic</string>
+    <string name="fragment_stethoscope_test_recording_time">Recording Time</string>
+
+    <!-- Fragment Test Report -->
     <string name="fragment_test_report_report">%1$s Report</string>
     <string name="fragment_test_report_test_result">Test Result</string>
     <string name="fragment_test_report_health_analysis">Health Analysis</string>
     <string name="fragment_test_report_export_to_pdf">Export To PDF</string>
-    <string name="fragment_stethoscope_test_recording_time">Recording Time</string>
+
+    <!-- Fragment Telemedicine Landing -->
+    <string name="fragment_telemedicine_landing_appointment">Appointment</string>
+    <string name="fragment_telemedicine_landing_consult_now">Consult Now</string>
+    <string name="fragment_telemedicine_landing_my_appointment">My Appointment</string>
+    <string name="fragment_telemedicine_landing_consultation_history">Consultation History</string>
+    <string name="fragment_telemedicine_live">Live</string>
+    <string name="fragment_my_appointment_date_time"><![CDATA[Date & Time]]></string>
+    <string name="fragment_my_appointment_reschedule">Reschedule</string>
+    <string name="fragment_my_appointment_cancel">Cancel</string>
+    <string name="fragment_my_appointment_book_an_appointment">Book an Appointment</string>
+
 
     <!-- Fragment Edit Profile -->
     <string name="fragment_edit_profile_edit_patient_account">Edit Patient Account</string>

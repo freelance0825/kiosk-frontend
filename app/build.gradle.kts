@@ -57,6 +57,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":feature:auth"))
     implementation(project(":feature:tests"))
+    implementation(project(":feature:telemedicine"))
 
     implementation(libs.material)
     implementation(libs.constraintlayout)

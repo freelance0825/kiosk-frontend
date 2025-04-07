@@ -9,6 +9,8 @@
     <string name="main_screen_phone">Phone</string>
     <string name="main_screen_device_status_connected">DEVICE CONNECTED</string>
     <string name="main_screen_device_status_disconnected">DEVICE DISCONNECT</string>
+    <string name="main_screen_my_profile">MY PROFILE</string>
+    <string name="main_screen_edit_my_profile">EDIT MY PROFILE</string>
     <string name="main_screen_logout">LOGOUT</string>
 
     <!-- Content Description Main Screen -->

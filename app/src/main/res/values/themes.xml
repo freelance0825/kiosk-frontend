@@ -16,4 +16,8 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="CustomDatePickerDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorAccent">@color/onWhiteSurface</item>
+    </style>
 </resources>

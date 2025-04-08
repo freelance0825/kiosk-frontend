@@ -53,8 +53,7 @@ public class DoctorDataGenerator {
             }
             doctor.setDateTime(dateTime);
 
-            // Randomize isLive flag
-            doctor.setLive(random.nextBoolean());
+            doctor.setLive(i >= 2);
 
             doctors.add(doctor);
         }

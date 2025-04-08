@@ -43,7 +43,7 @@ public class TelemedicineLandingFragment extends BaseFragment<FragmentTelemedici
         });
 
         binding.btnNotification.setOnClickListener(v -> {
-//            navigate(TelemedicineLandingFragmentDirections.actionTelemedicineLandingFragmentToTelemedicineConsultNowFragment());
+            navigateToFragment(TelemedicineLandingFragmentDirections.actionNavigationTelemedicineFragmentToNavigationNotificationFragment(), false);
         });
 
         binding.btnConsultNow.setOnClickListener(v -> {

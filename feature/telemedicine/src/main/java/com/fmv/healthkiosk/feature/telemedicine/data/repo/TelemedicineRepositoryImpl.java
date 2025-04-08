@@ -1,6 +1,8 @@
 package com.fmv.healthkiosk.feature.telemedicine.data.repo;
 
+import com.fmv.healthkiosk.feature.telemedicine.data.source.AppointmentDataGenerator;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.DoctorDataGenerator;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.Appointment;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.repo.TelemedicineRepository;
 
@@ -20,5 +22,10 @@ public class TelemedicineRepositoryImpl implements TelemedicineRepository {
     @Override
     public Single<List<Doctor>> getAvailableDoctors() {
         return Single.fromCallable(DoctorDataGenerator::generateSampleDoctors);
+    }
+
+    @Override
+    public Single<List<Appointment>> getAllNotifications() {
+        return Single.fromCallable(AppointmentDataGenerator::generateSampleAppointments);
     }
 }

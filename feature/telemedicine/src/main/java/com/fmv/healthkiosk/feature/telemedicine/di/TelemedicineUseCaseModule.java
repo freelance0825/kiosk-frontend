@@ -1,8 +1,10 @@
 package com.fmv.healthkiosk.feature.telemedicine.di;
 
+import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.GetAllNotificationsInteractor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.GetAvailableDoctorsInteractor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.GetMyAppointmentsInteractor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.repo.TelemedicineRepository;
+import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetAllNotificationsUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetAvailableDoctorsUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetMyAppointmentsUseCase;
 
@@ -23,5 +25,10 @@ public class TelemedicineUseCaseModule {
     @Provides
     GetAvailableDoctorsUseCase provideGetAvailableDoctorsUseCase(TelemedicineRepository telemedicineRepository) {
         return new GetAvailableDoctorsInteractor(telemedicineRepository);
+    }
+
+    @Provides
+    GetAllNotificationsUseCase provideGetAllNotificationsUseCase(TelemedicineRepository telemedicineRepository) {
+        return new GetAllNotificationsInteractor(telemedicineRepository);
     }
 }

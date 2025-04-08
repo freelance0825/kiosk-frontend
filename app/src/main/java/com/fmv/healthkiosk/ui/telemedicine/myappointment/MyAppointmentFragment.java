@@ -1,5 +1,8 @@
 package com.fmv.healthkiosk.ui.telemedicine.myappointment;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -42,6 +45,13 @@ public class MyAppointmentFragment extends BaseFragment<FragmentMyAppointmentBin
 
     private void observeViewModel() {
         viewModel.myAppointmentList.observe(getViewLifecycleOwner(), myAppointmentAdapter::submitList);
+
+        viewModel.selectedAppointmentToCancel.observe(getViewLifecycleOwner(), doctor -> {
+            binding.layoutCancelAppointmentConfirmation.setVisibility(doctor != null ? VISIBLE : GONE);
+            binding.btnBookAppointment.setEnabled(doctor == null);
+            binding.btnBack.setEnabled(doctor == null);
+            binding.btnNotification.setEnabled(doctor == null);
+        });
     }
 
     private void setViews() {
@@ -55,9 +65,22 @@ public class MyAppointmentFragment extends BaseFragment<FragmentMyAppointmentBin
         });
 
         binding.btnNotification.setOnClickListener(v -> {
-//            navigateToFragment(LoginLandingFragmentDirections.actionNavigationLoginLandingToNavigationLogin(loginType), false);
+            navigateToFragment(MyAppointmentFragmentDirections.actionNavigationMyAppointmentFragmentToNavigationNotificationFragment(), false);
         });
 
+        binding.btnBookAppointment.setOnClickListener(v -> {
+            navigateToFragment(MyAppointmentFragmentDirections.actionNavigationMyAppointmentFragmentToNavigationBookAppointmentFragment(), false);
+        });
+
+        binding.btnYes.setOnClickListener(v -> {
+            viewModel.selectedAppointmentToCancel.setValue(null);
+        });
+
+        binding.btnNo.setOnClickListener(v -> {
+            viewModel.selectedAppointmentToCancel.setValue(null);
+        });
+
+        // When cancel is overlayed this listener maybe still listen to the click event
         myAppointmentAdapter.setOnItemClickListener(new MyAppointmentAdapter.OnItemClickListener() {
             @Override
             public void onConsultNowClick(Doctor doctor, int position) {
@@ -71,7 +94,7 @@ public class MyAppointmentFragment extends BaseFragment<FragmentMyAppointmentBin
 
             @Override
             public void onConsultCancelClick(Doctor doctor, int position) {
-
+                viewModel.selectedAppointmentToCancel.setValue(doctor);
             }
         });
     }

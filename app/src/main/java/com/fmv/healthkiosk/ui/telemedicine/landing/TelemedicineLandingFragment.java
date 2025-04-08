@@ -55,7 +55,7 @@ public class TelemedicineLandingFragment extends BaseFragment<FragmentTelemedici
         });
 
         binding.btnConsultationHistory.setOnClickListener(v -> {
-//            navigate(TelemedicineLandingFragmentDirections.actionTelemedicineLandingFragmentToTelemedicineConsultNowFragment());
+            navigateToFragment(TelemedicineLandingFragmentDirections.actionNavigationTelemedicineFragmentToNavigationConsultationHistoryFragment(), false);
         });
     }
 }

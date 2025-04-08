@@ -1,4 +1,4 @@
-package com.fmv.healthkiosk.ui.telemedicine.myappointment.adapters;
+package com.fmv.healthkiosk.ui.telemedicine.consultationhistory.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,24 +11,22 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fmv.healthkiosk.R;
-import com.fmv.healthkiosk.databinding.ItemMenuColumnBinding;
 import com.fmv.healthkiosk.databinding.ItemMyAppointmentDoctorRowBinding;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
-import com.fmv.healthkiosk.ui.home.model.MenuItem;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class MyAppointmentAdapter extends ListAdapter<Doctor, MyAppointmentAdapter.ViewHolder> {
+public class ConsultationHistoryAdapter extends ListAdapter<Doctor, ConsultationHistoryAdapter.ViewHolder> {
     private OnItemClickListener listener;
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
-    public MyAppointmentAdapter() {
+    public ConsultationHistoryAdapter() {
         super(DIFF_CALLBACK);
     }
 
@@ -45,8 +43,8 @@ public class MyAppointmentAdapter extends ListAdapter<Doctor, MyAppointmentAdapt
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Doctor doctor = getItem(position);
 
-        // Flag for My Appointment Row
-        holder.binding.layoutButtonMyAppointment.setVisibility(View.VISIBLE);
+        // Flag for Consultation History Row
+        holder.binding.layoutButtonConsultationHistory.setVisibility(View.VISIBLE);
 
         holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
         holder.binding.tvDoctorName.setText(doctor.getName());
@@ -60,34 +58,16 @@ public class MyAppointmentAdapter extends ListAdapter<Doctor, MyAppointmentAdapt
 
         long dateTime = doctor.getDateTime();
 
-        if (isNow(dateTime)) {
-            holder.binding.tvDateTime.setText("HAPPEN NOW");
-            holder.binding.tvDateTime.setTextColor(ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.primaryBlue));
-
-            holder.binding.btnConsultNow.setVisibility(View.VISIBLE);
-            holder.binding.btnReschedule.setVisibility(View.GONE);
-            holder.binding.btnCancel.setVisibility(View.GONE);
-
-        } else {
-            holder.binding.tvDateTime.setText(formatDateTime(dateTime));
-            holder.binding.tvDateTime.setTextColor(ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.white));
-
-            holder.binding.btnConsultNow.setVisibility(View.GONE);
-            holder.binding.btnReschedule.setVisibility(View.VISIBLE);
-            holder.binding.btnCancel.setVisibility(View.VISIBLE);
-        }
+        holder.binding.tvDateTime.setText(formatDateTime(dateTime));
+        holder.binding.tvDateTime.setTextColor(ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.white));
 
 
-        holder.binding.btnConsultNow.setOnClickListener(v -> {
-            if (listener != null) listener.onConsultNowClick(doctor, position);
+        holder.binding.btnBookAgain.setOnClickListener(v -> {
+            if (listener != null) listener.onBookAgainClick(doctor, position);
         });
 
-        holder.binding.btnReschedule.setOnClickListener(v -> {
-            if (listener != null) listener.onConsultRescheduleClick(doctor, position);
-        });
-
-        holder.binding.btnCancel.setOnClickListener(v -> {
-            if (listener != null) listener.onConsultCancelClick(doctor, position);
+        holder.binding.btnViewReport.setOnClickListener(v -> {
+            if (listener != null) listener.onViewReportClick(doctor, position);
         });
     }
 
@@ -114,11 +94,9 @@ public class MyAppointmentAdapter extends ListAdapter<Doctor, MyAppointmentAdapt
             };
 
     public interface OnItemClickListener {
-        void onConsultNowClick(Doctor doctor, int position);
+        void onBookAgainClick(Doctor doctor, int position);
 
-        void onConsultRescheduleClick(Doctor doctor, int position);
-
-        void onConsultCancelClick(Doctor doctor, int position);
+        void onViewReportClick(Doctor doctor, int position);
     }
 
 

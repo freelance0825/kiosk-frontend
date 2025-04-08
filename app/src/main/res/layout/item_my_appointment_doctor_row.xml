@@ -113,7 +113,9 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layout_button_my_appointment"
         android:layout_width="0dp"
+        android:visibility="gone"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_marginStart="24dp"
@@ -161,6 +163,47 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:visibility="gone"
+            app:cornerRadius="8dp"
+            app:strokeColor="@color/white"
+            app:strokeWidth="1dp"
+            tools:visibility="visible" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_button_consultation_history"
+        android:layout_width="0dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginStart="24dp"
+        android:layout_weight="3"
+        android:gravity="center|end"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_book_again"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:text="@string/fragment_consultation_history_book_again"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:cornerRadius="8dp"
+            tools:visibility="visible" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_view_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@android:color/transparent"
+            android:text="@string/fragment_consultation_history_view_report"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             app:cornerRadius="8dp"
             app:strokeColor="@color/white"
             app:strokeWidth="1dp"

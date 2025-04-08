@@ -39,6 +39,8 @@
     <string name="fragment_title_make_appointmet">Make Appointment Fragment</string>
     <string name="fragment_title_notification">Notification Fragment</string>
     <string name="fragment_title_consult_now">Consult Now Fragment</string>
+    <string name="fragment_title_consultation_history">Consultation History Fragment</string>
+    <string name="fragment_title_post_consultation">Post Consultation Fragment</string>
     <string name="fragment_title_video_call">Video Call Fragment</string>
 
     <!-- Fragment Landing -->
@@ -184,6 +186,14 @@
     <string name="fragment_notification_join_now">Join Now</string>
     <string name="fragment_video_call_you">You</string>
     <string name="fragment_consult_now_consult_now">Consult Now</string>
+    <string name="fragment_consultation_history_consultation_history">Consultation History</string>
+    <string name="fragment_consultation_history_book_again">Book Again</string>
+    <string name="fragment_consultation_history_view_report">View Report</string>
+    <string name="fragment_post_consultation_post_consultation">Post Consultation</string>
+    <string name="fragment_post_consultation_doctor_s_diagnosis">Doctor\'s Diagnosis</string>
+    <string name="fragment_post_consultation_doctor_s_suggestions">Doctor\'s Suggestions</string>
+    <string name="fragment_post_consultation_prescriptions">Prescriptions</string>
+    <string name="fragment_post_consultation_back">Back</string>
 
 
     <string-array name="height_steps">

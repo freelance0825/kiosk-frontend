@@ -169,6 +169,9 @@
         <action
             android:id="@+id/action_navigation_telemedicine_fragment_to_navigation_consult_now"
             app:destination="@id/navigation_consult_now" />
+        <action
+            android:id="@+id/action_navigation_telemedicine_fragment_to_navigation_consultation_history_fragment"
+            app:destination="@id/navigation_consultation_history_fragment" />
     </fragment>
 
     <fragment
@@ -245,5 +248,34 @@
             app:destination="@id/navigation_book_appointment_fragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_consultation_history_fragment"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.consultationhistory.ConsultationHistoryFragment"
+        android:label="@string/fragment_title_consultation_history"
+        tools:layout="@layout/fragment_consultation_history">
+        <action
+            android:id="@+id/action_navigation_consultation_history_fragment_to_navigation_book_appointment_fragment"
+            app:destination="@id/navigation_book_appointment_fragment" />
+        <action
+            android:id="@+id/action_navigation_consultation_history_fragment_to_navigation_notification_fragment"
+            app:destination="@id/navigation_notification_fragment" />
+        <action
+            android:id="@+id/action_navigation_consultation_history_fragment_to_navigation_make_appointment_fragment"
+            app:destination="@id/navigation_make_appointment_fragment" />
+        <action
+            android:id="@+id/action_navigation_consultation_history_fragment_to_navigation_post_consultation_fragment"
+            app:destination="@id/navigation_post_consultation_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_post_consultation_fragment"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.postconsultation.PostConsultationFragment"
+        android:label="@string/fragment_title_post_consultation"
+        tools:layout="@layout/fragment_post_consultation">
+        <argument
+            android:name="doctor"
+            app:argType="com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor"
+            app:nullable="true" />
+    </fragment>
 
 </navigation>

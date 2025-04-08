@@ -38,6 +38,7 @@
     <string name="fragment_title_book_appointmet">Book Appointment Fragment</string>
     <string name="fragment_title_make_appointmet">Make Appointment Fragment</string>
     <string name="fragment_title_notification">Notification Fragment</string>
+    <string name="fragment_title_consult_now">Consult Now Fragment</string>
     <string name="fragment_title_video_call">Video Call Fragment</string>
 
     <!-- Fragment Landing -->
@@ -182,6 +183,7 @@
     <string name="fragment_notification_all_notifications">All Notifications</string>
     <string name="fragment_notification_join_now">Join Now</string>
     <string name="fragment_video_call_you">You</string>
+    <string name="fragment_consult_now_consult_now">Consult Now</string>
 
 
     <string-array name="height_steps">

@@ -47,7 +47,7 @@ public class TelemedicineLandingFragment extends BaseFragment<FragmentTelemedici
         });
 
         binding.btnConsultNow.setOnClickListener(v -> {
-//            navigate(TelemedicineLandingFragmentDirections.actionTelemedicineLandingFragmentToTelemedicineConsultNowFragment());
+            navigateToFragment(TelemedicineLandingFragmentDirections.actionNavigationTelemedicineFragmentToNavigationConsultNow(), false);
         });
 
         binding.btnMyAppointment.setOnClickListener(v -> {

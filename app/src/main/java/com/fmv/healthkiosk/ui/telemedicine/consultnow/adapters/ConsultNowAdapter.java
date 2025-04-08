@@ -1,4 +1,4 @@
-package com.fmv.healthkiosk.ui.telemedicine.bookappointment.adapters;
+package com.fmv.healthkiosk.ui.telemedicine.consultnow.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.databinding.ItemBookAppointmentDoctorRowBinding;
-import com.fmv.healthkiosk.databinding.ItemMyAppointmentDoctorRowBinding;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
 
 import java.text.SimpleDateFormat;
@@ -20,14 +19,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class BookAppointmentAdapter extends ListAdapter<Doctor, BookAppointmentAdapter.ViewHolder> {
+public class ConsultNowAdapter extends ListAdapter<Doctor, ConsultNowAdapter.ViewHolder> {
     private OnItemClickListener listener;
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
-    public BookAppointmentAdapter() {
+    public ConsultNowAdapter() {
         super(DIFF_CALLBACK);
     }
 
@@ -55,9 +54,9 @@ public class BookAppointmentAdapter extends ListAdapter<Doctor, BookAppointmentA
             holder.binding.tvLiveStatus.setVisibility(View.INVISIBLE);
         }
 
-        holder.binding.btnBookAppointment.setVisibility(View.VISIBLE);
-        holder.binding.btnBookAppointment.setOnClickListener(v -> {
-            if (listener != null) listener.onBookAppointmentClick(doctor, position);
+        holder.binding.btnConsultNow.setVisibility(View.VISIBLE);
+        holder.binding.btnConsultNow.setOnClickListener(v -> {
+            if (listener != null) listener.onConsultNowClick(doctor, position);
         });
     }
 
@@ -84,22 +83,6 @@ public class BookAppointmentAdapter extends ListAdapter<Doctor, BookAppointmentA
             };
 
     public interface OnItemClickListener {
-        void onBookAppointmentClick(Doctor doctor, int position);
-    }
-
-
-    public String formatDateTime(long dateTime) {
-        SimpleDateFormat sdf = new SimpleDateFormat("d MMMM yyyy, HH:mm", Locale.getDefault());
-        return sdf.format(new Date(dateTime));
-    }
-
-    public boolean isNow(long dateTime) {
-        Calendar now = Calendar.getInstance();
-        Calendar target = Calendar.getInstance();
-        target.setTimeInMillis(dateTime);
-
-        return now.get(Calendar.YEAR) == target.get(Calendar.YEAR) &&
-                now.get(Calendar.DAY_OF_YEAR) == target.get(Calendar.DAY_OF_YEAR) &&
-                now.get(Calendar.HOUR_OF_DAY) == target.get(Calendar.HOUR_OF_DAY);
+        void onConsultNowClick(Doctor doctor, int position);
     }
 }

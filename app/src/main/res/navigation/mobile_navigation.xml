@@ -166,6 +166,9 @@
         <action
             android:id="@+id/action_navigation_telemedicine_fragment_to_navigation_notification_fragment"
             app:destination="@id/navigation_notification_fragment" />
+        <action
+            android:id="@+id/action_navigation_telemedicine_fragment_to_navigation_consult_now"
+            app:destination="@id/navigation_consult_now" />
     </fragment>
 
     <fragment
@@ -224,6 +227,22 @@
             android:name="doctor"
             app:argType="com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor"
             app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_consult_now"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.consultnow.ConsultNowFragment"
+        android:label="@string/fragment_title_notification"
+        tools:layout="@layout/fragment_consult_now">
+        <action
+            android:id="@+id/action_navigation_consult_now_to_navigation_notification_fragment"
+            app:destination="@id/navigation_notification_fragment" />
+        <action
+            android:id="@+id/action_navigation_consult_now_to_navigation_video_call"
+            app:destination="@id/navigation_video_call" />
+        <action
+            android:id="@+id/action_navigation_consult_now_to_navigation_book_appointment_fragment"
+            app:destination="@id/navigation_book_appointment_fragment" />
     </fragment>
 
 

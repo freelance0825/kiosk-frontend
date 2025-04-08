@@ -82,6 +82,9 @@
         <action
             android:id="@+id/action_navigation_home_landing_to_navigation_customize_test"
             app:destination="@id/navigation_customize_test" />
+        <action
+            android:id="@+id/action_navigation_home_landing_to_navigation_telemedicine_fragment"
+            app:destination="@id/navigation_telemedicine_fragment" />
     </fragment>
 
     <fragment
@@ -141,5 +144,138 @@
             app:nullable="true" />
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_edit_profile"
+        android:name="com.fmv.healthkiosk.ui.auth.editprofile.EditProfileFragment"
+        android:label="@string/fragment_title_edit_profile"
+        tools:layout="@layout/fragment_edit_profile">
+        <action
+            android:id="@+id/action_navigation_edit_profile_to_edit_profile"
+            app:destination="@id/navigation_edit_profile" />
+    </fragment>
+
+    <!-- TELEMEDICINE FRAGMENTS-->
+    <fragment
+        android:id="@+id/navigation_telemedicine_fragment"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.landing.TelemedicineLandingFragment"
+        android:label="@string/fragment_title_telemedicine_landing"
+        tools:layout="@layout/fragment_telemedicine_landing">
+        <action
+            android:id="@+id/action_navigation_telemedicine_fragment_to_navigation_my_appointment_fragment"
+            app:destination="@id/navigation_my_appointment_fragment" />
+        <action
+            android:id="@+id/action_navigation_telemedicine_fragment_to_navigation_notification_fragment"
+            app:destination="@id/navigation_notification_fragment" />
+        <action
+            android:id="@+id/action_navigation_telemedicine_fragment_to_navigation_consult_now"
+            app:destination="@id/navigation_consult_now" />
+        <action
+            android:id="@+id/action_navigation_telemedicine_fragment_to_navigation_consultation_history_fragment"
+            app:destination="@id/navigation_consultation_history_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_my_appointment_fragment"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.myappointment.MyAppointmentFragment"
+        android:label="@string/fragment_title_telemedicine_landing"
+        tools:layout="@layout/fragment_my_appointment">
+        <action
+            android:id="@+id/action_navigation_my_appointment_fragment_to_navigation_book_appointment_fragment"
+            app:destination="@id/navigation_book_appointment_fragment" />
+        <action
+            android:id="@+id/action_navigation_my_appointment_fragment_to_navigation_notification_fragment"
+            app:destination="@id/navigation_notification_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_book_appointment_fragment"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.bookappointment.BookAppointmentFragment"
+        android:label="@string/fragment_title_book_appointmet"
+        tools:layout="@layout/fragment_book_appointment">
+        <action
+            android:id="@+id/action_navigation_book_appointment_fragment_to_navigation_make_appointment_fragment"
+            app:destination="@id/navigation_make_appointment_fragment" />
+        <action
+            android:id="@+id/action_navigation_book_appointment_fragment_to_navigation_notification_fragment"
+            app:destination="@id/navigation_notification_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_make_appointment_fragment"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.makeappointment.MakeAppointmentFragment"
+        android:label="@string/fragment_title_make_appointmet"
+        tools:layout="@layout/fragment_make_appointment">
+        <argument
+            android:name="doctor"
+            app:argType="com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_notification_fragment"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.notification.NotificationFragment"
+        android:label="@string/fragment_title_notification"
+        tools:layout="@layout/fragment_notification">
+        <action
+            android:id="@+id/action_navigation_notification_fragment_to_navigation_video_call"
+            app:destination="@id/navigation_video_call" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_video_call"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.videocall.VideoCallFragment"
+        android:label="@string/fragment_title_notification"
+        tools:layout="@layout/fragment_video_call">
+        <argument
+            android:name="doctor"
+            app:argType="com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_consult_now"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.consultnow.ConsultNowFragment"
+        android:label="@string/fragment_title_notification"
+        tools:layout="@layout/fragment_consult_now">
+        <action
+            android:id="@+id/action_navigation_consult_now_to_navigation_notification_fragment"
+            app:destination="@id/navigation_notification_fragment" />
+        <action
+            android:id="@+id/action_navigation_consult_now_to_navigation_video_call"
+            app:destination="@id/navigation_video_call" />
+        <action
+            android:id="@+id/action_navigation_consult_now_to_navigation_book_appointment_fragment"
+            app:destination="@id/navigation_book_appointment_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_consultation_history_fragment"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.consultationhistory.ConsultationHistoryFragment"
+        android:label="@string/fragment_title_consultation_history"
+        tools:layout="@layout/fragment_consultation_history">
+        <action
+            android:id="@+id/action_navigation_consultation_history_fragment_to_navigation_book_appointment_fragment"
+            app:destination="@id/navigation_book_appointment_fragment" />
+        <action
+            android:id="@+id/action_navigation_consultation_history_fragment_to_navigation_notification_fragment"
+            app:destination="@id/navigation_notification_fragment" />
+        <action
+            android:id="@+id/action_navigation_consultation_history_fragment_to_navigation_make_appointment_fragment"
+            app:destination="@id/navigation_make_appointment_fragment" />
+        <action
+            android:id="@+id/action_navigation_consultation_history_fragment_to_navigation_post_consultation_fragment"
+            app:destination="@id/navigation_post_consultation_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_post_consultation_fragment"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.postconsultation.PostConsultationFragment"
+        android:label="@string/fragment_title_post_consultation"
+        tools:layout="@layout/fragment_post_consultation">
+        <argument
+            android:name="doctor"
+            app:argType="com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor"
+            app:nullable="true" />
+    </fragment>
 
 </navigation>

@@ -155,7 +155,8 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:visibility="gone"
+                android:layout_marginStart="24dp"
                 app:cardBackgroundColor="@color/grayOpacity80"
                 app:cardCornerRadius="28dp">
 
@@ -198,7 +199,7 @@
                 app:cardCornerRadius="28dp">
 
                 <LinearLayout
-                    android:id="@+id/btn_logout"
+                    android:id="@+id/btn_my_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?selectableItemBackground"
@@ -211,17 +212,25 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        app:tint="@color/primaryGreen"
                         android:contentDescription="@string/cd_button_back"
-                        android:src="@drawable/icon_logout" />
+                        android:src="@drawable/icon_account" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="@string/main_screen_logout"
+                        android:text="@string/main_screen_my_profile"
                         android:textColor="@color/white"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:contentDescription="@string/cd_button_back"
+                        android:src="@drawable/ic_dropdown" />
 
                 </LinearLayout>
 

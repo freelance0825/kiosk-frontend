@@ -3,7 +3,10 @@ package com.fmv.healthkiosk.ui;
 import static androidx.navigation.ActivityKt.findNavController;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.navigation.NavController;
@@ -12,6 +15,9 @@ import androidx.navigation.Navigation;
 import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.core.base.ui.BaseActivity;
 import com.fmv.healthkiosk.databinding.ActivityMainBinding;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -79,6 +85,43 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             }
         });
 
-        binding.btnLogout.setOnClickListener(v -> viewModel.logout());
+        binding.btnMyProfile.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(MainActivity.this, v); // or getContext() if inside Fragment
+            popupMenu.getMenuInflater().inflate(R.menu.profile_dropdown_menu, popupMenu.getMenu());
+
+            // Force icons to show using reflection
+            try {
+                Field[] fields = popupMenu.getClass().getDeclaredFields();
+                for (Field field : fields) {
+                    if ("mPopup".equals(field.getName())) {
+                        field.setAccessible(true);
+                        Object menuPopupHelper = field.get(popupMenu);
+                        Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                        Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
+                        setForceIcons.invoke(menuPopupHelper, true);
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            popupMenu.setOnMenuItemClickListener(item -> {
+                int id = item.getItemId();
+                if (id == R.id.menu_edit_profile) {
+                    // Handle Edit My Profile
+                    NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+                    navController.navigate(R.id.navigation_edit_profile);
+                    return true;
+                } else if (id == R.id.menu_logout) {
+                    // Handle Logout
+                    viewModel.logout();
+                    return true;
+                }
+                return false;
+            });
+
+            popupMenu.show();
+        });
     }
 }

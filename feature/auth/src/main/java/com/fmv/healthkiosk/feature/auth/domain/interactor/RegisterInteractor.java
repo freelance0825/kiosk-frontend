@@ -13,7 +13,7 @@ public class RegisterInteractor implements RegisterUseCase {
     }
 
     @Override
-    public Single<String> execute(String name, String gender, String age, String dob, String phoneNumber) {
-        return authRepository.registerUser(name, gender, age, dob, phoneNumber);
+    public Single<String> execute(String name, String gender, String age, String dob, String phoneNumber, String email) {
+        return authRepository.registerUser(name, gender, age, dob, phoneNumber, email);
     }
 }

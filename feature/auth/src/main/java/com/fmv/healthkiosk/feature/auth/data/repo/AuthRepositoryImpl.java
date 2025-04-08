@@ -43,22 +43,25 @@ public class AuthRepositoryImpl implements AuthRepository {
         return authService.loginPhoneNumber(new LoginRequest(phoneNumber, "", ""))
                 .flatMap(authResponse ->
                         Completable.concatArray(
-                        authDataStore.setPhoneNumber(phoneNumber),
-                        authDataStore.setUsername(authResponse.getName()),
-                        authDataStore.setDateOfBirth(authResponse.getDateOfBirth()),
-                        authDataStore.setGender(authResponse.getGender()),
-                        authDataStore.setAge(Integer.parseInt(authResponse.getAge()))
-                ).toSingleDefault("Login successful!"));
+                                authDataStore.setUserId((int) authResponse.getId()),
+                                authDataStore.setEmail(authResponse.getEmail()),
+                                authDataStore.setPhoneNumber(phoneNumber),
+                                authDataStore.setUsername(authResponse.getName()),
+                                authDataStore.setDateOfBirth(authResponse.getDateOfBirth()),
+                                authDataStore.setGender(authResponse.getGender()),
+                                authDataStore.setAge(Integer.parseInt(authResponse.getAge()))
+                        ).toSingleDefault("Login successful!"));
     }
 
     @Override
-    public Single<String> registerUser(String name, String gender, String age, String dob, String phoneNumber) {
+    public Single<String> registerUser(String name, String gender, String age, String dob, String phoneNumber, String email) {
         RequestBody namePart = RequestBody.create(name, MediaType.parse("text/plain"));
         RequestBody addressPart = RequestBody.create("address", MediaType.parse("text/plain"));
         RequestBody genderPart = RequestBody.create(gender, MediaType.parse("text/plain"));
         RequestBody agePart = RequestBody.create(age, MediaType.parse("text/plain"));
         RequestBody dobPart = RequestBody.create(dob, MediaType.parse("text/plain"));
         RequestBody phoneNumberPart = RequestBody.create(phoneNumber, MediaType.parse("text/plain"));
+        RequestBody emailPart = RequestBody.create(email, MediaType.parse("text/plain"));
 
         File imageFile;
         try {
@@ -70,14 +73,34 @@ public class AuthRepositoryImpl implements AuthRepository {
         RequestBody requestFile = RequestBody.create(imageFile, MediaType.parse("image/*"));
         MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", imageFile.getName(), requestFile);
 
-        return authService.register(namePart, addressPart, genderPart, agePart, dobPart, phoneNumberPart, imagePart)
+        return authService.register(namePart, addressPart, genderPart, agePart, dobPart, phoneNumberPart, emailPart, imagePart)
                 .flatMap(authResponse -> Completable.concatArray(
                         authDataStore.setPhoneNumber(phoneNumber),
+                        authDataStore.setEmail(authResponse.getEmail()),
                         authDataStore.setUsername(authResponse.getName()),
                         authDataStore.setDateOfBirth(authResponse.getDateOfBirth()),
                         authDataStore.setGender(authResponse.getGender()),
                         authDataStore.setAge(Integer.parseInt(authResponse.getAge()))
                 ).toSingleDefault("Register successful!"));
+    }
+
+    @Override
+    public Single<String> updateUser(Integer userId, String name, String gender, String phoneNumber, String email, String dob) {
+        RequestBody namePart = RequestBody.create(name, MediaType.parse("text/plain"));
+        RequestBody genderPart = RequestBody.create(gender, MediaType.parse("text/plain"));
+        RequestBody phoneNumberPart = RequestBody.create(phoneNumber, MediaType.parse("text/plain"));
+        RequestBody emailPart = RequestBody.create(email, MediaType.parse("text/plain"));
+        RequestBody dobPart = RequestBody.create(dob, MediaType.parse("text/plain"));
+
+        return authService.update(userId, namePart, genderPart, emailPart, phoneNumberPart, dobPart)
+                .flatMap(authResponse -> Completable.concatArray(
+                        authDataStore.setPhoneNumber(phoneNumber),
+                        authDataStore.setEmail(authResponse.getEmail()),
+                        authDataStore.setUsername(authResponse.getName()),
+                        authDataStore.setDateOfBirth(authResponse.getDateOfBirth()),
+                        authDataStore.setGender(authResponse.getGender()),
+                        authDataStore.setEmail(authResponse.getEmail())
+                ).toSingleDefault("Update successful!"));
     }
 
     @Override
@@ -104,6 +127,17 @@ public class AuthRepositoryImpl implements AuthRepository {
     public Observable<Integer> getAge() {
         return authDataStore.getAge();
     }
+
+    @Override
+    public Observable<String> getEmail() {
+        return authDataStore.getEmail();
+    }
+
+    @Override
+    public Observable<Integer> getUserId() {
+        return authDataStore.getUserId();
+    }
+
 
     @Override
     public Observable<Boolean> isLoggedIn() {

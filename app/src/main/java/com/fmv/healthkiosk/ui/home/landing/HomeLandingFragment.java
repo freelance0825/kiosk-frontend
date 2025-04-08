@@ -66,6 +66,7 @@ public class HomeLandingFragment extends BaseFragment<FragmentHomeLandingBinding
             case "e_health_record":
                 break;
             case "telemedicine":
+                navigateToFragment(HomeLandingFragmentDirections.actionNavigationHomeLandingToNavigationTelemedicineFragment(), false);
                 break;
         }
     }

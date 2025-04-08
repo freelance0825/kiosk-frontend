@@ -9,6 +9,8 @@
     <string name="main_screen_phone">Phone</string>
     <string name="main_screen_device_status_connected">DEVICE CONNECTED</string>
     <string name="main_screen_device_status_disconnected">DEVICE DISCONNECT</string>
+    <string name="main_screen_my_profile">MY PROFILE</string>
+    <string name="main_screen_edit_my_profile">EDIT MY PROFILE</string>
     <string name="main_screen_logout">LOGOUT</string>
 
     <!-- Content Description Main Screen -->
@@ -30,6 +32,16 @@
     <string name="fragment_title_customize_test">Customize Test Fragment</string>
     <string name="fragment_title_test">Test Fragment</string>
     <string name="fragment_title_test_report">Test Report Fragment</string>
+    <string name="fragment_title_edit_profile">Edit Profile Fragment</string>
+    <string name="fragment_title_telemedicine_landing">Telemedicine Landing Fragment</string>
+    <string name="fragment_title_my_appointmet">My Appointment Fragment</string>
+    <string name="fragment_title_book_appointmet">Book Appointment Fragment</string>
+    <string name="fragment_title_make_appointmet">Make Appointment Fragment</string>
+    <string name="fragment_title_notification">Notification Fragment</string>
+    <string name="fragment_title_consult_now">Consult Now Fragment</string>
+    <string name="fragment_title_consultation_history">Consultation History Fragment</string>
+    <string name="fragment_title_post_consultation">Post Consultation Fragment</string>
+    <string name="fragment_title_video_call">Video Call Fragment</string>
 
     <!-- Fragment Landing -->
     <string name="fragment_landing_login_patient_account">Login Patient Account</string>
@@ -73,11 +85,15 @@
     <string name="fragment_register_select_gender">Select Gender</string>
     <string name="fragment_register_select_blood_group">Select Blood Group</string>
     <string name="fragment_register_date_format">mm/dd/yy</string>
+
+    <!-- Fragment Home -->
     <string name="fragment_home_welcome_name">Welcome, %1$s.</string>
     <string name="fragment_home_what_do_you_need_today">What do you need today?</string>
     <string name="fragment_home_landing_general_checkup">General Checkup</string>
     <string name="fragment_home_landing_advanced_test">Advanced Test</string>
     <string name="fragment_home_landing_report">Report</string>
+
+    <!-- Fragment Medical Package -->
     <string name="fragment_medical_package_select_medical_package">Select Medical Package</string>
     <string name="fragment_medical_package_customize_test">Customize Test</string>
     <string name="fragment_medical_package_select_test_based_on_your_needs">Select test based on your needs</string>
@@ -85,7 +101,11 @@
     <string name="fragment_customize_test_custom_test">Customize Your Test</string>
     <string name="fragment_customize_test_test_on">Test on %1$s</string>
     <string name="fragment_medical_package_available_package">Available Package</string>
+
+    <!-- Fragment Customize Test -->
     <string name="fragment_customize_test_general_checkup">General Checkup</string>
+
+    <!-- Fragment Test -->
     <string name="fragment_test_custom_test">Custom Test</string>
     <string name="fragment_test_package_test">%1$s Test</string>
     <string name="fragment_test_complete">Complete</string>
@@ -111,11 +131,70 @@
     <string name="fragment_blood_pressure_systolic">Systolic</string>
     <string name="fragment_blood_pressure_test_mmhg">mmHg</string>
     <string name="fragment_blood_pressure_test_diastolic">Diastolic</string>
+    <string name="fragment_stethoscope_test_recording_time">Recording Time</string>
+
+    <!-- Fragment Test Report -->
     <string name="fragment_test_report_report">%1$s Report</string>
     <string name="fragment_test_report_test_result">Test Result</string>
     <string name="fragment_test_report_health_analysis">Health Analysis</string>
     <string name="fragment_test_report_export_to_pdf">Export To PDF</string>
-    <string name="fragment_stethoscope_test_recording_time">Recording Time</string>
+
+    <!-- Fragment Telemedicine Landing -->
+    <string name="fragment_telemedicine_landing_appointment">Appointment</string>
+    <string name="fragment_telemedicine_landing_consult_now">Consult Now</string>
+    <string name="fragment_telemedicine_landing_my_appointment">My Appointment</string>
+    <string name="fragment_telemedicine_landing_consultation_history">Consultation History</string>
+    <string name="fragment_telemedicine_live">Live</string>
+    <string name="fragment_my_appointment_date_time"><![CDATA[Date & Time]]></string>
+    <string name="fragment_my_appointment_reschedule">Reschedule</string>
+    <string name="fragment_my_appointment_cancel">Cancel</string>
+    <string name="fragment_my_appointment_book_an_appointment">Book an Appointment</string>
+    <string name="fragment_book_appointment_book_appointment">Book Appointment</string>
+    <string name="fragment_make_appointment_make_appointment">Make Appointment</string>
+    <string name="fragment_make_appointment_your_health_complaints">Your Health Complaints</string>
+    <string name="fragment_make_appointment_tell_your_complaints">Tell Your Complaints</string>
+    <string name="fragment_make_appointment_speech_to_text">Speech to text</string>
+    <string name="fragment_make_appointment_start_speak">Start speak...</string>
+    <string name="fragment_make_appointment_select_date">Select Date</string>
+    <string name="fragment_make_appointment_select_time">Select Time</string>
+    <string name="fragment_make_appointment_clear">Clear</string>
+    <string name="fragment_make_appointment_edit">Edit</string>
+    <string name="fragment_make_appointment_your_appointment_has_been_made">Your appointment has been made!</string>
+    <string name="fragment_make_appointment_okay">Okay</string>
+    <string name="fragment_my_appointment_are_you_sure_want_to_cancel_appointment">Are you sure want to cancel appointment?</string>
+    <string name="fragment_my_appointment_yes">Yes</string>
+    <string name="fragment_my_appointment_no">No</string>
+
+
+    <!-- Fragment Edit Profile -->
+    <string name="fragment_edit_profile_edit_patient_account">Edit Patient Account</string>
+    <string name="fragment_edit_profile_required">*Required</string>
+    <string name="fragment_edit_profile_name">Name*</string>
+    <string name="fragment_edit_profile_name_without_aposthrope">Name</string>
+    <string name="fragment_edit_profile_gender">Gender*</string>
+    <string name="fragment_edit_profile_select_gender">Select Gender</string>
+    <string name="fragment_edit_profile_phone_number">Phone Number*</string>
+    <string name="fragment_edit_profile_mobile_number_hint_placeholder">xxxxxxxxxx</string>
+    <string name="fragment_edit_profile_email">Email*</string>
+    <string name="fragment_edit_profile_blood_group">Blood Group</string>
+    <string name="fragment_edit_profile_select_blood_group">Select Blood Group</string>
+    <string name="fragment_edit_profile_date_of_birth">Date of birth*</string>
+    <string name="fragment_edit_profile_save">Save</string>
+    <string name="fragment_notification_notification">Notification</string>
+    <string name="fragment_notification_today">Today</string>
+    <string name="fragment_notification_all_notifications">All Notifications</string>
+    <string name="fragment_notification_join_now">Join Now</string>
+    <string name="fragment_video_call_you">You</string>
+    <string name="fragment_consult_now_consult_now">Consult Now</string>
+    <string name="fragment_consultation_history_consultation_history">Consultation History</string>
+    <string name="fragment_consultation_history_book_again">Book Again</string>
+    <string name="fragment_consultation_history_view_report">View Report</string>
+    <string name="fragment_post_consultation_post_consultation">Post Consultation</string>
+    <string name="fragment_post_consultation_doctor_s_diagnosis">Doctor\'s Diagnosis</string>
+    <string name="fragment_post_consultation_doctor_s_suggestions">Doctor\'s Suggestions</string>
+    <string name="fragment_post_consultation_prescriptions">Prescriptions</string>
+    <string name="fragment_post_consultation_back">Back</string>
+
 
     <string-array name="height_steps">
         <item>Stand on the height measurement device</item>

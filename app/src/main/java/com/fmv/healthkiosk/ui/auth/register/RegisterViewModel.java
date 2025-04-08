@@ -41,11 +41,11 @@ public class RegisterViewModel extends BaseViewModel {
         this.registerUseCase = registerUseCase;
     }
 
-    public void register(String name, String gender, String dob, String phoneNumber) {
+    public void register(String name, String gender, String dob, String phoneNumber, String email) {
         isLoading.setValue(true);
         errorMessage.setValue(null);
         disposables.add(
-                registerUseCase.execute(name, gender, userAge.getValue(), dob, phoneNumber)
+                registerUseCase.execute(name, gender, userAge.getValue(), dob, phoneNumber, email)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doFinally(() -> isLoading.setValue(false))

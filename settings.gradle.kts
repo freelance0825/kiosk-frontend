@@ -28,6 +28,7 @@ val modules = listOf(
     ":core",
     ":feature:auth",
     ":feature:tests",
+    ":feature:telemedicine",
 
     // Base Bluetooth
 //    ":ppbasekit",

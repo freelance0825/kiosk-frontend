@@ -8,6 +8,7 @@ public class Appointment implements Parcelable {
     private int id;
     private boolean isCancelled;
     private boolean isRescheduled;
+    private boolean isBooked;
     private long dateTime;
     private Doctor doctor;
 
@@ -20,6 +21,7 @@ public class Appointment implements Parcelable {
         isRescheduled = in.readByte() != 0;
         dateTime = in.readLong();
         doctor = in.readParcelable(Doctor.class.getClassLoader());
+        isBooked = in.readByte() != 0; // Read the isBooked field
     }
 
     public static final Creator<Appointment> CREATOR = new Creator<Appointment>() {
@@ -41,6 +43,7 @@ public class Appointment implements Parcelable {
         dest.writeByte((byte) (isRescheduled ? 1 : 0));
         dest.writeLong(dateTime);
         dest.writeParcelable(doctor, flags);
+        dest.writeByte((byte) (isBooked ? 1 : 0)); // Write the isBooked field
     }
 
     @Override
@@ -89,5 +92,13 @@ public class Appointment implements Parcelable {
 
     public void setDateTime(long dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public boolean isBooked() {
+        return isBooked;
+    }
+
+    public void setBooked(boolean booked) {
+        isBooked = booked;
     }
 }

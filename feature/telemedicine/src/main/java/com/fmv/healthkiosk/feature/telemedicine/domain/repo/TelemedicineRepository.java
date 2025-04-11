@@ -9,7 +9,10 @@ import java.util.List;
 import io.reactivex.Single;
 
 public interface TelemedicineRepository {
-    Single<List<Doctor>> getMyAppointments();
     Single<List<Doctor>> getAvailableDoctors();
+
+    Single<List<Appointment>> getMyAppointments();
+
     Single<List<Appointment>> getAllNotifications();
+
 }

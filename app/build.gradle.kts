@@ -62,6 +62,9 @@ dependencies {
     implementation(libs.material)
     implementation(libs.constraintlayout)
 
+    // ThreeTenABP for backward-compatible date/time handling
+    implementation("com.jakewharton.threetenabp:threetenabp:1.4.5")
+
     // Bluetooth
     implementation(fileTree(mapOf("dir" to "../libs", "include" to listOf("*.jar"))))
     implementation(fileTree(mapOf("dir" to "../libs", "include" to listOf("*.aar"))))

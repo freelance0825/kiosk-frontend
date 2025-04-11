@@ -12,13 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.databinding.ItemBookAppointmentDoctorRowBinding;
-import com.fmv.healthkiosk.databinding.ItemMyAppointmentDoctorRowBinding;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 public class BookAppointmentAdapter extends ListAdapter<Doctor, BookAppointmentAdapter.ViewHolder> {
     private OnItemClickListener listener;
@@ -49,7 +43,8 @@ public class BookAppointmentAdapter extends ListAdapter<Doctor, BookAppointmentA
         holder.binding.tvDoctorOccupation.setText(doctor.getSpecialization());
         holder.binding.tvRatings.setText(String.valueOf(doctor.getReview()));
 
-        if (doctor.isLive()) {
+        // Use .equals() for string comparison to check if the status is "live"
+        if ("live".equals(doctor.getStatus())) {
             holder.binding.tvLiveStatus.setVisibility(View.VISIBLE);
         } else {
             holder.binding.tvLiveStatus.setVisibility(View.INVISIBLE);
@@ -87,19 +82,4 @@ public class BookAppointmentAdapter extends ListAdapter<Doctor, BookAppointmentA
         void onBookAppointmentClick(Doctor doctor, int position);
     }
 
-
-    public String formatDateTime(long dateTime) {
-        SimpleDateFormat sdf = new SimpleDateFormat("d MMMM yyyy, HH:mm", Locale.getDefault());
-        return sdf.format(new Date(dateTime));
-    }
-
-    public boolean isNow(long dateTime) {
-        Calendar now = Calendar.getInstance();
-        Calendar target = Calendar.getInstance();
-        target.setTimeInMillis(dateTime);
-
-        return now.get(Calendar.YEAR) == target.get(Calendar.YEAR) &&
-                now.get(Calendar.DAY_OF_YEAR) == target.get(Calendar.DAY_OF_YEAR) &&
-                now.get(Calendar.HOUR_OF_DAY) == target.get(Calendar.HOUR_OF_DAY);
-    }
 }

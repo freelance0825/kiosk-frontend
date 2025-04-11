@@ -20,4 +20,3 @@ public class AuthNetworkModule {
         return retrofit.create(AuthService.class);
     }
 }
-

@@ -53,7 +53,7 @@ public class DoctorDataGenerator {
             }
             doctor.setDateTime(dateTime);
 
-            doctor.setLive(i >= 2);
+           // doctor.setLive(i >= 2);
 
             doctors.add(doctor);
         }

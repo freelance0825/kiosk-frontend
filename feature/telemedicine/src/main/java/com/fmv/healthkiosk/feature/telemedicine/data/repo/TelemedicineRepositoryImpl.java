@@ -1,9 +1,11 @@
 package com.fmv.healthkiosk.feature.telemedicine.data.repo;
 
+import android.content.Context;
+
 import com.fmv.healthkiosk.feature.telemedicine.data.source.AppointmentDataGenerator;
-import com.fmv.healthkiosk.feature.telemedicine.data.source.DoctorDataGenerator;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.Appointment;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.TelemedicineService;
 import com.fmv.healthkiosk.feature.telemedicine.domain.repo.TelemedicineRepository;
 
 import java.util.List;
@@ -14,14 +16,25 @@ import io.reactivex.Single;
 
 public class TelemedicineRepositoryImpl implements TelemedicineRepository {
 
-    @Override
-    public Single<List<Doctor>> getMyAppointments() {
-        return Single.fromCallable(DoctorDataGenerator::generateSampleDoctors);
+    private final Context context;
+
+    private final TelemedicineService telemedicineService;
+
+    @Inject
+    public TelemedicineRepositoryImpl(Context context, TelemedicineService telemedicineService) {
+        this.context = context;
+        this.telemedicineService = telemedicineService;
+
     }
 
     @Override
     public Single<List<Doctor>> getAvailableDoctors() {
-        return Single.fromCallable(DoctorDataGenerator::generateSampleDoctors);
+        return telemedicineService.getAvailableDoctors();
+    }
+
+    @Override
+    public Single<List<Appointment>> getMyAppointments() {
+        return telemedicineService.getMyAppointments();
     }
 
     @Override

@@ -4,9 +4,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 
 import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.Appointment;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetMyAppointmentsUseCase;
-import com.fmv.healthkiosk.feature.tests.domain.model.MedicalPackage;
 
 import java.util.List;
 
@@ -24,9 +23,9 @@ public class MyAppointmentViewModel extends BaseViewModel {
 
     final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     final MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    final MutableLiveData<List<Doctor>> myAppointmentList = new MutableLiveData<>();
+    final MutableLiveData<List<Appointment>> myAppointmentList = new MutableLiveData<>();
 
-    final MutableLiveData<Doctor> selectedAppointmentToCancel = new MutableLiveData<>(null);
+    final MutableLiveData<Appointment> selectedAppointmentToCancel = new MutableLiveData<>(null);
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 

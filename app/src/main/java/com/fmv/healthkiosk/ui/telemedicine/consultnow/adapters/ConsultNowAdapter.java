@@ -14,11 +14,6 @@ import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.databinding.ItemBookAppointmentDoctorRowBinding;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 public class ConsultNowAdapter extends ListAdapter<Doctor, ConsultNowAdapter.ViewHolder> {
     private OnItemClickListener listener;
 
@@ -48,7 +43,8 @@ public class ConsultNowAdapter extends ListAdapter<Doctor, ConsultNowAdapter.Vie
         holder.binding.tvDoctorOccupation.setText(doctor.getSpecialization());
         holder.binding.tvRatings.setText(String.valueOf(doctor.getReview()));
 
-        if (doctor.isLive()) {
+        // Use .equals() for string comparison to check if the status is "live"
+        if ("live".equals(doctor.getStatus())) {
             holder.binding.tvLiveStatus.setVisibility(View.VISIBLE);
         } else {
             holder.binding.tvLiveStatus.setVisibility(View.INVISIBLE);

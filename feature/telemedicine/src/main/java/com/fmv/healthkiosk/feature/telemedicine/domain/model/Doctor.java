@@ -21,7 +21,7 @@ public class Doctor implements Parcelable {
 
     // New fields
     private long dateTime;
-    private boolean isLive;
+   // private boolean isLive;
 
     public Doctor() {
         // Default constructor
@@ -42,7 +42,7 @@ public class Doctor implements Parcelable {
         age = in.readString();
         dob = in.readString();
         dateTime = in.readLong();
-        isLive = in.readByte() != 0;
+       // isLive = in.readByte() != 0;
     }
 
     public static final Creator<Doctor> CREATOR = new Creator<Doctor>() {
@@ -73,7 +73,7 @@ public class Doctor implements Parcelable {
         dest.writeString(age);
         dest.writeString(dob);
         dest.writeLong(dateTime);
-        dest.writeByte((byte) (isLive ? 1 : 0));
+       // dest.writeByte((byte) (isLive ? 1 : 0));
     }
 
     @Override
@@ -195,11 +195,11 @@ public class Doctor implements Parcelable {
         this.dateTime = dateTime;
     }
 
-    public boolean isLive() {
+/*    public boolean isLive() {
         return isLive;
     }
 
     public void setLive(boolean live) {
         isLive = live;
-    }
+    }*/
 }

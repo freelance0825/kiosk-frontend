@@ -9,13 +9,9 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
-import com.fmv.healthkiosk.databinding.FragmentLoginLandingBinding;
 import com.fmv.healthkiosk.databinding.FragmentMyAppointmentBinding;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
-import com.fmv.healthkiosk.ui.auth.loginlanding.LoginLandingFragmentDirections;
-import com.fmv.healthkiosk.ui.auth.loginlanding.LoginLandingViewModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.Appointment;
 import com.fmv.healthkiosk.ui.telemedicine.myappointment.adapters.MyAppointmentAdapter;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -83,18 +79,18 @@ public class MyAppointmentFragment extends BaseFragment<FragmentMyAppointmentBin
         // When cancel is overlayed this listener maybe still listen to the click event
         myAppointmentAdapter.setOnItemClickListener(new MyAppointmentAdapter.OnItemClickListener() {
             @Override
-            public void onConsultNowClick(Doctor doctor, int position) {
+            public void onConsultNowClick(Appointment appointment, int position) {
 
             }
 
             @Override
-            public void onConsultRescheduleClick(Doctor doctor, int position) {
+            public void onConsultRescheduleClick(Appointment appointment, int position) {
 
             }
 
             @Override
-            public void onConsultCancelClick(Doctor doctor, int position) {
-                viewModel.selectedAppointmentToCancel.setValue(doctor);
+            public void onConsultCancelClick(Appointment appointment, int position) {
+                viewModel.selectedAppointmentToCancel.setValue(appointment);
             }
         });
     }

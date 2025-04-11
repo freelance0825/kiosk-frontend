@@ -206,7 +206,7 @@
         android:label="@string/fragment_title_make_appointmet"
         tools:layout="@layout/fragment_make_appointment">
         <argument
-            android:name="doctorForNotification"
+            android:name="doctor"
             app:argType="com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel"
             app:nullable="true" />
     </fragment>
@@ -227,7 +227,7 @@
         android:label="@string/fragment_title_notification"
         tools:layout="@layout/fragment_video_call">
         <argument
-            android:name="doctorForNotification"
+            android:name="doctor"
             app:argType="com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel"
             app:nullable="true" />
     </fragment>
@@ -273,7 +273,7 @@
         android:label="@string/fragment_title_post_consultation"
         tools:layout="@layout/fragment_post_consultation">
         <argument
-            android:name="doctorForNotification"
+            android:name="doctor"
             app:argType="com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel"
             app:nullable="true" />
     </fragment>

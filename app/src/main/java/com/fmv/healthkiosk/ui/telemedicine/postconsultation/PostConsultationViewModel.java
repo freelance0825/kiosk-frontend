@@ -35,7 +35,7 @@ public class PostConsultationViewModel extends BaseViewModel {
     @Inject
     public PostConsultationViewModel(SavedStateHandle savedStateHandle) {
         super(savedStateHandle);
-        this.doctorForNotification = getArgument("doctorForNotification");
+        this.doctorForNotification = getArgument("doctor");
 
     }
 

@@ -43,7 +43,7 @@ public class VideoCallViewModel extends BaseViewModel {
     public VideoCallViewModel(SavedStateHandle savedStateHandle, AccountUseCase accountUseCase) {
         super(savedStateHandle);
         this.accountUseCase = accountUseCase;
-        this.doctorForNotification = getArgument("doctorForNotification");
+        this.doctorForNotification = getArgument("doctor");
 
         observeProfileData();
         startTimer();

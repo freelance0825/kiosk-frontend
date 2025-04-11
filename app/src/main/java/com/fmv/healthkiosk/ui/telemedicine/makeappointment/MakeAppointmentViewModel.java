@@ -4,26 +4,23 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 
 import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
-import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetMyAppointmentsUseCase;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 
 @HiltViewModel
 public class MakeAppointmentViewModel extends BaseViewModel {
 
-    final Doctor doctor;
+    final DoctorModel doctor;
 
     final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     final MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    final MutableLiveData<List<Doctor>> doctorList = new MutableLiveData<>();
+    final MutableLiveData<List<DoctorModel>> doctorList = new MutableLiveData<>();
 
 
 

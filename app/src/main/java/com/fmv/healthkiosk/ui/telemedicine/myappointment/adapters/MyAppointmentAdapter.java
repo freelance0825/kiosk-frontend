@@ -9,15 +9,15 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.fmv.healthkiosk.R;
+import com.fmv.healthkiosk.core.utils.Base64Helper;
 import com.fmv.healthkiosk.databinding.ItemMyAppointmentDoctorRowBinding;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Appointment;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
-import org.threeten.bp.Instant;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
+
 import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.ZoneId;
 import org.threeten.bp.format.DateTimeFormatter;
 
-public class MyAppointmentAdapter extends ListAdapter<Appointment, MyAppointmentAdapter.ViewHolder> {
+public class MyAppointmentAdapter extends ListAdapter<AppointmentModel, MyAppointmentAdapter.ViewHolder> {
     private OnItemClickListener listener;
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -39,13 +39,18 @@ public class MyAppointmentAdapter extends ListAdapter<Appointment, MyAppointment
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Appointment appointment = getItem(position);
-        Doctor doctor = appointment.getDoctor(); // This is how you get the Doctor
+        AppointmentModel appointment = getItem(position);
+        DoctorModel doctor = appointment.getDoctor(); // This is how you get the DoctorForNotification
 
-        // Flag for My Appointment Row
+        // Flag for My Notification Row
         holder.binding.layoutButtonMyAppointment.setVisibility(View.VISIBLE);
 
-        holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
+        if (doctor.getImageBase64() == null) {
+            holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
+        } else {
+            holder.binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(doctor.getImageBase64()));
+        }
+
         holder.binding.tvDoctorName.setText(doctor.getName());
         holder.binding.tvDoctorOccupation.setText(doctor.getSpecialization());
 
@@ -60,10 +65,10 @@ public class MyAppointmentAdapter extends ListAdapter<Appointment, MyAppointment
             if (listener != null) listener.onConsultNowClick(appointment, position);
         });
 
-        Long dateTime = appointment.getDateTime();
+        LocalDateTime ldt = LocalDateTime.parse(appointment.getDateTime());
 
         // Use the "isNow" method to determine if the appointment is happening now
-        if (isNow(dateTime)) {
+        if (isNow(ldt)) {
             holder.binding.tvDateTime.setText("HAPPEN NOW");
             holder.binding.tvDateTime.setTextColor(ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.primaryBlue));
 
@@ -73,7 +78,7 @@ public class MyAppointmentAdapter extends ListAdapter<Appointment, MyAppointment
 
         } else {
             // Format the date/time dynamically every time it binds
-            String formattedDate = formatDateTime(dateTime);
+            String formattedDate = formatDateTime(ldt);
             holder.binding.tvDateTime.setText(formattedDate);
             holder.binding.tvDateTime.setTextColor(ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.white));
 
@@ -105,43 +110,33 @@ public class MyAppointmentAdapter extends ListAdapter<Appointment, MyAppointment
         }
     }
 
-    private static final DiffUtil.ItemCallback<Appointment> DIFF_CALLBACK =
+    private static final DiffUtil.ItemCallback<AppointmentModel> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<>() {
                 @Override
-                public boolean areItemsTheSame(@NonNull Appointment oldItem, @NonNull Appointment newItem) {
+                public boolean areItemsTheSame(@NonNull AppointmentModel oldItem, @NonNull AppointmentModel newItem) {
                     return oldItem.getId() == newItem.getId();
                 }
 
                 @Override
-                public boolean areContentsTheSame(@NonNull Appointment oldItem, @NonNull Appointment newItem) {
+                public boolean areContentsTheSame(@NonNull AppointmentModel oldItem, @NonNull AppointmentModel newItem) {
                     return oldItem.getId() == newItem.getId();
                 }
             };
 
     public interface OnItemClickListener {
-        void onConsultNowClick(Appointment appointment, int position);
+        void onConsultNowClick(AppointmentModel appointment, int position);
 
-        void onConsultRescheduleClick(Appointment appointment, int position);
+        void onConsultRescheduleClick(AppointmentModel appointment, int position);
 
-        void onConsultCancelClick(Appointment appointment, int position);
+        void onConsultCancelClick(AppointmentModel appointment, int position);
     }
 
-    public String formatDateTime(long timestampMillis) {
-        // Convert long to LocalDateTime
-        LocalDateTime dateTime = Instant.ofEpochMilli(timestampMillis)
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
-
-        // Format to desired output: "10 December 2024, 12:00"
+    public String formatDateTime(LocalDateTime dateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm");
         return formatter.format(dateTime);
     }
 
-    public boolean isNow(long timestampMillis) {
-        LocalDateTime targetTime = Instant.ofEpochMilli(timestampMillis)
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
-
+    public boolean isNow(LocalDateTime targetTime) {
         LocalDateTime now = LocalDateTime.now();
 
         return now.getYear() == targetTime.getYear() &&

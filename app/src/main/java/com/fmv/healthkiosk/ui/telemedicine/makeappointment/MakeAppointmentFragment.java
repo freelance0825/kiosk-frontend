@@ -3,23 +3,16 @@ package com.fmv.healthkiosk.ui.telemedicine.makeappointment;
 import android.app.DatePickerDialog;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
-import com.fmv.healthkiosk.databinding.FragmentBookAppointmentBinding;
 import com.fmv.healthkiosk.databinding.FragmentMakeAppointmentBinding;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
-import com.fmv.healthkiosk.ui.telemedicine.bookappointment.BookAppointmentViewModel;
-import com.fmv.healthkiosk.ui.telemedicine.bookappointment.adapters.BookAppointmentAdapter;
 import com.fmv.healthkiosk.ui.telemedicine.makeappointment.adapter.TimeSlotAdapter;
 
 import java.text.SimpleDateFormat;

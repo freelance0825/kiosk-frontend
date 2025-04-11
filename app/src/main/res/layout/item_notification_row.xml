@@ -27,7 +27,7 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
-        tools:text="Your appointment happening now" />
+        tools:text="Your notification happening now" />
 
     <TextView
         android:id="@+id/tv_appointment_desc"
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:textColor="@color/white"
-        tools:text="Hi, Brian. Your appointment at 10.00 AM with Dr Richardson is happening now. Don’t let your doctor waiting for long time" />
+        tools:text="Hi, Brian. Your notification at 10.00 AM with Dr Richardson is happening now. Don’t let your doctorForNotification waiting for long time" />
 
     <LinearLayout
         android:id="@+id/layout_doctor_confirmation"

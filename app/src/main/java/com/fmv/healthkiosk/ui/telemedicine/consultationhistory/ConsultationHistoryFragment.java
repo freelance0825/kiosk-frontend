@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
 import com.fmv.healthkiosk.databinding.FragmentConsultationHistoryBinding;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Appointment;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
 import com.fmv.healthkiosk.ui.telemedicine.consultationhistory.adapters.ConsultationHistoryAdapter;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -60,12 +61,12 @@ public class ConsultationHistoryFragment extends BaseFragment<FragmentConsultati
 
         consultationHistoryAdapter.setOnItemClickListener(new ConsultationHistoryAdapter.OnItemClickListener() {
             @Override
-            public void onBookAgainClick(Appointment appointment, int position) {
+            public void onBookAgainClick(AppointmentModel appointment, int position) {
                 navigateToFragment(ConsultationHistoryFragmentDirections.actionNavigationConsultationHistoryFragmentToNavigationMakeAppointmentFragment(appointment.getDoctor()), false);
             }
 
             @Override
-            public void onViewReportClick(Appointment appointment, int position) {
+            public void onViewReportClick(AppointmentModel appointment, int position) {
                 navigateToFragment(ConsultationHistoryFragmentDirections.actionNavigationConsultationHistoryFragmentToNavigationPostConsultationFragment(appointment.getDoctor()), false);
             }
         });

@@ -8,10 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
 import com.fmv.healthkiosk.databinding.FragmentNotificationBinding;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Appointment;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
-import com.fmv.healthkiosk.ui.telemedicine.bookappointment.BookAppointmentFragmentDirections;
-import com.fmv.healthkiosk.ui.telemedicine.bookappointment.adapters.BookAppointmentAdapter;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
 import com.fmv.healthkiosk.ui.telemedicine.notification.adapters.AllNotificationAdapter;
 import com.fmv.healthkiosk.ui.telemedicine.notification.adapters.TodayNotificationAdapter;
 
@@ -66,12 +63,12 @@ public class NotificationFragment extends BaseFragment<FragmentNotificationBindi
 
         todayNotificationAdapter.setOnItemClickListener(new TodayNotificationAdapter.OnItemClickListener() {
             @Override
-            public void onJoinNowClick(Appointment doctor, int position) {
+            public void onJoinNowClick(Notification doctor, int position) {
                 navigateToFragment(NotificationFragmentDirections.actionNavigationNotificationFragmentToNavigationVideoCall(doctor.getDoctor()), false);
             }
 
             @Override
-            public void onConfirmClick(Appointment doctor, int position) {
+            public void onConfirmClick(Notification doctor, int position) {
 
             }
         });

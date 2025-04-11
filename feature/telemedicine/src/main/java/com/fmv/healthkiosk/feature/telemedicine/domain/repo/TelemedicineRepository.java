@@ -1,18 +1,19 @@
 package com.fmv.healthkiosk.feature.telemedicine.domain.repo;
 
 
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Appointment;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 
 import java.util.List;
 
 import io.reactivex.Single;
 
 public interface TelemedicineRepository {
-    Single<List<Doctor>> getAvailableDoctors();
+    Single<List<DoctorModel>> getAvailableDoctors();
 
-    Single<List<Appointment>> getMyAppointments();
+    Single<List<AppointmentModel>> getMyAppointments(int userId);
 
-    Single<List<Appointment>> getAllNotifications();
+    Single<List<Notification>> getAllNotifications();
 
 }

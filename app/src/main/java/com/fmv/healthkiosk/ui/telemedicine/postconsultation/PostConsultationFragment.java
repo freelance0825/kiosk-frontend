@@ -1,27 +1,14 @@
 package com.fmv.healthkiosk.ui.telemedicine.postconsultation;
 
-import android.app.DatePickerDialog;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-
-import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
-import com.fmv.healthkiosk.databinding.FragmentMakeAppointmentBinding;
 import com.fmv.healthkiosk.databinding.FragmentPostConsultationBinding;
-import com.fmv.healthkiosk.ui.telemedicine.makeappointment.MakeAppointmentViewModel;
-import com.fmv.healthkiosk.ui.telemedicine.makeappointment.adapter.TimeSlotAdapter;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -52,9 +39,9 @@ public class PostConsultationFragment extends BaseFragment<FragmentPostConsultat
     }
 
     private void setViews() {
-        binding.tvDoctorName.setText(viewModel.doctor.getName());
-        binding.tvDoctorOccupation.setText(viewModel.doctor.getSpecialization());
-        binding.tvDateTime.setText(formatDateTime(viewModel.doctor.getDateTime()));
+        binding.tvDoctorName.setText(viewModel.doctorForNotification.getName());
+        binding.tvDoctorOccupation.setText(viewModel.doctorForNotification.getSpecialization());
+        binding.tvDateTime.setText(formatDateTime(viewModel.doctorForNotification.getDateTime()));
     }
 
     private void setListeners() {

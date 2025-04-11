@@ -1,6 +1,6 @@
 package com.fmv.healthkiosk.feature.telemedicine.domain.interactor;
 
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Appointment;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.repo.TelemedicineRepository;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetMyAppointmentsUseCase;
 
@@ -20,7 +20,7 @@ public class GetMyAppointmentsInteractor implements GetMyAppointmentsUseCase {
     }
 
     @Override
-    public Single<List<Appointment>> execute() {
-        return repository.getMyAppointments();
+    public Single<List<AppointmentModel>> execute(int userId) {
+        return repository.getMyAppointments(userId);
     }
 }

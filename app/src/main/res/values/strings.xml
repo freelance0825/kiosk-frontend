@@ -159,9 +159,9 @@
     <string name="fragment_make_appointment_select_time">Select Time</string>
     <string name="fragment_make_appointment_clear">Clear</string>
     <string name="fragment_make_appointment_edit">Edit</string>
-    <string name="fragment_make_appointment_your_appointment_has_been_made">Your appointment has been made!</string>
+    <string name="fragment_make_appointment_your_appointment_has_been_made">Your notification has been made!</string>
     <string name="fragment_make_appointment_okay">Okay</string>
-    <string name="fragment_my_appointment_are_you_sure_want_to_cancel_appointment">Are you sure want to cancel appointment?</string>
+    <string name="fragment_my_appointment_are_you_sure_want_to_cancel_appointment">Are you sure want to cancel notification?</string>
     <string name="fragment_my_appointment_yes">Yes</string>
     <string name="fragment_my_appointment_no">No</string>
 

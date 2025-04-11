@@ -15,6 +15,7 @@ public interface AccountUseCase {
     Observable<String> getPhoneNumber();
 
     Observable<Integer> getAge();
+    Observable<Integer> getUserID();
 
     Completable logout();
     Completable setIsLoggedIn(boolean isLoggedIn);

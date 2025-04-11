@@ -36,7 +36,7 @@ dependencies {
     implementation(project(":core"))
 
     // ThreeTenABP for backward-compatible date/time handling
-    implementation("com.jakewharton.threetenabp:threetenabp:1.4.5")
+    implementation(libs.threetenabp)
 
     // Retrofit
     implementation(libs.retrofit)

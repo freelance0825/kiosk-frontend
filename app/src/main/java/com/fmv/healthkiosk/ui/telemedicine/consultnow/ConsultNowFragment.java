@@ -8,9 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
 import com.fmv.healthkiosk.databinding.FragmentConsultNowBinding;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
-import com.fmv.healthkiosk.ui.telemedicine.bookappointment.BookAppointmentFragmentDirections;
-import com.fmv.healthkiosk.ui.telemedicine.bookappointment.adapters.BookAppointmentAdapter;
 import com.fmv.healthkiosk.ui.telemedicine.consultnow.adapters.ConsultNowAdapter;
 
 import dagger.hilt.android.AndroidEntryPoint;

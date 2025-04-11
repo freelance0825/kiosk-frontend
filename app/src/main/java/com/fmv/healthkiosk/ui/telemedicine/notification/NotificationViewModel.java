@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle;
 
 import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
 import com.fmv.healthkiosk.feature.auth.domain.usecase.AccountUseCase;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Appointment;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetAllNotificationsUseCase;
 
 import java.util.ArrayList;
@@ -27,8 +27,8 @@ public class NotificationViewModel extends BaseViewModel {
 
     final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     final MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    final MutableLiveData<List<Appointment>> todayNotificationList = new MutableLiveData<>();
-    final MutableLiveData<List<Appointment>> allNotificationList = new MutableLiveData<>();
+    final MutableLiveData<List<Notification>> todayNotificationList = new MutableLiveData<>();
+    final MutableLiveData<List<Notification>> allNotificationList = new MutableLiveData<>();
 
     final MutableLiveData<String> username = new MutableLiveData<>();
 
@@ -54,10 +54,10 @@ public class NotificationViewModel extends BaseViewModel {
                         .doFinally(() -> isLoading.setValue(false))
                         .subscribe(
                                 notifications -> {
-                                    List<Appointment> todayList = new ArrayList<>();
-                                    List<Appointment> allList = new ArrayList<>();
+                                    List<Notification> todayList = new ArrayList<>();
+                                    List<Notification> allList = new ArrayList<>();
 
-                                    for (Appointment notif : notifications) {
+                                    for (Notification notif : notifications) {
                                         allList.add(notif);
 
                                         if (isToday(notif.getDateTime())) {

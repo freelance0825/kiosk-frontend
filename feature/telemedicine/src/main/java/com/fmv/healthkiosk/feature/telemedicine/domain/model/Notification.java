@@ -3,36 +3,36 @@ package com.fmv.healthkiosk.feature.telemedicine.domain.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Appointment implements Parcelable {
+public class Notification implements Parcelable {
 
     private int id;
     private boolean isCancelled;
     private boolean isRescheduled;
     private boolean isBooked;
     private long dateTime;
-    private Doctor doctor;
+    private DoctorModel doctorForNotification;
 
-    public Appointment() {
+    public Notification() {
     }
 
-    protected Appointment(Parcel in) {
+    protected Notification(Parcel in) {
         id = in.readInt();
         isCancelled = in.readByte() != 0;
         isRescheduled = in.readByte() != 0;
         dateTime = in.readLong();
-        doctor = in.readParcelable(Doctor.class.getClassLoader());
+        doctorForNotification = in.readParcelable(DoctorModel.class.getClassLoader());
         isBooked = in.readByte() != 0; // Read the isBooked field
     }
 
-    public static final Creator<Appointment> CREATOR = new Creator<Appointment>() {
+    public static final Creator<Notification> CREATOR = new Creator<Notification>() {
         @Override
-        public Appointment createFromParcel(Parcel in) {
-            return new Appointment(in);
+        public Notification createFromParcel(Parcel in) {
+            return new Notification(in);
         }
 
         @Override
-        public Appointment[] newArray(int size) {
-            return new Appointment[size];
+        public Notification[] newArray(int size) {
+            return new Notification[size];
         }
     };
 
@@ -42,7 +42,7 @@ public class Appointment implements Parcelable {
         dest.writeByte((byte) (isCancelled ? 1 : 0));
         dest.writeByte((byte) (isRescheduled ? 1 : 0));
         dest.writeLong(dateTime);
-        dest.writeParcelable(doctor, flags);
+        dest.writeParcelable(doctorForNotification, flags);
         dest.writeByte((byte) (isBooked ? 1 : 0)); // Write the isBooked field
     }
 
@@ -77,12 +77,12 @@ public class Appointment implements Parcelable {
         isRescheduled = rescheduled;
     }
 
-    public Doctor getDoctor() {
-        return doctor;
+    public DoctorModel getDoctor() {
+        return doctorForNotification;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public void setDoctor(DoctorModel doctorForNotification) {
+        this.doctorForNotification = doctorForNotification;
     }
 
 

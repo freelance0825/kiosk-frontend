@@ -8,15 +8,10 @@ import androidx.lifecycle.SavedStateHandle;
 
 import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
 import com.fmv.healthkiosk.feature.auth.domain.usecase.AccountUseCase;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Appointment;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
-import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetAllNotificationsUseCase;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorForNotification;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -30,7 +25,7 @@ public class VideoCallViewModel extends BaseViewModel {
 
     private final AccountUseCase accountUseCase;
 
-    final Doctor doctor;
+    final DoctorModel doctorForNotification;
 
     final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     final MutableLiveData<String> errorMessage = new MutableLiveData<>();
@@ -48,7 +43,7 @@ public class VideoCallViewModel extends BaseViewModel {
     public VideoCallViewModel(SavedStateHandle savedStateHandle, AccountUseCase accountUseCase) {
         super(savedStateHandle);
         this.accountUseCase = accountUseCase;
-        this.doctor = getArgument("doctor");
+        this.doctorForNotification = getArgument("doctorForNotification");
 
         observeProfileData();
         startTimer();

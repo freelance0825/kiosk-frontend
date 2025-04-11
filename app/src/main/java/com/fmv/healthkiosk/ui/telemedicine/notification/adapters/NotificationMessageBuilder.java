@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class AppointmentMessageBuilder {
+public class NotificationMessageBuilder {
 
     public static String getNowMessage(String userName, long dateTimeMillis, String doctorName) {
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh.mm a", Locale.getDefault());

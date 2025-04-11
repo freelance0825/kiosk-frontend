@@ -1,8 +1,6 @@
 package com.fmv.healthkiosk.feature.telemedicine.di;
 
-import com.fmv.healthkiosk.feature.telemedicine.data.repo.TelemedicineRepositoryImpl;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.TelemedicineService;
-import com.fmv.healthkiosk.feature.telemedicine.domain.repo.TelemedicineRepository;
 
 import javax.inject.Singleton;
 
@@ -10,14 +8,15 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
+import retrofit2.Retrofit;
 
 @Module
 @InstallIn(SingletonComponent.class)
-public class TelemedicineRepositoryModule {
+public class TelemedicineNetworkModule {
 
     @Provides
     @Singleton
-    TelemedicineRepository provideTelemedicineRepository(TelemedicineService telemedicineService) {
-        return new TelemedicineRepositoryImpl(telemedicineService);
+    public static TelemedicineService provideTelemedicineService(Retrofit retrofit) {
+        return retrofit.create(TelemedicineService.class);
     }
 }

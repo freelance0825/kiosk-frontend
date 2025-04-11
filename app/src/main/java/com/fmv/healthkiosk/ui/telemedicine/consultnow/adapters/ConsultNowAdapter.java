@@ -11,15 +11,11 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fmv.healthkiosk.R;
+import com.fmv.healthkiosk.core.utils.Base64Helper;
 import com.fmv.healthkiosk.databinding.ItemBookAppointmentDoctorRowBinding;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
-public class ConsultNowAdapter extends ListAdapter<Doctor, ConsultNowAdapter.ViewHolder> {
+public class ConsultNowAdapter extends ListAdapter<DoctorModel, ConsultNowAdapter.ViewHolder> {
     private OnItemClickListener listener;
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -41,14 +37,20 @@ public class ConsultNowAdapter extends ListAdapter<Doctor, ConsultNowAdapter.Vie
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Doctor doctor = getItem(position);
+        DoctorModel doctor = getItem(position);
 
-        holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
+        if (doctor.getImageBase64() == null) {
+            holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
+        } else {
+            holder.binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(doctor.getImageBase64()));
+        }
+
         holder.binding.tvDoctorName.setText(doctor.getName());
         holder.binding.tvDoctorOccupation.setText(doctor.getSpecialization());
         holder.binding.tvRatings.setText(String.valueOf(doctor.getReview()));
 
-        if (doctor.isLive()) {
+        // Use .equals() for string comparison to check if the status is "live"
+        if ("live".equals(doctor.getStatus())) {
             holder.binding.tvLiveStatus.setVisibility(View.VISIBLE);
         } else {
             holder.binding.tvLiveStatus.setVisibility(View.INVISIBLE);
@@ -69,20 +71,20 @@ public class ConsultNowAdapter extends ListAdapter<Doctor, ConsultNowAdapter.Vie
         }
     }
 
-    private static final DiffUtil.ItemCallback<Doctor> DIFF_CALLBACK =
+    private static final DiffUtil.ItemCallback<DoctorModel> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<>() {
                 @Override
-                public boolean areItemsTheSame(@NonNull Doctor oldItem, @NonNull Doctor newItem) {
+                public boolean areItemsTheSame(@NonNull DoctorModel oldItem, @NonNull DoctorModel newItem) {
                     return oldItem.getId() == newItem.getId();
                 }
 
                 @Override
-                public boolean areContentsTheSame(@NonNull Doctor oldItem, @NonNull Doctor newItem) {
+                public boolean areContentsTheSame(@NonNull DoctorModel oldItem, @NonNull DoctorModel newItem) {
                     return oldItem.getId() == newItem.getId();
                 }
             };
 
     public interface OnItemClickListener {
-        void onConsultNowClick(Doctor doctor, int position);
+        void onConsultNowClick(DoctorModel doctor, int position);
     }
 }

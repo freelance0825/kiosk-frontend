@@ -3,7 +3,7 @@ package com.fmv.healthkiosk.feature.telemedicine.domain.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Doctor implements Parcelable {
+public class DoctorForNotification implements Parcelable {
 
     private int id;
     private String imageBase64;
@@ -21,13 +21,13 @@ public class Doctor implements Parcelable {
 
     // New fields
     private long dateTime;
-    private boolean isLive;
+   // private boolean isLive;
 
-    public Doctor() {
+    public DoctorForNotification() {
         // Default constructor
     }
 
-    protected Doctor(Parcel in) {
+    protected DoctorForNotification(Parcel in) {
         id = in.readInt();
         imageBase64 = in.readString();
         name = in.readString();
@@ -42,18 +42,18 @@ public class Doctor implements Parcelable {
         age = in.readString();
         dob = in.readString();
         dateTime = in.readLong();
-        isLive = in.readByte() != 0;
+       // isLive = in.readByte() != 0;
     }
 
-    public static final Creator<Doctor> CREATOR = new Creator<Doctor>() {
+    public static final Creator<DoctorForNotification> CREATOR = new Creator<DoctorForNotification>() {
         @Override
-        public Doctor createFromParcel(Parcel in) {
-            return new Doctor(in);
+        public DoctorForNotification createFromParcel(Parcel in) {
+            return new DoctorForNotification(in);
         }
 
         @Override
-        public Doctor[] newArray(int size) {
-            return new Doctor[size];
+        public DoctorForNotification[] newArray(int size) {
+            return new DoctorForNotification[size];
         }
     };
 
@@ -73,7 +73,7 @@ public class Doctor implements Parcelable {
         dest.writeString(age);
         dest.writeString(dob);
         dest.writeLong(dateTime);
-        dest.writeByte((byte) (isLive ? 1 : 0));
+       // dest.writeByte((byte) (isLive ? 1 : 0));
     }
 
     @Override
@@ -195,11 +195,11 @@ public class Doctor implements Parcelable {
         this.dateTime = dateTime;
     }
 
-    public boolean isLive() {
+/*    public boolean isLive() {
         return isLive;
     }
 
     public void setLive(boolean live) {
         isLive = live;
-    }
+    }*/
 }

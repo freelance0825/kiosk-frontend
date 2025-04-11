@@ -71,7 +71,7 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- Doctor's Layout -->
+                <!-- DoctorForNotification's Layout -->
                 <LinearLayout
                     android:id="@+id/doctor_layout"
                     android:layout_width="match_parent"
@@ -203,7 +203,7 @@
 
                 </LinearLayout>
 
-                <!-- Doctor's Diagnosis -->
+                <!-- DoctorForNotification's Diagnosis -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -236,7 +236,7 @@
 
                 </LinearLayout>
 
-                <!-- Doctor's Suggestions -->
+                <!-- DoctorForNotification's Suggestions -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -262,7 +262,7 @@
 
                 </LinearLayout>
 
-                <!-- Doctor's Prescriptions -->
+                <!-- DoctorForNotification's Prescriptions -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

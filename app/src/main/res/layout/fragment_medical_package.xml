@@ -25,7 +25,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/fragment_medical_package_select_medical_package"
+                android:text="@string/fragment_home_landing_general_checkup"
                 android:textColor="@color/white"
                 android:textSize="32sp"
                 android:textStyle="bold" />

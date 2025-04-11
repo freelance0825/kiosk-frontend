@@ -40,4 +40,5 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
     implementation(libs.retrofit2.adapter.rxjava2)
+    implementation(project(":feature:telemedicine"))
 }

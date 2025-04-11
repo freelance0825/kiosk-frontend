@@ -8,11 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
 import com.fmv.healthkiosk.databinding.FragmentBookAppointmentBinding;
-import com.fmv.healthkiosk.databinding.FragmentMyAppointmentBinding;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 import com.fmv.healthkiosk.ui.telemedicine.bookappointment.adapters.BookAppointmentAdapter;
-import com.fmv.healthkiosk.ui.telemedicine.myappointment.MyAppointmentViewModel;
-import com.fmv.healthkiosk.ui.telemedicine.myappointment.adapters.MyAppointmentAdapter;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -59,7 +56,7 @@ public class BookAppointmentFragment extends BaseFragment<FragmentBookAppointmen
 
         bookAppointmentAdapter.setOnItemClickListener(new BookAppointmentAdapter.OnItemClickListener() {
             @Override
-            public void onBookAppointmentClick(Doctor doctor, int position) {
+            public void onBookAppointmentClick(DoctorModel doctor, int position) {
                 navigateToFragment(BookAppointmentFragmentDirections.actionNavigationBookAppointmentFragmentToNavigationMakeAppointmentFragment(doctor), false);
             }
         });

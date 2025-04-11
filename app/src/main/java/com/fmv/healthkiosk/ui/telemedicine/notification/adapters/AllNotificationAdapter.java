@@ -1,7 +1,6 @@
 package com.fmv.healthkiosk.ui.telemedicine.notification.adapters;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,17 +10,15 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fmv.healthkiosk.R;
-import com.fmv.healthkiosk.databinding.ItemMyAppointmentDoctorRowBinding;
 import com.fmv.healthkiosk.databinding.ItemNotificationRowBinding;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Appointment;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class AllNotificationAdapter extends ListAdapter<Appointment, AllNotificationAdapter.ViewHolder> {
+public class AllNotificationAdapter extends ListAdapter<Notification, AllNotificationAdapter.ViewHolder> {
     private OnItemClickListener listener;
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -49,25 +46,25 @@ public class AllNotificationAdapter extends ListAdapter<Appointment, AllNotifica
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Appointment appointment = getItem(position);
-        long dateTime = appointment.getDateTime();
+        Notification notification = getItem(position);
+        long dateTime = notification.getDateTime();
 
         holder.binding.tvDateTimeAppointment.setText(formatToCustomDateTime(dateTime));
 
-        if (appointment.isCancelled()) {
-            holder.binding.tvAppointmentTitle.setText("Your appointment has been cancelled");
-            holder.binding.tvAppointmentDesc.setText(AppointmentMessageBuilder.getCancelledMessage(username, dateTime, appointment.getDoctor().getName(), appointment.getDoctor().getSpecialization()));
-        } else if (appointment.isRescheduled()) {
-            holder.binding.tvAppointmentTitle.setText("You have new appointment time proposal");
+        if (notification.isCancelled()) {
+            holder.binding.tvAppointmentTitle.setText("Your notification has been cancelled");
+            holder.binding.tvAppointmentDesc.setText(NotificationMessageBuilder.getCancelledMessage(username, dateTime, notification.getDoctor().getName(), notification.getDoctor().getSpecialization()));
+        } else if (notification.isRescheduled()) {
+            holder.binding.tvAppointmentTitle.setText("You have new notification time proposal");
             // Currently no reschedule
         } else if (isNow(dateTime)) {
-            holder.binding.tvAppointmentTitle.setText("Your appointment happening now");
-            holder.binding.tvAppointmentDesc.setText(AppointmentMessageBuilder.getNowMessage(username, dateTime, appointment.getDoctor().getName()));
+            holder.binding.tvAppointmentTitle.setText("Your notification happening now");
+            holder.binding.tvAppointmentDesc.setText(NotificationMessageBuilder.getNowMessage(username, dateTime, notification.getDoctor().getName()));
         }
 
         holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
-        holder.binding.tvDoctorName.setText(appointment.getDoctor().getName());
-        holder.binding.tvDoctorOccupation.setText(appointment.getDoctor().getSpecialization());
+        holder.binding.tvDoctorName.setText(notification.getDoctor().getName());
+        holder.binding.tvDoctorOccupation.setText(notification.getDoctor().getSpecialization());
 
         holder.binding.tvDateTime.setText(formatDateTime(dateTime));
         holder.binding.tvDateTime.setTextColor(ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.white));
@@ -82,23 +79,23 @@ public class AllNotificationAdapter extends ListAdapter<Appointment, AllNotifica
         }
     }
 
-    private static final DiffUtil.ItemCallback<Appointment> DIFF_CALLBACK =
+    private static final DiffUtil.ItemCallback<Notification> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<>() {
                 @Override
-                public boolean areItemsTheSame(@NonNull Appointment oldItem, @NonNull Appointment newItem) {
+                public boolean areItemsTheSame(@NonNull Notification oldItem, @NonNull Notification newItem) {
                     return oldItem.getId() == newItem.getId();
                 }
 
                 @Override
-                public boolean areContentsTheSame(@NonNull Appointment oldItem, @NonNull Appointment newItem) {
+                public boolean areContentsTheSame(@NonNull Notification oldItem, @NonNull Notification newItem) {
                     return oldItem.getId() == newItem.getId();
                 }
             };
 
     public interface OnItemClickListener {
-        void onJoinNowClick(Appointment doctor, int position);
+        void onJoinNowClick(Notification doctor, int position);
 
-        void onConfirmClick(Appointment doctor, int position);
+        void onConfirmClick(Notification doctor, int position);
     }
 
     public static String formatToCustomDateTime(long dateTimeMillis) {

@@ -3,25 +3,21 @@ package com.fmv.healthkiosk.ui.telemedicine.myappointment.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.fmv.healthkiosk.R;
-import com.fmv.healthkiosk.databinding.ItemMenuColumnBinding;
+import com.fmv.healthkiosk.core.utils.Base64Helper;
 import com.fmv.healthkiosk.databinding.ItemMyAppointmentDoctorRowBinding;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
-import com.fmv.healthkiosk.ui.home.model.MenuItem;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
 
-public class MyAppointmentAdapter extends ListAdapter<Doctor, MyAppointmentAdapter.ViewHolder> {
+public class MyAppointmentAdapter extends ListAdapter<AppointmentModel, MyAppointmentAdapter.ViewHolder> {
     private OnItemClickListener listener;
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -43,24 +39,36 @@ public class MyAppointmentAdapter extends ListAdapter<Doctor, MyAppointmentAdapt
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Doctor doctor = getItem(position);
+        AppointmentModel appointment = getItem(position);
+        DoctorModel doctor = appointment.getDoctor(); // This is how you get the DoctorForNotification
 
-        // Flag for My Appointment Row
+        // Flag for My Notification Row
         holder.binding.layoutButtonMyAppointment.setVisibility(View.VISIBLE);
 
-        holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
+        if (doctor.getImageBase64() == null) {
+            holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
+        } else {
+            holder.binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(doctor.getImageBase64()));
+        }
+
         holder.binding.tvDoctorName.setText(doctor.getName());
         holder.binding.tvDoctorOccupation.setText(doctor.getSpecialization());
 
-        if (doctor.isLive()) {
+        if ("live".equals(doctor.getStatus())) {
             holder.binding.tvLiveStatus.setVisibility(View.VISIBLE);
         } else {
             holder.binding.tvLiveStatus.setVisibility(View.INVISIBLE);
         }
 
-        long dateTime = doctor.getDateTime();
+        holder.binding.btnConsultNow.setVisibility(View.VISIBLE);
+        holder.binding.btnConsultNow.setOnClickListener(v -> {
+            if (listener != null) listener.onConsultNowClick(appointment, position);
+        });
 
-        if (isNow(dateTime)) {
+        LocalDateTime ldt = LocalDateTime.parse(appointment.getDateTime());
+
+        // Use the "isNow" method to determine if the appointment is happening now
+        if (isNow(ldt)) {
             holder.binding.tvDateTime.setText("HAPPEN NOW");
             holder.binding.tvDateTime.setTextColor(ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.primaryBlue));
 
@@ -69,7 +77,9 @@ public class MyAppointmentAdapter extends ListAdapter<Doctor, MyAppointmentAdapt
             holder.binding.btnCancel.setVisibility(View.GONE);
 
         } else {
-            holder.binding.tvDateTime.setText(formatDateTime(dateTime));
+            // Format the date/time dynamically every time it binds
+            String formattedDate = formatDateTime(ldt);
+            holder.binding.tvDateTime.setText(formattedDate);
             holder.binding.tvDateTime.setTextColor(ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.white));
 
             holder.binding.btnConsultNow.setVisibility(View.GONE);
@@ -77,17 +87,17 @@ public class MyAppointmentAdapter extends ListAdapter<Doctor, MyAppointmentAdapt
             holder.binding.btnCancel.setVisibility(View.VISIBLE);
         }
 
-
+        // Button listeners
         holder.binding.btnConsultNow.setOnClickListener(v -> {
-            if (listener != null) listener.onConsultNowClick(doctor, position);
+            if (listener != null) listener.onConsultNowClick(appointment, position);
         });
 
         holder.binding.btnReschedule.setOnClickListener(v -> {
-            if (listener != null) listener.onConsultRescheduleClick(doctor, position);
+            if (listener != null) listener.onConsultRescheduleClick(appointment, position);
         });
 
         holder.binding.btnCancel.setOnClickListener(v -> {
-            if (listener != null) listener.onConsultCancelClick(doctor, position);
+            if (listener != null) listener.onConsultCancelClick(appointment, position);
         });
     }
 
@@ -100,40 +110,37 @@ public class MyAppointmentAdapter extends ListAdapter<Doctor, MyAppointmentAdapt
         }
     }
 
-    private static final DiffUtil.ItemCallback<Doctor> DIFF_CALLBACK =
+    private static final DiffUtil.ItemCallback<AppointmentModel> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<>() {
                 @Override
-                public boolean areItemsTheSame(@NonNull Doctor oldItem, @NonNull Doctor newItem) {
+                public boolean areItemsTheSame(@NonNull AppointmentModel oldItem, @NonNull AppointmentModel newItem) {
                     return oldItem.getId() == newItem.getId();
                 }
 
                 @Override
-                public boolean areContentsTheSame(@NonNull Doctor oldItem, @NonNull Doctor newItem) {
+                public boolean areContentsTheSame(@NonNull AppointmentModel oldItem, @NonNull AppointmentModel newItem) {
                     return oldItem.getId() == newItem.getId();
                 }
             };
 
     public interface OnItemClickListener {
-        void onConsultNowClick(Doctor doctor, int position);
+        void onConsultNowClick(AppointmentModel appointment, int position);
 
-        void onConsultRescheduleClick(Doctor doctor, int position);
+        void onConsultRescheduleClick(AppointmentModel appointment, int position);
 
-        void onConsultCancelClick(Doctor doctor, int position);
+        void onConsultCancelClick(AppointmentModel appointment, int position);
     }
 
-
-    public String formatDateTime(long dateTime) {
-        SimpleDateFormat sdf = new SimpleDateFormat("d MMMM yyyy, HH:mm", Locale.getDefault());
-        return sdf.format(new Date(dateTime));
+    public String formatDateTime(LocalDateTime dateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm");
+        return formatter.format(dateTime);
     }
 
-    public boolean isNow(long dateTime) {
-        Calendar now = Calendar.getInstance();
-        Calendar target = Calendar.getInstance();
-        target.setTimeInMillis(dateTime);
+    public boolean isNow(LocalDateTime targetTime) {
+        LocalDateTime now = LocalDateTime.now();
 
-        return now.get(Calendar.YEAR) == target.get(Calendar.YEAR) &&
-                now.get(Calendar.DAY_OF_YEAR) == target.get(Calendar.DAY_OF_YEAR) &&
-                now.get(Calendar.HOUR_OF_DAY) == target.get(Calendar.HOUR_OF_DAY);
+        return now.getYear() == targetTime.getYear() &&
+                now.getDayOfYear() == targetTime.getDayOfYear() &&
+                now.getHour() == targetTime.getHour();
     }
 }

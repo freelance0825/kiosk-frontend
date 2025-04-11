@@ -35,6 +35,9 @@ android {
 dependencies {
     implementation(project(":core"))
 
+    // ThreeTenABP for backward-compatible date/time handling
+    implementation(libs.threetenabp)
+
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)

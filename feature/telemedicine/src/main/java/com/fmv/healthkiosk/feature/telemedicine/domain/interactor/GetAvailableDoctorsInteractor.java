@@ -1,6 +1,6 @@
 package com.fmv.healthkiosk.feature.telemedicine.domain.interactor;
 
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.repo.TelemedicineRepository;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetAvailableDoctorsUseCase;
 
@@ -20,7 +20,7 @@ public class GetAvailableDoctorsInteractor implements GetAvailableDoctorsUseCase
     }
 
     @Override
-    public Single<List<Doctor>> execute() {
+    public Single<List<DoctorModel>> execute() {
         return repository.getAvailableDoctors();
     }
 }

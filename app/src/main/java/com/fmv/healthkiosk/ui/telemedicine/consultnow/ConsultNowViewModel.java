@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 
 import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Doctor;
-import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetMyAppointmentsUseCase;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetAvailableDoctorsUseCase;
 
 import java.util.List;
 
@@ -19,27 +19,27 @@ import io.reactivex.schedulers.Schedulers;
 @HiltViewModel
 public class ConsultNowViewModel extends BaseViewModel {
 
-    private final GetMyAppointmentsUseCase getMyAppointmentsUseCase;
+    private final GetAvailableDoctorsUseCase getAvailableDoctorsUseCase;
 
     final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     final MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    final MutableLiveData<List<Doctor>> doctorList = new MutableLiveData<>();
+    final MutableLiveData<List<DoctorModel>> doctorList = new MutableLiveData<>();
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     @Inject
-    public ConsultNowViewModel(SavedStateHandle savedStateHandle, GetMyAppointmentsUseCase getMyAppointmentsUseCase) {
+    public ConsultNowViewModel(SavedStateHandle savedStateHandle, GetAvailableDoctorsUseCase getAvailableDoctorsUseCase) {
         super(savedStateHandle);
-        this.getMyAppointmentsUseCase = getMyAppointmentsUseCase;
+        this.getAvailableDoctorsUseCase = getAvailableDoctorsUseCase;
 
-        getMyAppointments();
+        getAvailableDoctors();
     }
 
-    public void getMyAppointments() {
+    public void getAvailableDoctors() {
         isLoading.setValue(true);
         errorMessage.setValue(null);
         disposables.add(
-                getMyAppointmentsUseCase.execute()
+                getAvailableDoctorsUseCase.execute()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doFinally(() -> isLoading.setValue(false))

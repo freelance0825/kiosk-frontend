@@ -4,10 +4,12 @@ package com.fmv.healthkiosk.feature.telemedicine.data.repo;
 import com.fmv.healthkiosk.feature.telemedicine.data.mapper.AppointmentMapper;
 import com.fmv.healthkiosk.feature.telemedicine.data.mapper.DoctorMapper;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.local.NotificationAppointmentDataGenerator;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.TelemedicineService;
+import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentRequest;
+import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentResponse;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
 import com.fmv.healthkiosk.feature.telemedicine.domain.repo.TelemedicineRepository;
 
 import java.util.List;
@@ -41,6 +43,18 @@ public class TelemedicineRepositoryImpl implements TelemedicineRepository {
                         .map(AppointmentMapper::mapToAppointmentModel)
                         .collect(Collectors.toList()));
     }
+
+
+    @Override
+    public Single<AppointmentResponse> updateMyAppointments(int appointmentId, AppointmentRequest appointmentRequest) {
+        return telemedicineService.updateMyAppointments(appointmentId, appointmentRequest);
+    }
+
+    @Override
+    public Single<AppointmentResponse> cancelMyAppointments(int appointmentId) {
+        return telemedicineService.cancelMyAppointments(appointmentId);
+    }
+
 
     // CURRENTLY NOTIFICATION IS NOT IMPLEMENTED IN THE BACKEND, MAKE THE DATA STATIC FOR NOW
     @Override

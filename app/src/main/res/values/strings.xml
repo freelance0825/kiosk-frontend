@@ -42,6 +42,7 @@
     <string name="fragment_title_consultation_history">Consultation History Fragment</string>
     <string name="fragment_title_post_consultation">Post Consultation Fragment</string>
     <string name="fragment_title_video_call">Video Call Fragment</string>
+    <string name="fragment_title_reschedule_appointment">Reschedule Fragment</string>
 
     <!-- Fragment Landing -->
     <string name="fragment_landing_login_patient_account">Login Patient Account</string>
@@ -151,6 +152,7 @@
     <string name="fragment_my_appointment_book_an_appointment">Book an Appointment</string>
     <string name="fragment_book_appointment_book_appointment">Book Appointment</string>
     <string name="fragment_make_appointment_make_appointment">Make Appointment</string>
+    <string name="fragment_reschedule_appointment">Reschedule</string>
     <string name="fragment_make_appointment_your_health_complaints">Your Health Complaints</string>
     <string name="fragment_make_appointment_tell_your_complaints">Tell Your Complaints</string>
     <string name="fragment_make_appointment_speech_to_text">Speech to text</string>
@@ -161,7 +163,7 @@
     <string name="fragment_make_appointment_edit">Edit</string>
     <string name="fragment_make_appointment_your_appointment_has_been_made">Your notification has been made!</string>
     <string name="fragment_make_appointment_okay">Okay</string>
-    <string name="fragment_my_appointment_are_you_sure_want_to_cancel_appointment">Are you sure want to cancel notification?</string>
+    <string name="fragment_my_appointment_are_you_sure_want_to_cancel_appointment">Are you sure want to cancel appointment?</string>
     <string name="fragment_my_appointment_yes">Yes</string>
     <string name="fragment_my_appointment_no">No</string>
 

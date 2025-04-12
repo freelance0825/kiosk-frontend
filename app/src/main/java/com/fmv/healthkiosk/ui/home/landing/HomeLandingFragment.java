@@ -62,10 +62,10 @@ public class HomeLandingFragment extends BaseFragment<FragmentHomeLandingBinding
 //            case "advanced_test":
 //                navigateToFragment(HomeLandingFragmentDirections.actionNavigationHomeLandingToNavigationMedicalPackage(), false);
 //                break;
-            case "report":
-                break;
-            case "e_health_record":
-                break;
+//            case "report":
+//                break;
+//            case "e_health_record":
+//                break;
             case "telemedicine":
                 navigateToFragment(HomeLandingFragmentDirections.actionNavigationHomeLandingToNavigationTelemedicineFragment(), false);
                 break;

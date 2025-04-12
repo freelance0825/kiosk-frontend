@@ -188,6 +188,9 @@
         <action
             android:id="@+id/action_navigation_my_appointment_fragment_to_navigation_notification_fragment"
             app:destination="@id/navigation_notification_fragment" />
+        <action
+            android:id="@+id/action_navigation_my_appointment_fragment_to_navigation_video_call"
+            app:destination="@id/navigation_video_call" />
     </fragment>
 
     <fragment
@@ -199,6 +202,13 @@
             android:name="appointmentId"
             app:argType="integer"
             app:nullable="false" />
+        <argument
+            android:name="doctor"
+            app:argType="com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_navigation_reschedule_appointment_fragment_to_navigation_chat_fragment"
+            app:destination="@id/navigation_chat_fragment" />
     </fragment>
 
     <fragment
@@ -290,6 +300,17 @@
             android:name="appointmentId"
             app:argType="integer"
             app:nullable="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_chat_fragment"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.chat.ChatFragment"
+        android:label="@string/fragment_title_chat"
+        tools:layout="@layout/fragment_chat">
+        <argument
+            android:name="doctor"
+            app:argType="com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel"
+            app:nullable="true" />
     </fragment>
 
 </navigation>

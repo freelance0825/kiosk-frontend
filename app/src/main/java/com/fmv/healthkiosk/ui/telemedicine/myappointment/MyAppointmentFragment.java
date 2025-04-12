@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
 import com.fmv.healthkiosk.databinding.FragmentMyAppointmentBinding;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
+import com.fmv.healthkiosk.ui.telemedicine.consultnow.ConsultNowFragmentDirections;
 import com.fmv.healthkiosk.ui.telemedicine.myappointment.adapters.MyAppointmentAdapter;
 
 import java.util.ArrayList;
@@ -101,12 +102,12 @@ public class MyAppointmentFragment extends BaseFragment<FragmentMyAppointmentBin
         myAppointmentAdapter.setOnItemClickListener(new MyAppointmentAdapter.OnItemClickListener() {
             @Override
             public void onConsultNowClick(AppointmentModel appointment, int position) {
-
+                navigateToFragment(ConsultNowFragmentDirections.actionNavigationConsultNowToNavigationVideoCall(appointment.getDoctor()), false);
             }
 
             @Override
             public void onConsultRescheduleClick(AppointmentModel appointment, int position) {
-                navigateToFragment(MyAppointmentFragmentDirections.actionNavigationMyAppointmentFragmentToNavigationRescheduleAppointmentFragment(appointment.getId()), false);
+                navigateToFragment(MyAppointmentFragmentDirections.actionNavigationMyAppointmentFragmentToNavigationRescheduleAppointmentFragment(appointment.getId(), appointment.getDoctor()), false);
             }
 
             @Override

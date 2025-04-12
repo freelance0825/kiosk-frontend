@@ -8,6 +8,7 @@ import androidx.lifecycle.SavedStateHandle;
 import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentRequest;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentResponse;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.UpdateMyApppointmentsUseCase;
 
 import javax.inject.Inject;
@@ -23,6 +24,8 @@ public class RescheduleAppointmentViewModel extends BaseViewModel {
     private final UpdateMyApppointmentsUseCase updateMyApppointmentsUseCase;
 
     final int appointmentId;
+    final DoctorModel doctorModel;
+
     final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     final MutableLiveData<AppointmentResponse> updatedAppointments = new MutableLiveData<>();
@@ -38,6 +41,7 @@ public class RescheduleAppointmentViewModel extends BaseViewModel {
     public RescheduleAppointmentViewModel(SavedStateHandle savedStateHandle, UpdateMyApppointmentsUseCase updateMyApppointmentsUseCase) {
         super(savedStateHandle);
         this.updateMyApppointmentsUseCase = updateMyApppointmentsUseCase;
+        this.doctorModel = getArgument("doctor");
 
         Integer id = savedStateHandle.get("appointmentId");
         if (id == null) {

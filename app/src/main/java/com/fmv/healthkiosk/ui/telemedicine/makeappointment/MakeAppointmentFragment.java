@@ -105,7 +105,7 @@ public class MakeAppointmentFragment extends BaseFragment<FragmentMakeAppointmen
                 String dateTime = viewModel.selectedDate.getValue() + ", " + viewModel.selectedTime.getValue();
                 binding.tvDateTime.setText(dateTime);
 
-                viewModel.isAppointmentSubmitted.setValue(true);
+                viewModel.makeAppointment();
             }
         });
 

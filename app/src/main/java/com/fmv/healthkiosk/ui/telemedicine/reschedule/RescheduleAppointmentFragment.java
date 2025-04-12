@@ -113,6 +113,9 @@ public class RescheduleAppointmentFragment extends BaseFragment<FragmentReschedu
             }
         });
 
+        binding.btnAssistantHelp.setOnClickListener(v -> {
+           navigateToFragment(RescheduleAppointmentFragmentDirections.actionNavigationRescheduleAppointmentFragmentToNavigationChatFragment(viewModel.doctorModel), false);
+        });
 
         binding.btnOkay.setOnClickListener(v -> {
             navigateBack();

@@ -7,6 +7,7 @@ import com.fmv.healthkiosk.feature.telemedicine.data.source.local.NotificationAp
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.TelemedicineService;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentRequest;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentResponse;
+import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.MakeAppointmentRequest;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class TelemedicineRepositoryImpl implements TelemedicineRepository {
@@ -59,6 +61,18 @@ public class TelemedicineRepositoryImpl implements TelemedicineRepository {
     @Override
     public Single<AppointmentResponse> cancelMyAppointments(int appointmentId) {
         return telemedicineService.cancelMyAppointments(appointmentId);
+    }
+
+    @Override
+    public Single<AppointmentResponse> createAppointment(int doctorId, int patientId, String doctorName, String healthComplaints, String specialization, String dateTime, String imageBase64) {
+        MakeAppointmentRequest makeAppointmentRequest = new MakeAppointmentRequest();
+        makeAppointmentRequest.setDoctorId(doctorId);
+        makeAppointmentRequest.setPatientId(patientId);
+        makeAppointmentRequest.setName(doctorName);
+        makeAppointmentRequest.setHealthComplaints(healthComplaints);
+        makeAppointmentRequest.setDateTime(dateTime);
+
+        return telemedicineService.createAppointment(patientId, doctorId, makeAppointmentRequest);
     }
 
 

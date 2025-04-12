@@ -25,4 +25,5 @@ public interface TelemedicineRepository {
 
     Single<List<Notification>> getAllNotifications();
 
+    Single<AppointmentResponse> createAppointment(int doctorId, int patientId, String doctorName, String healthComplaints, String specialization, String dateTime, String imageBase64);
 }

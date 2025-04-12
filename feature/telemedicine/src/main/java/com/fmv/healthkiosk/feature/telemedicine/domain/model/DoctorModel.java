@@ -20,6 +20,8 @@ public class DoctorModel implements Parcelable {
 	private String email;
 	private String age;
 	private String status;
+	private String diagnosis;
+	private String suggestions;
 
 	public DoctorModel() {
 		// Default constructor
@@ -39,6 +41,8 @@ public class DoctorModel implements Parcelable {
 		email = in.readString();
 		age = in.readString();
 		status = in.readString();
+		diagnosis = in.readString();
+		suggestions = in.readString();
 	}
 
 	public static final Creator<DoctorModel> CREATOR = new Creator<DoctorModel>() {
@@ -68,6 +72,8 @@ public class DoctorModel implements Parcelable {
 		dest.writeString(email);
 		dest.writeString(age);
 		dest.writeString(status);
+		dest.writeString(diagnosis);
+		dest.writeString(suggestions);
 	}
 
 	@Override

@@ -13,7 +13,7 @@ public class AppointmentResponse{
 	@SerializedName("imageBase64")
 	private String imageBase64;
 
-	@SerializedName("patientResponse")
+	@SerializedName("patient")
 	private PatientResponse patientResponse;
 
 	@SerializedName("specialization")
@@ -25,7 +25,7 @@ public class AppointmentResponse{
 	@SerializedName("id")
 	private int id;
 
-	@SerializedName("postConsultationResponse")
+	@SerializedName("postConsultation")
 	private PostConsultationResponse postConsultationResponse;
 
 	public DoctorResponse getDoctor(){

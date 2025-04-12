@@ -44,6 +44,12 @@ public class TelemedicineRepositoryImpl implements TelemedicineRepository {
                         .collect(Collectors.toList()));
     }
 
+    @Override
+    public Single<AppointmentModel> getAppointmentsById(int appointmentId) {
+        return telemedicineService.getAppointmentsById(appointmentId)
+                .map(response -> AppointmentMapper.mapToAppointmentModel(response));
+    }
+
 
     @Override
     public Single<AppointmentResponse> updateMyAppointments(int appointmentId, AppointmentRequest appointmentRequest) {

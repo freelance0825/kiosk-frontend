@@ -287,9 +287,9 @@
         android:label="@string/fragment_title_post_consultation"
         tools:layout="@layout/fragment_post_consultation">
         <argument
-            android:name="doctor"
-            app:argType="com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel"
-            app:nullable="true" />
+            android:name="appointmentId"
+            app:argType="integer"
+            app:nullable="false" />
     </fragment>
 
 </navigation>

@@ -1,8 +1,5 @@
 package com.fmv.healthkiosk.feature.telemedicine.domain.model;
 
-import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.DoctorResponse;
-import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.PatientResponse;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 

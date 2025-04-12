@@ -28,6 +28,19 @@ public class ECGView extends View {
         init();
     }
 
+    public void setMaxY(float maxY) {
+        this.maxY = maxY;
+    }
+
+    public void setMinY(float minY) {
+        this.minY = minY;
+    }
+
+    public void setStepY(float stepY) {
+        this.stepY = stepY;
+    }
+
+
     private void init() {
         setBackgroundColor(Color.TRANSPARENT);
 

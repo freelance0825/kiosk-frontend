@@ -180,11 +180,35 @@
         android:label="@string/fragment_title_telemedicine_landing"
         tools:layout="@layout/fragment_my_appointment">
         <action
+            android:id="@+id/action_navigation_my_appointment_fragment_to_navigation_reschedule_appointment_fragment"
+            app:destination="@id/navigation_reschedule_appointment_fragment" />
+        <action
             android:id="@+id/action_navigation_my_appointment_fragment_to_navigation_book_appointment_fragment"
             app:destination="@id/navigation_book_appointment_fragment" />
         <action
             android:id="@+id/action_navigation_my_appointment_fragment_to_navigation_notification_fragment"
             app:destination="@id/navigation_notification_fragment" />
+        <action
+            android:id="@+id/action_navigation_my_appointment_fragment_to_navigation_video_call"
+            app:destination="@id/navigation_video_call" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_reschedule_appointment_fragment"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.reschedule.RescheduleAppointmentFragment"
+        android:label="@string/fragment_title_reschedule_appointment"
+        tools:layout="@layout/fragment_reschedule_appointment">
+        <argument
+            android:name="appointmentId"
+            app:argType="integer"
+            app:nullable="false" />
+        <argument
+            android:name="doctor"
+            app:argType="com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_navigation_reschedule_appointment_fragment_to_navigation_chat_fragment"
+            app:destination="@id/navigation_chat_fragment" />
     </fragment>
 
     <fragment
@@ -206,7 +230,7 @@
         android:label="@string/fragment_title_make_appointmet"
         tools:layout="@layout/fragment_make_appointment">
         <argument
-            android:name="doctorForNotification"
+            android:name="doctor"
             app:argType="com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel"
             app:nullable="true" />
     </fragment>
@@ -227,7 +251,7 @@
         android:label="@string/fragment_title_notification"
         tools:layout="@layout/fragment_video_call">
         <argument
-            android:name="doctorForNotification"
+            android:name="doctor"
             app:argType="com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel"
             app:nullable="true" />
     </fragment>
@@ -273,7 +297,18 @@
         android:label="@string/fragment_title_post_consultation"
         tools:layout="@layout/fragment_post_consultation">
         <argument
-            android:name="doctorForNotification"
+            android:name="appointmentId"
+            app:argType="integer"
+            app:nullable="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_chat_fragment"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.chat.ChatFragment"
+        android:label="@string/fragment_title_chat"
+        tools:layout="@layout/fragment_chat">
+        <argument
+            android:name="doctor"
             app:argType="com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel"
             app:nullable="true" />
     </fragment>

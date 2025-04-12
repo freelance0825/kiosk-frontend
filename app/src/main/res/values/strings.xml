@@ -42,6 +42,8 @@
     <string name="fragment_title_consultation_history">Consultation History Fragment</string>
     <string name="fragment_title_post_consultation">Post Consultation Fragment</string>
     <string name="fragment_title_video_call">Video Call Fragment</string>
+    <string name="fragment_title_reschedule_appointment">Reschedule Fragment</string>
+    <string name="fragment_title_chat">Chat Fragment</string>
 
     <!-- Fragment Landing -->
     <string name="fragment_landing_login_patient_account">Login Patient Account</string>
@@ -151,6 +153,7 @@
     <string name="fragment_my_appointment_book_an_appointment">Book an Appointment</string>
     <string name="fragment_book_appointment_book_appointment">Book Appointment</string>
     <string name="fragment_make_appointment_make_appointment">Make Appointment</string>
+    <string name="fragment_reschedule_appointment">Reschedule</string>
     <string name="fragment_make_appointment_your_health_complaints">Your Health Complaints</string>
     <string name="fragment_make_appointment_tell_your_complaints">Tell Your Complaints</string>
     <string name="fragment_make_appointment_speech_to_text">Speech to text</string>
@@ -161,7 +164,7 @@
     <string name="fragment_make_appointment_edit">Edit</string>
     <string name="fragment_make_appointment_your_appointment_has_been_made">Your notification has been made!</string>
     <string name="fragment_make_appointment_okay">Okay</string>
-    <string name="fragment_my_appointment_are_you_sure_want_to_cancel_appointment">Are you sure want to cancel notification?</string>
+    <string name="fragment_my_appointment_are_you_sure_want_to_cancel_appointment">Are you sure want to cancel appointment?</string>
     <string name="fragment_my_appointment_yes">Yes</string>
     <string name="fragment_my_appointment_no">No</string>
 
@@ -194,10 +197,40 @@
     <string name="fragment_post_consultation_doctor_s_suggestions">Doctor\'s Suggestions</string>
     <string name="fragment_post_consultation_prescriptions">Prescriptions</string>
     <string name="fragment_post_consultation_back">Back</string>
-
+    <string name="activity_pdf_prescription_report_e_prescription">E-Prescription</string>
+    <string name="activity_pdf_prescription_report_mob_no">Mob. No: %1s</string>
+    <string name="activity_pdf_prescription_report_patient_id">ID: %1s</string>
+    <string name="activity_pdf_prescription_report_blood_pressure">Blood Pressure</string>
+    <string name="activity_pdf_prescription_report_date">Date</string>
+    <string name="activity_pdf_prescription_report_complaints">Complaints</string>
+    <string name="activity_pdf_prescription_report_clinical_findings">Clinical Findings</string>
+    <string name="activity_pdf_prescription_report_clinical_diagnosis">Diagnosis</string>
+    <string name="activity_pdf_prescription_report_clinical_medicine_name">Medicine Name</string>
+    <string name="activity_pdf_prescription_report_clinical_dosage">Dosage</string>
+    <string name="activity_pdf_prescription_report_clinical_duration">Duration</string>
+    <string name="activity_pdf_prescription_report_clinical_advice">Advice</string>
+    <string name="activity_pdf_prescription_report_clinical_follow_up_date">Follow up date</string>
+    <string name="activity_pdf_testing_report_medical_test_report">Medical Test Report</string>
+    <string name="fragment_pdf_testing_report_health_score">Health Score</string>
+    <string name="fragment_pdf_testing_report_package_name">%1$s Package</string>
+    <string name="fragment_ecg_test_avr">aVR</string>
+    <string name="fragment_cholesterol_test_cholesterol">Cholesterol</string>
+    <string name="fragment_blood_sugar_blood_sugar">Blood Sugar</string>
+    <string name="fragment_blood_sugar_mg_dl">Mg/Dl</string>
+    <string name="fragment_chat_finish">Finish</string>
 
     <string-array name="height_steps">
         <item>Stand on the height measurement device</item>
+        <item>Press the start button  on the device</item>
+    </string-array>
+
+    <string-array name="cholesterol_steps">
+        <item>Put the blood sample on the kiosk</item>
+        <item>Press the start button  on the device</item>
+    </string-array>
+
+    <string-array name="blood_sugar_steps">
+        <item>Put the device on your arms</item>
         <item>Press the start button  on the device</item>
     </string-array>
 
@@ -223,6 +256,11 @@
 
     <string-array name="stethoscope_steps">
         <item>Put the stethoscope on the chest</item>
+        <item>Press the start button on the device</item>
+    </string-array>
+
+    <string-array name="ecg_steps">
+        <item>Blow on the measurement device</item>
         <item>Press the start button on the device</item>
     </string-array>
 

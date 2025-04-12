@@ -6,13 +6,19 @@ import static android.view.View.VISIBLE;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
 import com.fmv.healthkiosk.databinding.FragmentMyAppointmentBinding;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
+import com.fmv.healthkiosk.ui.telemedicine.consultnow.ConsultNowFragmentDirections;
 import com.fmv.healthkiosk.ui.telemedicine.myappointment.adapters.MyAppointmentAdapter;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -40,7 +46,17 @@ public class MyAppointmentFragment extends BaseFragment<FragmentMyAppointmentBin
     }
 
     private void observeViewModel() {
-        viewModel.myAppointmentList.observe(getViewLifecycleOwner(), myAppointmentAdapter::submitList);
+        viewModel.myAppointmentList.observe(getViewLifecycleOwner(), appointments -> {
+            if (appointments == null) return;
+
+            // Sort by appointmentDate DESCENDING (latest first)
+            List<AppointmentModel> sortedList = new ArrayList<>(appointments);
+            Collections.sort(sortedList, (a1, a2) -> a2.getDateTime().compareTo(a1.getDateTime()));
+
+            myAppointmentAdapter.submitList(null); // Clear first
+            myAppointmentAdapter.submitList(sortedList);
+        });
+
 
         viewModel.selectedAppointmentToCancel.observe(getViewLifecycleOwner(), doctor -> {
             binding.layoutCancelAppointmentConfirmation.setVisibility(doctor != null ? VISIBLE : GONE);
@@ -69,7 +85,13 @@ public class MyAppointmentFragment extends BaseFragment<FragmentMyAppointmentBin
         });
 
         binding.btnYes.setOnClickListener(v -> {
-            viewModel.selectedAppointmentToCancel.setValue(null);
+            Integer appointmentId = viewModel.selectedAppointmentToCancel.getValue();
+            if (appointmentId != null) {
+                viewModel.cancelAppointment(appointmentId);
+                Toast.makeText(requireContext(), "Appointment cancelled successfully", Toast.LENGTH_SHORT).show();
+                // Close the confirmation layout
+                viewModel.selectedAppointmentToCancel.setValue(null);
+            }
         });
 
         binding.btnNo.setOnClickListener(v -> {
@@ -80,18 +102,25 @@ public class MyAppointmentFragment extends BaseFragment<FragmentMyAppointmentBin
         myAppointmentAdapter.setOnItemClickListener(new MyAppointmentAdapter.OnItemClickListener() {
             @Override
             public void onConsultNowClick(AppointmentModel appointment, int position) {
-
+                navigateToFragment(ConsultNowFragmentDirections.actionNavigationConsultNowToNavigationVideoCall(appointment.getDoctor()), false);
             }
 
             @Override
             public void onConsultRescheduleClick(AppointmentModel appointment, int position) {
-
+                navigateToFragment(MyAppointmentFragmentDirections.actionNavigationMyAppointmentFragmentToNavigationRescheduleAppointmentFragment(appointment.getId(), appointment.getDoctor()), false);
             }
 
             @Override
             public void onConsultCancelClick(AppointmentModel appointment, int position) {
-                viewModel.selectedAppointmentToCancel.setValue(appointment);
+                viewModel.selectedAppointmentToCancel.setValue(appointment.getId());
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.getMyAppointments();
+    }
+
 }

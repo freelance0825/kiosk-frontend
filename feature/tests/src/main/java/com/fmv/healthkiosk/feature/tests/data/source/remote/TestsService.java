@@ -7,9 +7,11 @@ import java.util.List;
 
 import io.reactivex.Single;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 
 public interface TestsService {
 
+    @Headers("Content-Type: application/json")
     @GET("package")
     Single<List<MedicalPackageResponseItem>> getMedicalPackages();
 

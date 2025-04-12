@@ -26,6 +26,8 @@ public class MainViewModel extends BaseViewModel {
     final MutableLiveData<String> phoneNumber = new MutableLiveData<>();
     final MutableLiveData<Integer> age = new MutableLiveData<>();
 
+    final MutableLiveData<Boolean> isShowingDeviceInfo = new MutableLiveData<>(false);
+
     @Inject
     public MainViewModel(
             SavedStateHandle savedStateHandle,

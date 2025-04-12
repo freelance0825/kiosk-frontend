@@ -24,7 +24,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/asset_dummy_doctor" />
+                android:src="@drawable/asset_dummy_doctor"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="0dp" />
 
             <View
                 android:layout_width="match_parent"

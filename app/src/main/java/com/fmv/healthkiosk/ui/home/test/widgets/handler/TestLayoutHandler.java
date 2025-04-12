@@ -5,6 +5,9 @@ import androidx.fragment.app.FragmentManager;
 
 import com.fmv.healthkiosk.feature.tests.domain.model.TestItem;
 import com.fmv.healthkiosk.ui.home.test.widgets.bloodpressure.BloodPressureTestFragment;
+import com.fmv.healthkiosk.ui.home.test.widgets.bloodsugar.BloodSugarTestFragment;
+import com.fmv.healthkiosk.ui.home.test.widgets.cholesterol.CholesterolTestFragment;
+import com.fmv.healthkiosk.ui.home.test.widgets.ecg.EcgTestFragment;
 import com.fmv.healthkiosk.ui.home.test.widgets.height.HeightTestFragment;
 import com.fmv.healthkiosk.ui.home.test.widgets.oximeter.OximeterTestFragment;
 import com.fmv.healthkiosk.ui.home.test.widgets.stethoscope.StethoscopeTestFragment;
@@ -42,6 +45,15 @@ public class TestLayoutHandler {
                 break;
             case "stethoscope":
                 fragment = new StethoscopeTestFragment();
+                break;
+            case "ecg":
+                fragment = new EcgTestFragment();
+                break;
+            case "cholesterol":
+                fragment = new CholesterolTestFragment();
+                break;
+            case "blood_sugar":
+                fragment = new BloodSugarTestFragment();
                 break;
             default:
                 fragment = null;

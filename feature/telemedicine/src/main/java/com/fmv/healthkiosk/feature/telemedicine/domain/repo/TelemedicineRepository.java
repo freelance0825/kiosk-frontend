@@ -19,11 +19,11 @@ public interface TelemedicineRepository {
     Single<AppointmentModel> getAppointmentsById(int appointmentId);
 
 
-    Single<AppointmentResponse> updateMyAppointments(int appointmentId, AppointmentRequest appointmentRequest);
+    Single<AppointmentModel> updateMyAppointments(int appointmentId, AppointmentRequest appointmentRequest);
 
-    Single<AppointmentResponse> cancelMyAppointments(int appointmentId);
+    Single<AppointmentModel> cancelMyAppointments(int appointmentId);
 
     Single<List<Notification>> getAllNotifications();
 
-    Single<AppointmentResponse> createAppointment(int doctorId, int patientId, String doctorName, String healthComplaints, String specialization, String dateTime, String imageBase64);
+    Single<AppointmentModel> createAppointment(int doctorId, int patientId, String doctorName, String healthComplaints, String specialization, String dateTime, String imageBase64);
 }

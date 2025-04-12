@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
+import com.fmv.healthkiosk.core.utils.Base64Helper;
 import com.fmv.healthkiosk.databinding.FragmentRescheduleAppointmentBinding;
 import com.fmv.healthkiosk.ui.telemedicine.makeappointment.adapter.TimeSlotAdapter;
 
@@ -51,8 +52,15 @@ public class RescheduleAppointmentFragment extends BaseFragment<FragmentReschedu
     }
 
     private void observeViewModel() {
-        viewModel.isAppointmentSubmitted.observe(getViewLifecycleOwner(), isSubmitted -> {
-            if (isSubmitted) {
+        viewModel.updatedAppointments.observe(getViewLifecycleOwner(), updatedAppointment -> {
+            if (updatedAppointment != null) {
+                if (updatedAppointment.getDoctor().getImageBase64().isEmpty()) {
+                    binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(updatedAppointment.getDoctor().getImageBase64()));
+                }
+
+                binding.tvDoctorName.setText(updatedAppointment.getDoctor().getName());
+                binding.tvDoctorOccupation.setText(updatedAppointment.getDoctor().getSpecialization());
+
                 binding.updateAppointmentLayout.setVisibility(ViewGroup.GONE);
                 binding.confirmAppointmentLayout.setVisibility(ViewGroup.VISIBLE);
             } else {

@@ -2,6 +2,7 @@ package com.fmv.healthkiosk.feature.telemedicine.domain.interactor;
 
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentRequest;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentResponse;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.repo.TelemedicineRepository;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.UpdateMyApppointmentsUseCase;
 
@@ -19,7 +20,7 @@ public class UpdateMyAppointmentsInteractor implements UpdateMyApppointmentsUseC
     }
 
     @Override
-    public Single<AppointmentResponse> execute (int appointmentId, AppointmentRequest request) {
+    public Single<AppointmentModel> execute (int appointmentId, AppointmentRequest request) {
         return repository.updateMyAppointments(appointmentId, request);
     }
 

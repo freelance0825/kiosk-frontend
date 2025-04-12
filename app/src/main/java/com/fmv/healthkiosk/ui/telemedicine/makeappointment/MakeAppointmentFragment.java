@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
+import com.fmv.healthkiosk.core.utils.Base64Helper;
 import com.fmv.healthkiosk.databinding.FragmentMakeAppointmentBinding;
 import com.fmv.healthkiosk.ui.telemedicine.makeappointment.adapter.TimeSlotAdapter;
 
@@ -84,6 +85,10 @@ public class MakeAppointmentFragment extends BaseFragment<FragmentMakeAppointmen
 
         binding.rvTime.setAdapter(adapter);
         binding.rvTime.setLayoutManager(new GridLayoutManager(requireContext(), 6, GridLayoutManager.VERTICAL, false));
+
+        if (!viewModel.doctor.getImageBase64().isEmpty()) {
+            binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(viewModel.doctor.getImageBase64()));
+        }
 
         binding.tvDoctorName.setText(viewModel.doctor.getName());
         binding.tvDoctorOccupation.setText(viewModel.doctor.getSpecialization());

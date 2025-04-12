@@ -10,6 +10,7 @@ import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.CancelMyAppointme
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetMyAppointmentsUseCase;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -58,7 +59,14 @@ public class MyAppointmentViewModel extends BaseViewModel {
                         .observeOn(AndroidSchedulers.mainThread())
                         .doFinally(() -> isLoading.setValue(false))
                         .subscribe(
-                                myAppointmentList::setValue,
+                                list -> {
+                                    // Filter only appointments with postConsultation present
+                                    List<AppointmentModel> filtered = list.stream()
+                                            .filter(item -> item.getPostConsultation() == null)
+                                            .collect(Collectors.toList());
+
+                                    myAppointmentList.setValue(filtered);
+                                },
                                 throwable -> {
                                     errorMessage.setValue(throwable.getMessage());
                                 }

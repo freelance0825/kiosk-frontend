@@ -1,22 +1,33 @@
 package com.fmv.healthkiosk.ui.telemedicine.postconsultation;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
+import com.fmv.healthkiosk.core.utils.Base64Helper;
 import com.fmv.healthkiosk.databinding.FragmentPostConsultationBinding;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.PostConsultationModel;
+import com.fmv.healthkiosk.ui.report.prescription.PdfPrescriptionReportActivity;
+import com.fmv.healthkiosk.ui.report.testing.PdfTestingReportActivity;
+import com.fmv.healthkiosk.ui.telemedicine.postconsultation.adapters.PostConsultationMedicineAdapter;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class PostConsultationFragment extends BaseFragment<FragmentPostConsultationBinding, PostConsultationViewModel> {
+
+    private final PostConsultationMedicineAdapter postConsultationMedicineAdapter = new PostConsultationMedicineAdapter();
 
     @Override
     protected Class<PostConsultationViewModel> getViewModelClass() {
@@ -45,6 +56,10 @@ public class PostConsultationFragment extends BaseFragment<FragmentPostConsultat
     }
 
     private void setViews(AppointmentModel appointment) {
+        if (!appointment.getDoctor().getImageBase64().isEmpty()) {
+            binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(appointment.getDoctor().getImageBase64()));
+        }
+
         if (appointment.getDoctor() != null) {
             binding.tvDoctorName.setText(appointment.getDoctor().getName());
             binding.tvDoctorOccupation.setText(appointment.getDoctor().getSpecialization());
@@ -63,6 +78,13 @@ public class PostConsultationFragment extends BaseFragment<FragmentPostConsultat
         }
 
         binding.tvDateTime.setText(formatDateTime(appointment.getDateTime()));
+
+        Log.e("FTEST", "setViews: " + postConsultation.getMedicines().size() );
+
+        postConsultationMedicineAdapter.submitList(postConsultation.getMedicines());
+
+        binding.rvMedicines.setAdapter(postConsultationMedicineAdapter);
+        binding.rvMedicines.setLayoutManager(new GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false));
     }
 
     private void showNoAppointmentFound() {
@@ -76,12 +98,11 @@ public class PostConsultationFragment extends BaseFragment<FragmentPostConsultat
     private void setListeners() {
         binding.btnBack.setOnClickListener(v -> navigateBack());
 
-        binding.btnViewReport.setOnClickListener(v -> {
-            // TODO: Handle report viewing
-        });
-
         binding.btnExportToPdf.setOnClickListener(v -> {
-            // TODO: Handle exporting to PDF
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(PdfPrescriptionReportActivity.EXTRA_APPOINTMENT_RESULT, viewModel.appointment.getValue());
+
+            navigateToActivity(PdfPrescriptionReportActivity.class, bundle);
         });
 
         binding.btnBackContent.setOnClickListener(v -> navigateBack());

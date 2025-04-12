@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fmv.healthkiosk.databinding.ItemMedicinePdfRowBinding;
 import com.fmv.healthkiosk.databinding.ItemTestResultPdfGridBinding;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.MedicineModel;
 import com.fmv.healthkiosk.feature.tests.domain.model.TestResult;
 
 import java.util.Objects;
 
-public class PdfMedicineAdapter extends ListAdapter<TestResult, PdfMedicineAdapter.ViewHolder> {
+public class PdfMedicineAdapter extends ListAdapter<MedicineModel, PdfMedicineAdapter.ViewHolder> {
     public PdfMedicineAdapter() {
         super(DIFF_CALLBACK);
     }
@@ -30,11 +31,18 @@ public class PdfMedicineAdapter extends ListAdapter<TestResult, PdfMedicineAdapt
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TestResult medicine = getItem(position);
+        MedicineModel medicine = getItem(position);
         if (medicine != null) {
-            holder.binding.tvMedicineName.setText(position + 1 + ". a");
-            holder.binding.tvMedicineDosage.setText("a");
-            holder.binding.tvMedicineDuration.setText("a");
+            holder.binding.tvMedicineName.setText(position + 1 + ". " + medicine.getName());
+
+            String morning = medicine.getMorning() != null ? medicine.getMorning() : "";
+            String night = medicine.getNight() != null ? ", " + medicine.getNight() : "";
+            String notes = medicine.getNotes() != null ? ", " + medicine.getNotes() : "";
+
+            String infoBuilder = morning + night + notes;
+
+            holder.binding.tvMedicineDosage.setText(infoBuilder);
+            holder.binding.tvMedicineDuration.setText(medicine.getDuration());
         }
     }
 
@@ -47,17 +55,17 @@ public class PdfMedicineAdapter extends ListAdapter<TestResult, PdfMedicineAdapt
         }
     }
 
-    private static final DiffUtil.ItemCallback<TestResult> DIFF_CALLBACK =
+    private static final DiffUtil.ItemCallback<MedicineModel> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<>() {
                 @Override
-                public boolean areItemsTheSame(@NonNull TestResult oldStory,
-                                               @NonNull TestResult newStory) {
+                public boolean areItemsTheSame(@NonNull MedicineModel oldStory,
+                                               @NonNull MedicineModel newStory) {
                     return oldStory.equals(newStory);
                 }
 
                 @Override
-                public boolean areContentsTheSame(@NonNull TestResult oldStory,
-                                                  @NonNull TestResult newStory) {
+                public boolean areContentsTheSame(@NonNull MedicineModel oldStory,
+                                                  @NonNull MedicineModel newStory) {
                     return Objects.equals(oldStory.getName(), newStory.getName());
                 }
             };

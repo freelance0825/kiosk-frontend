@@ -1,6 +1,7 @@
 package com.fmv.healthkiosk.feature.telemedicine.domain.interactor;
 
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentResponse;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.repo.TelemedicineRepository;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.CancelMyAppointmentsUseCase;
 
@@ -18,7 +19,7 @@ public class CancelMyAppointmentsInteractor implements CancelMyAppointmentsUseCa
     }
 
     @Override
-    public Single<AppointmentResponse> execute (int appointmentId) {
+    public Single<AppointmentModel> execute (int appointmentId) {
         return repository.cancelMyAppointments(appointmentId);
     }
 }

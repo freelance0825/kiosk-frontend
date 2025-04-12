@@ -54,17 +54,17 @@ public class TelemedicineRepositoryImpl implements TelemedicineRepository {
 
 
     @Override
-    public Single<AppointmentResponse> updateMyAppointments(int appointmentId, AppointmentRequest appointmentRequest) {
-        return telemedicineService.updateMyAppointments(appointmentId, appointmentRequest);
+    public Single<AppointmentModel> updateMyAppointments(int appointmentId, AppointmentRequest appointmentRequest) {
+        return telemedicineService.updateMyAppointments(appointmentId, appointmentRequest).map(AppointmentMapper::mapToAppointmentModel);
     }
 
     @Override
-    public Single<AppointmentResponse> cancelMyAppointments(int appointmentId) {
-        return telemedicineService.cancelMyAppointments(appointmentId);
+    public Single<AppointmentModel> cancelMyAppointments(int appointmentId) {
+        return telemedicineService.cancelMyAppointments(appointmentId).map(AppointmentMapper::mapToAppointmentModel);
     }
 
     @Override
-    public Single<AppointmentResponse> createAppointment(int doctorId, int patientId, String doctorName, String healthComplaints, String specialization, String dateTime, String imageBase64) {
+    public Single<AppointmentModel> createAppointment(int doctorId, int patientId, String doctorName, String healthComplaints, String specialization, String dateTime, String imageBase64) {
         MakeAppointmentRequest makeAppointmentRequest = new MakeAppointmentRequest();
         makeAppointmentRequest.setDoctorId(doctorId);
         makeAppointmentRequest.setPatientId(patientId);
@@ -72,7 +72,7 @@ public class TelemedicineRepositoryImpl implements TelemedicineRepository {
         makeAppointmentRequest.setHealthComplaints(healthComplaints);
         makeAppointmentRequest.setDateTime(dateTime);
 
-        return telemedicineService.createAppointment(patientId, doctorId, makeAppointmentRequest);
+        return telemedicineService.createAppointment(patientId, doctorId, makeAppointmentRequest).map(AppointmentMapper::mapToAppointmentModel);
     }
 
 

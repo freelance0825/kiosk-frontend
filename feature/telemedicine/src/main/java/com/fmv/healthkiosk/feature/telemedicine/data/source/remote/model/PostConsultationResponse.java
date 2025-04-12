@@ -2,6 +2,8 @@ package com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class PostConsultationResponse {
 
 	@SerializedName("dateTime")
@@ -18,6 +20,13 @@ public class PostConsultationResponse {
 
 	@SerializedName("suggestions")
 	private String suggestions;
+
+	@SerializedName("medicines")
+	private List<MedicineResponse> medicineResponses;
+
+	public List<MedicineResponse> getMedicineResponses() {
+		return medicineResponses;
+	}
 
 	@SerializedName("id")
 	private int id;

@@ -3,6 +3,7 @@ package com.fmv.healthkiosk.ui.telemedicine.consultationhistory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -67,7 +68,11 @@ public class ConsultationHistoryFragment extends BaseFragment<FragmentConsultati
 
             @Override
             public void onViewReportClick(AppointmentModel appointment, int position) {
-                navigateToFragment(ConsultationHistoryFragmentDirections.actionNavigationConsultationHistoryFragmentToNavigationPostConsultationFragment(appointment.getId()), false);
+                if (appointment.getPostConsultation() == null) {
+                    Toast.makeText(requireContext(), "Report isn't ready yet!", Toast.LENGTH_SHORT).show();
+                } else {
+                    navigateToFragment(ConsultationHistoryFragmentDirections.actionNavigationConsultationHistoryFragmentToNavigationPostConsultationFragment(appointment.getId()), false);
+                }
             }
         });
     }

@@ -180,11 +180,25 @@
         android:label="@string/fragment_title_telemedicine_landing"
         tools:layout="@layout/fragment_my_appointment">
         <action
+            android:id="@+id/action_navigation_my_appointment_fragment_to_navigation_reschedule_appointment_fragment"
+            app:destination="@id/navigation_reschedule_appointment_fragment" />
+        <action
             android:id="@+id/action_navigation_my_appointment_fragment_to_navigation_book_appointment_fragment"
             app:destination="@id/navigation_book_appointment_fragment" />
         <action
             android:id="@+id/action_navigation_my_appointment_fragment_to_navigation_notification_fragment"
             app:destination="@id/navigation_notification_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_reschedule_appointment_fragment"
+        android:name="com.fmv.healthkiosk.ui.telemedicine.reschedule.RescheduleAppointmentFragment"
+        android:label="@string/fragment_title_reschedule_appointment"
+        tools:layout="@layout/fragment_reschedule_appointment">
+        <argument
+            android:name="appointmentId"
+            app:argType="integer"
+            app:nullable="false" />
     </fragment>
 
     <fragment

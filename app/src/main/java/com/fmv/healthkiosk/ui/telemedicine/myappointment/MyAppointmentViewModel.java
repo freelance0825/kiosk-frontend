@@ -70,7 +70,12 @@ public class MyAppointmentViewModel extends BaseViewModel {
                 cancelMyAppointmentsUseCase.execute(appointmentId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(throwable -> {
+                        .doFinally(this::getMyAppointments)
+                        .subscribe(
+                                success -> {
+                                    getMyAppointments();
+                                },
+                                throwable -> {
                                     errorMessage.setValue("Failed to cancel appointment. Please try again later.");
                                 }
                         )

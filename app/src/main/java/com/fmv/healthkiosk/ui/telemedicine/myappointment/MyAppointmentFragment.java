@@ -90,8 +90,6 @@ public class MyAppointmentFragment extends BaseFragment<FragmentMyAppointmentBin
                 Toast.makeText(requireContext(), "Appointment cancelled successfully", Toast.LENGTH_SHORT).show();
                 // Close the confirmation layout
                 viewModel.selectedAppointmentToCancel.setValue(null);
-                // Manually trigger the appointment list update
-                viewModel.getMyAppointments();  // Re-fetch appointments after cancellation
             }
         });
 

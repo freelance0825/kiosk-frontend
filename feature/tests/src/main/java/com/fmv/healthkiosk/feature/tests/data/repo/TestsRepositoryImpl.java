@@ -22,6 +22,8 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -48,6 +50,8 @@ public class TestsRepositoryImpl implements TestsRepository {
         if (testsPreset == null || testsPreset.isEmpty()) {
             return TestItems.testItemList;
         } else {
+            Log.e("FTEST", "getTestItemsCCC: " + testsPreset);
+
             List<TestItem> filteredList = new ArrayList<>();
             try {
                 JSONArray jsonArray = new JSONArray(testsPreset);
@@ -70,9 +74,33 @@ public class TestsRepositoryImpl implements TestsRepository {
     private List<MedicalPackage> mapToMedicalPackages(List<MedicalPackageResponseItem> items) {
         return items == null ? Collections.emptyList() :
                 items.stream()
-                        .map(item -> new MedicalPackage(item.getName(), item.getIcon(), item.getTests(), item.getId()))
+                        .map(item -> new MedicalPackage(item.getName(), item.getIcon(), mapTestPresets(item.getTests()), item.getId()))
                         .collect(Collectors.toList());
     }
+
+    private String mapTestPresets(String testPreset) {
+        Log.e("FTEST", "getTestItemsAAA: " + testPreset);
+
+        // Regex pattern to match "name": "<value>" in the format {"name":"<value>"}
+        Pattern pattern = Pattern.compile("\"name\":\"([^\"]+)\"");
+        Matcher matcher = pattern.matcher(testPreset);
+
+        List<String> names = new ArrayList<>();
+
+        // Extract names and convert them to lowercase
+        while (matcher.find()) {
+            String name = matcher.group(1).toLowerCase();
+            names.add(name);
+        }
+
+        // Join the names into a single string in the desired format
+        String result = "[" + String.join(", ", names) + "]";
+
+        Log.e("FTEST", "getTestItemsBBB: " + result);
+
+        return result;
+    }
+
 
     @Override
     public List<TestResult> mapToTestResults(List<TestItem> testItems) {

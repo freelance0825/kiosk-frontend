@@ -65,6 +65,12 @@
         android:background="@color/primaryGreen"
         app:layout_constraintTop_toBottomOf="@id/layout_doctor_info" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_chat"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bot_divider"
+        app:layout_constraintTop_toBottomOf="@id/top_divider" />
 
     <!-- Bottom Divider -->
     <View

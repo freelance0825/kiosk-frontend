@@ -26,7 +26,7 @@ public class TestResultMapper {
                         float value = Float.parseFloat(values[0]);
                         String status = getStatusForSingleValue(item.getId(), value, extension);
                         int statusFlag = getStatusFlag(status);
-                        testResults.add(new TestResult(item.getName(), value, extension, status, statusFlag));
+                        testResults.add(new TestResult(item.getName(), value, extension, status, statusFlag, item.isGeneral()));
                     }
                     break;
                 case "oximeter":
@@ -37,8 +37,8 @@ public class TestResultMapper {
                         String spo2Status = getStatusForSpo2(spo2);
                         String prbpmStatus = getStatusForPrbpm(prbpm);
 
-                        testResults.add(new TestResult("SpO2", spo2, "%", spo2Status, getStatusFlag(spo2Status)));
-                        testResults.add(new TestResult("PRbpm", prbpm, "bpm", prbpmStatus, getStatusFlag(prbpmStatus)));
+                        testResults.add(new TestResult("SpO2", spo2, "%", spo2Status, getStatusFlag(spo2Status), item.isGeneral()));
+                        testResults.add(new TestResult("PRbpm", prbpm, "bpm", prbpmStatus, getStatusFlag(prbpmStatus), item.isGeneral()));
                     }
                     break;
                 case "blood_pressure":
@@ -50,15 +50,15 @@ public class TestResultMapper {
                         String pulseStatus = getStatusForPulse(pulse);
                         String bpStatus = getStatusForBloodPressure(systolic, diastolic);
 
-                        testResults.add(new TestResult("Pulse", pulse, "pulse/min", pulseStatus, getStatusFlag(pulseStatus)));
-                        testResults.add(new TestResult("Systolic", systolic, "mmHg", bpStatus, getStatusFlag(bpStatus)));
-                        testResults.add(new TestResult("Diastolic", diastolic, "mmHg", bpStatus, getStatusFlag(bpStatus)));
+                        testResults.add(new TestResult("Pulse", pulse, "pulse/min", pulseStatus, getStatusFlag(pulseStatus), item.isGeneral()));
+                        testResults.add(new TestResult("Systolic", systolic, "mmHg", bpStatus, getStatusFlag(bpStatus), item.isGeneral()));
+                        testResults.add(new TestResult("Diastolic", diastolic, "mmHg", bpStatus, getStatusFlag(bpStatus), item.isGeneral()));
                     }
                     break;
                 default:
                     if (values.length == 1) {
                         float value = Float.parseFloat(values[0]);
-                        testResults.add(new TestResult(item.getName(), value, extension, "Unknown Status", -1));
+                        testResults.add(new TestResult(item.getName(), value, extension, "Unknown Status", -1, item.isGeneral()));
                     }
                     break;
             }

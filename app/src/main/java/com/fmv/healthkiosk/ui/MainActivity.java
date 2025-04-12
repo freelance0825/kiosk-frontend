@@ -18,6 +18,7 @@ import com.fmv.healthkiosk.databinding.ActivityMainBinding;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -71,6 +72,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     }
 
     private void setListeners() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            boolean isTestFragment = destination.getId() == R.id.navigation_test;
+
+            binding.layoutDeviceInfo.setVisibility(isTestFragment ? View.VISIBLE : View.GONE);
+            binding.btnMyProfile.setVisibility(isTestFragment ? View.GONE : View.VISIBLE);
+        });
+
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -110,8 +120,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 int id = item.getItemId();
                 if (id == R.id.menu_edit_profile) {
                     // Handle Edit My Profile
-                    NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-                    navController.navigate(R.id.navigation_edit_profile);
+                    NavController navControllerEdit = Navigation.findNavController(this, R.id.nav_host_fragment);
+                    navControllerEdit.navigate(R.id.navigation_edit_profile);
                     return true;
                 } else if (id == R.id.menu_logout) {
                     // Handle Logout

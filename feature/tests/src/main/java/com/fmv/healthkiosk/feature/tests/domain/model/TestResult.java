@@ -9,13 +9,15 @@ public class TestResult implements Parcelable {
     private String extension;
     private String status;
     private int statusFlag;
+    private boolean isGeneralTest;
 
-    public TestResult(String name, float value, String extension, String status, int statusFlag) {
+    public TestResult(String name, float value, String extension, String status, int statusFlag, boolean isGeneralTest) {
         this.name = name;
         this.value = value;
         this.extension = extension;
         this.status = status;
         this.statusFlag = statusFlag;
+        this.isGeneralTest = isGeneralTest;
     }
 
     protected TestResult(Parcel in) {
@@ -24,6 +26,7 @@ public class TestResult implements Parcelable {
         extension = in.readString();
         status = in.readString();
         statusFlag = in.readInt();
+        isGeneralTest = in.readInt() == 1;
     }
 
     public static final Creator<TestResult> CREATOR = new Creator<TestResult>() {
@@ -50,6 +53,7 @@ public class TestResult implements Parcelable {
         parcel.writeString(extension);
         parcel.writeString(status);
         parcel.writeInt(statusFlag);
+        parcel.writeInt(isGeneralTest ? 1 : 0);
     }
 
     public String getName() {
@@ -70,5 +74,9 @@ public class TestResult implements Parcelable {
 
     public float getStatusFlag() {
         return statusFlag;
+    }
+
+    public boolean getIsGeneralTest() {
+        return isGeneralTest;
     }
 }

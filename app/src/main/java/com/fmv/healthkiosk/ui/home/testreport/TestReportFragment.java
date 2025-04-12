@@ -3,22 +3,17 @@ package com.fmv.healthkiosk.ui.home.testreport;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
-import com.fmv.healthkiosk.databinding.FragmentCustomizeTestBinding;
 import com.fmv.healthkiosk.databinding.FragmentTestReportBinding;
-import com.fmv.healthkiosk.feature.tests.domain.model.MedicalPackage;
-import com.fmv.healthkiosk.feature.tests.domain.model.TestItemList;
-import com.fmv.healthkiosk.ui.home.customizetest.CustomizeTestFragmentDirections;
-import com.fmv.healthkiosk.ui.home.customizetest.CustomizeTestViewModel;
-import com.fmv.healthkiosk.ui.home.customizetest.adapters.CustomPackageTestAdapter;
-import com.fmv.healthkiosk.ui.home.customizetest.adapters.PackageTestAdapter;
 import com.fmv.healthkiosk.ui.home.testreport.adapter.TestResultAdapter;
+import com.fmv.healthkiosk.ui.report.testing.PdfTestingReportActivity;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -65,8 +60,18 @@ public class TestReportFragment extends BaseFragment<FragmentTestReportBinding, 
     private void setListeners() {
         binding.btnBack.setOnClickListener(v -> navigateBack());
 
-        binding.btnExportToPdf.setOnClickListener(v -> {
+        binding.rangeBar.setLabelTextSize(20F);
+        binding.rangeBar.setTickValues(100, 120);
+        binding.rangeBar.setCenterLabel("Normal");
+        binding.rangeBar.setProgressRange(0.2f, 0.7f); // Customize range dynamically
 
+
+        binding.btnExportToPdf.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList(PdfTestingReportActivity.EXTRA_TESTING_RESULT, new ArrayList<>(Objects.requireNonNull(viewModel.inflatedTestResult.getValue())));
+            bundle.putParcelable(PdfTestingReportActivity.EXTRA_PACKAGE_NAME, viewModel.medicalPackage);
+
+            navigateToActivity(PdfTestingReportActivity.class, bundle);
         });
     }
 }

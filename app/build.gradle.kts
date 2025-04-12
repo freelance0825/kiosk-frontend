@@ -68,4 +68,6 @@ dependencies {
     // Bluetooth
     implementation(fileTree(mapOf("dir" to "../libs", "include" to listOf("*.jar"))))
     implementation(fileTree(mapOf("dir" to "../libs", "include" to listOf("*.aar"))))
+    implementation(libs.appcompat)
+    implementation(libs.activity)
 }

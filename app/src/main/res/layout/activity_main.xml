@@ -153,6 +153,7 @@
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/layout_device_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
@@ -161,7 +162,6 @@
                 app:cardCornerRadius="28dp">
 
                 <LinearLayout
-                    android:id="@+id/layout_device_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?selectableItemBackground"

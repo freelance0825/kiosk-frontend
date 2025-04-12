@@ -14,8 +14,10 @@ public class TestItems {
         testItemList.add(new TestItem("weight", "Weight", "", R.drawable.ic_weight, 0, false, "Kg", true));
         testItemList.add(new TestItem("temperature", "Temperature", "", R.drawable.ic_temperature, 0, false, "°F", true));
         testItemList.add(new TestItem("oximeter", "Oximeter", "", R.drawable.ic_oximeter, 0, false, "%,bpm", true));
-//        testItemList.add(new TestItem("body_fat", "Body Fat", "", R.drawable.ic_body_fat, 0, false,""));
         testItemList.add(new TestItem("blood_pressure", "Blood Pressure", "", R.drawable.ic_blood_pressure, 0, false, "pulse/min,mmHg", true));
+        testItemList.add(new TestItem("blood_sugar", "Blood Sugar", "", R.drawable.ic_blood_pressure, 0, false, "Mg/Dl", true));
         testItemList.add(new TestItem("stethoscope", "Stethoscope", "", R.drawable.ic_stethoscope, 0, false,"bpm", false));
+        testItemList.add(new TestItem("ecg", "ECG", "", R.drawable.ic_ecg, 0, false,"bpm", false));
+        testItemList.add(new TestItem("cholesterol", "Cholesterol", "", R.drawable.ic_oximeter, 0, false,"bpm", false));
     }
 }

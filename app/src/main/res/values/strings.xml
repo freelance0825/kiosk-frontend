@@ -196,10 +196,39 @@
     <string name="fragment_post_consultation_doctor_s_suggestions">Doctor\'s Suggestions</string>
     <string name="fragment_post_consultation_prescriptions">Prescriptions</string>
     <string name="fragment_post_consultation_back">Back</string>
-
+    <string name="activity_pdf_prescription_report_e_prescription">E-Prescription</string>
+    <string name="activity_pdf_prescription_report_mob_no">Mob. No: %1s</string>
+    <string name="activity_pdf_prescription_report_patient_id">ID: %1s</string>
+    <string name="activity_pdf_prescription_report_blood_pressure">Blood Pressure</string>
+    <string name="activity_pdf_prescription_report_date">Date</string>
+    <string name="activity_pdf_prescription_report_complaints">Complaints</string>
+    <string name="activity_pdf_prescription_report_clinical_findings">Clinical Findings</string>
+    <string name="activity_pdf_prescription_report_clinical_diagnosis">Diagnosis</string>
+    <string name="activity_pdf_prescription_report_clinical_medicine_name">Medicine Name</string>
+    <string name="activity_pdf_prescription_report_clinical_dosage">Dosage</string>
+    <string name="activity_pdf_prescription_report_clinical_duration">Duration</string>
+    <string name="activity_pdf_prescription_report_clinical_advice">Advice</string>
+    <string name="activity_pdf_prescription_report_clinical_follow_up_date">Follow up date</string>
+    <string name="activity_pdf_testing_report_medical_test_report">Medical Test Report</string>
+    <string name="fragment_pdf_testing_report_health_score">Health Score</string>
+    <string name="fragment_pdf_testing_report_package_name">%1$s Package</string>
+    <string name="fragment_ecg_test_avr">aVR</string>
+    <string name="fragment_cholesterol_test_cholesterol">Cholesterol</string>
+    <string name="fragment_blood_sugar_blood_sugar">Blood Sugar</string>
+    <string name="fragment_blood_sugar_mg_dl">Mg/Dl</string>
 
     <string-array name="height_steps">
         <item>Stand on the height measurement device</item>
+        <item>Press the start button  on the device</item>
+    </string-array>
+
+    <string-array name="cholesterol_steps">
+        <item>Put the blood sample on the kiosk</item>
+        <item>Press the start button  on the device</item>
+    </string-array>
+
+    <string-array name="blood_sugar_steps">
+        <item>Put the device on your arms</item>
         <item>Press the start button  on the device</item>
     </string-array>
 
@@ -225,6 +254,11 @@
 
     <string-array name="stethoscope_steps">
         <item>Put the stethoscope on the chest</item>
+        <item>Press the start button on the device</item>
+    </string-array>
+
+    <string-array name="ecg_steps">
+        <item>Blow on the measurement device</item>
         <item>Press the start button on the device</item>
     </string-array>
 

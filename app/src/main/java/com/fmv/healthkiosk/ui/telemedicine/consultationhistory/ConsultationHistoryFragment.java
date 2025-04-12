@@ -67,7 +67,7 @@ public class ConsultationHistoryFragment extends BaseFragment<FragmentConsultati
 
             @Override
             public void onViewReportClick(AppointmentModel appointment, int position) {
-                navigateToFragment(ConsultationHistoryFragmentDirections.actionNavigationConsultationHistoryFragmentToNavigationPostConsultationFragment(appointment.getDoctor()), false);
+                navigateToFragment(ConsultationHistoryFragmentDirections.actionNavigationConsultationHistoryFragmentToNavigationPostConsultationFragment(appointment.getId()), false);
             }
         });
     }

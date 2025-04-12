@@ -16,6 +16,8 @@ public interface TelemedicineRepository {
 
     Single<List<AppointmentModel>> getMyAppointments(int userId);
 
+    Single<AppointmentModel> getAppointmentsById(int appointmentId);
+
 
     Single<AppointmentResponse> updateMyAppointments(int appointmentId, AppointmentRequest appointmentRequest);
 

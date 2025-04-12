@@ -1,7 +1,5 @@
 package com.fmv.healthkiosk.feature.telemedicine.domain.model;
 
-import com.google.gson.annotations.SerializedName;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -56,8 +54,8 @@ public class PostConsultationModel implements Parcelable {
 	public String getDateTime() { return dateTime; }
 	public String getFollowUpDate() { return followUpDate; }
 	public String getSignature() { return signature; }
-	public String getDiagnosis() { return diagnosis; }
-	public String getSuggestions() { return suggestions; }
+	public String getDiagnosis() {return diagnosis; }
+	public String getSuggestions() {return suggestions; }
 	public int getId() { return id; }
 
 	// Setters

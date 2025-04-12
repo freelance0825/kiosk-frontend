@@ -27,6 +27,12 @@ public interface TelemedicineService {
     );
 
     @Headers("Content-Type: application/json")
+    @GET("appointments/{id}")
+    Single<AppointmentResponse> getAppointmentsById(
+            @Path("id") int appointmentId
+    );
+
+    @Headers("Content-Type: application/json")
     @PUT("appointments/{id}")
     Single<AppointmentResponse> updateMyAppointments(
             @Path("id") int appointmentId,

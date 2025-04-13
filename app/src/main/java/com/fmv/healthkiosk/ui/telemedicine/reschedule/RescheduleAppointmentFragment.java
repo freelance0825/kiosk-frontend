@@ -67,8 +67,10 @@ public class RescheduleAppointmentFragment extends BaseFragment<FragmentReschedu
     private void observeViewModel() {
         viewModel.updatedAppointments.observe(getViewLifecycleOwner(), updatedAppointment -> {
             if (updatedAppointment != null) {
+                Log.e("FTEST", "setViews: " + updatedAppointment.getDoctor().getImageBase64() );
+
                 if (updatedAppointment.getDoctor().getImageBase64() != null) {
-                    if (updatedAppointment.getDoctor().getImageBase64().isEmpty()) {
+                    if (!updatedAppointment.getDoctor().getImageBase64().isEmpty()) {
                         binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(updatedAppointment.getDoctor().getImageBase64()));
                     }
                 }

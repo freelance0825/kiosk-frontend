@@ -105,16 +105,25 @@ public class PdfPrescriptionReportActivity extends BaseActivity<ActivityPdfPresc
             // Replace 'T' with a space so SimpleDateFormat can parse it
             inputDate = inputDate.replace("T", " ");
 
-            // Parse the ISO-like format
-            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss[.SSSSSS]", Locale.ENGLISH);
-            Date date = inputFormat.parse(inputDate);
+            // Define the formats, one with milliseconds and one without
+            SimpleDateFormat inputFormatWithMillis = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS", Locale.ENGLISH);
+            SimpleDateFormat inputFormatWithoutMillis = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
 
-            // Format to desired output
+            Date date = null;
+            try {
+                // Try parsing with milliseconds
+                date = inputFormatWithMillis.parse(inputDate);
+            } catch (ParseException e) {
+                // Fallback to parsing without milliseconds if the first format fails
+                date = inputFormatWithoutMillis.parse(inputDate);
+            }
+
+            // Format the date in the desired output format (for example: "dd MMMM yyyy HH:mm:ss")
             SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMMM, yyyy ・hh:mm a", Locale.ENGLISH);
             return outputFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
-            return "";
+            return null;  // Return null if parsing fails
         }
     }
 }

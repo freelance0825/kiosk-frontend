@@ -102,6 +102,9 @@ public class PostConsultationFragment extends BaseFragment<FragmentPostConsultat
 
         binding.btnExportToPdf.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
+            AppointmentModel appointmentModel = viewModel.appointment.getValue();
+            appointmentModel.getDoctor().setImageBase64(null);
+
             bundle.putParcelable(PdfPrescriptionReportActivity.EXTRA_APPOINTMENT_RESULT, viewModel.appointment.getValue());
 
             navigateToActivity(PdfPrescriptionReportActivity.class, bundle);

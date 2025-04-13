@@ -7,6 +7,7 @@ import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetAvailableDoctorsUseCase;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -41,14 +42,17 @@ public class ConsultNowViewModel extends BaseViewModel {
         disposables.add(
                 getAvailableDoctorsUseCase.execute()
                         .subscribeOn(Schedulers.io())
+                        .map(doctors -> {
+                            doctors.sort((d1, d2) -> Double.compare(d2.getReview(), d1.getReview()));
+                            return doctors;
+                        })
                         .observeOn(AndroidSchedulers.mainThread())
                         .doFinally(() -> isLoading.setValue(false))
                         .subscribe(
                                 doctorList::setValue,
-                                throwable -> {
-                                    errorMessage.setValue(throwable.getMessage());
-                                }
-                        ));
+                                throwable -> errorMessage.setValue(throwable.getMessage())
+                        )
+        );
     }
 
     @Override

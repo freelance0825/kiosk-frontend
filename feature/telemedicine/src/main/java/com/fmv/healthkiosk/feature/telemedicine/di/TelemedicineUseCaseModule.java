@@ -6,6 +6,7 @@ import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.GetAvailableDo
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.GetMyAppointmentsInteractor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.MakeAppointmentsInteractor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.GetPostConsultationInteractor;
+import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.SendMessageInteractor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.UpdateMyAppointmentsInteractor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.repo.TelemedicineRepository;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.CancelMyAppointmentsUseCase;
@@ -14,6 +15,7 @@ import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetAvailableDocto
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetMyAppointmentsUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.MakeAppointmentsUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetPostConsultationUseCase;
+import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.SendMessageUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.UpdateMyApppointmentsUseCase;
 
 import dagger.Module;
@@ -59,4 +61,8 @@ public class TelemedicineUseCaseModule {
         return new GetPostConsultationInteractor(telemedicineRepository);
     }
 
+    @Provides
+    SendMessageUseCase provideSendMessageUseCase(TelemedicineRepository telemedicineRepository) {
+        return new SendMessageInteractor(telemedicineRepository);
+    }
 }

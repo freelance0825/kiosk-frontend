@@ -218,6 +218,9 @@
     <string name="fragment_blood_sugar_blood_sugar">Blood Sugar</string>
     <string name="fragment_blood_sugar_mg_dl">Mg/Dl</string>
     <string name="fragment_chat_finish">Finish</string>
+    <string name="fragment_chat_select_another_date">Select another date</string>
+    <string name="fragment_chat_reschedule_my_appointment">Reschedule my appointment</string>
+    <string name="fragment_chat_view_doctor_s_schedule">View doctor\'s schedule</string>
 
     <string-array name="height_steps">
         <item>Stand on the height measurement device</item>

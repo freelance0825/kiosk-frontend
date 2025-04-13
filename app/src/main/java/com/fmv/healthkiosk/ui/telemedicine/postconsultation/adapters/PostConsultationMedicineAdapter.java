@@ -34,8 +34,10 @@ public class PostConsultationMedicineAdapter extends ListAdapter<MedicineModel, 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MedicineModel medicine = getItem(position);
         if (medicine != null) {
-            if (!medicine.getImageBase64().isEmpty()) {
-                holder.binding.ivMedicine.setImageBitmap(Base64Helper.convertToBitmap(medicine.getImageBase64()));
+            if (medicine.getImageBase64() != null) {
+                if (!medicine.getImageBase64().isEmpty()) {
+                    holder.binding.ivMedicine.setImageBitmap(Base64Helper.convertToBitmap(medicine.getImageBase64()));
+                }
             }
 
             holder.binding.tvMedicineName.setText(medicine.getName());

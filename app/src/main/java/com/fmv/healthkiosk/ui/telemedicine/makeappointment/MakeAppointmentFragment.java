@@ -86,8 +86,10 @@ public class MakeAppointmentFragment extends BaseFragment<FragmentMakeAppointmen
         binding.rvTime.setAdapter(adapter);
         binding.rvTime.setLayoutManager(new GridLayoutManager(requireContext(), 6, GridLayoutManager.VERTICAL, false));
 
-        if (!viewModel.doctor.getImageBase64().isEmpty()) {
-            binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(viewModel.doctor.getImageBase64()));
+        if (viewModel.doctor.getImageBase64() != null) {
+            if (!viewModel.doctor.getImageBase64().isEmpty()) {
+                binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(viewModel.doctor.getImageBase64()));
+            }
         }
 
         binding.tvDoctorName.setText(viewModel.doctor.getName());

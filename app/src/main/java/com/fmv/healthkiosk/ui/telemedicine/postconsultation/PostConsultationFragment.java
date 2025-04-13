@@ -56,8 +56,10 @@ public class PostConsultationFragment extends BaseFragment<FragmentPostConsultat
     }
 
     private void setViews(AppointmentModel appointment) {
-        if (!appointment.getDoctor().getImageBase64().isEmpty()) {
-            binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(appointment.getDoctor().getImageBase64()));
+        if (appointment.getDoctor().getImageBase64() != null) {
+            if (!appointment.getDoctor().getImageBase64().isEmpty()) {
+                binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(appointment.getDoctor().getImageBase64()));
+            }
         }
 
         if (appointment.getDoctor() != null) {

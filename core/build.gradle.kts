@@ -11,7 +11,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
 
         buildConfigField("String", "APP_DATASTORE_NAME", "\"HEALTH_KIOSK_DATASTORE\"")
         buildConfigField("String", "APP_ENDPOINT", "\"http://10.0.2.2:8080/api/\"")
@@ -39,6 +39,11 @@ android {
 }
 
 dependencies {
+
+    // JitsiMeet
+    implementation("org.jitsi.react:jitsi-meet-sdk:11.1.0") {
+        isTransitive = true
+    }
 
     // Retrofit
     implementation(libs.retrofit)

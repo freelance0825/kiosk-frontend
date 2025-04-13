@@ -82,7 +82,7 @@ public class TestsRepositoryImpl implements TestsRepository {
         Log.e("FTEST", "getTestItemsAAA: " + testPreset);
 
         // Regex pattern to match "name": "<value>" in the format {"name":"<value>"}
-        Pattern pattern = Pattern.compile("\"name\":\"([^\"]+)\"");
+        Pattern pattern = Pattern.compile("name=([^,}\\]]+)");
         Matcher matcher = pattern.matcher(testPreset);
 
         List<String> names = new ArrayList<>();

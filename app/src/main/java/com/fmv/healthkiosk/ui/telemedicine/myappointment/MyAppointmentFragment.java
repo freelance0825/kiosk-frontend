@@ -102,7 +102,7 @@ public class MyAppointmentFragment extends BaseFragment<FragmentMyAppointmentBin
         myAppointmentAdapter.setOnItemClickListener(new MyAppointmentAdapter.OnItemClickListener() {
             @Override
             public void onConsultNowClick(AppointmentModel appointment, int position) {
-                navigateToFragment(ConsultNowFragmentDirections.actionNavigationConsultNowToNavigationVideoCall(appointment.getDoctor()), false);
+                navigateToFragment(MyAppointmentFragmentDirections.actionNavigationMyAppointmentFragmentToNavigationVideoCall(appointment.getDoctor()), false);
             }
 
             @Override

@@ -52,13 +52,13 @@ public class AllNotificationAdapter extends ListAdapter<Notification, AllNotific
         holder.binding.tvDateTimeAppointment.setText(formatToCustomDateTime(dateTime));
 
         if (notification.isCancelled()) {
-            holder.binding.tvAppointmentTitle.setText("Your notification has been cancelled");
+            holder.binding.tvAppointmentTitle.setText("Your appointment has been cancelled");
             holder.binding.tvAppointmentDesc.setText(NotificationMessageBuilder.getCancelledMessage(username, dateTime, notification.getDoctor().getName(), notification.getDoctor().getSpecialization()));
         } else if (notification.isRescheduled()) {
             holder.binding.tvAppointmentTitle.setText("You have new notification time proposal");
             // Currently no reschedule
         } else if (isNow(dateTime)) {
-            holder.binding.tvAppointmentTitle.setText("Your notification happening now");
+            holder.binding.tvAppointmentTitle.setText("Your appointment happening now");
             holder.binding.tvAppointmentDesc.setText(NotificationMessageBuilder.getNowMessage(username, dateTime, notification.getDoctor().getName()));
         }
 

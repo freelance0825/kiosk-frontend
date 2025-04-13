@@ -60,7 +60,7 @@ public class PdfTestingReportActivity extends BaseActivity<ActivityPdfTestingRep
             binding.tvReportDate.setText(formattedDate);
 
             if (medicalPackage != null) {
-                binding.tvPackageName.setText(getString(R.string.fragment_pdf_testing_report_package_name, medicalPackage.getName()));
+                binding.tvPackageName.setText(medicalPackage.getName());
             } else {
                 binding.tvPackageName.setText(getString(R.string.fragment_pdf_testing_report_package_name, getString(R.string.fragment_test_custom_test)));
             }

@@ -40,7 +40,12 @@ public class MedicalPackageAdapter extends ListAdapter<MedicalPackage, MedicalPa
         MedicalPackage medicalPackage = getItem(position);
         if (medicalPackage != null) {
             holder.binding.tvPackageName.setText(medicalPackage.getName());
-            holder.binding.ivPackage.setImageBitmap(Base64Helper.convertToBitmap(medicalPackage.getIcon()));
+            if (medicalPackage.getIcon() != null) {
+                if (!medicalPackage.getIcon().isEmpty()) {
+                    holder.binding.ivPackage.setImageBitmap(Base64Helper.convertToBitmap(medicalPackage.getIcon()));
+                }
+            }
+
             holder.binding.getRoot().setOnClickListener(v -> {
                 if (listener != null) listener.onItemClick(medicalPackage);
             });

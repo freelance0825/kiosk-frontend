@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:gravity="center|start"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     app:cardCornerRadius="12dp"
     app:cardElevation="2dp"
     android:layout_marginTop="8dp"
@@ -14,46 +14,35 @@
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_first_date"
+        android:id="@+id/btn_reschedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/transparent"
-        tools:text="07 December"
+        android:drawableLeft="@drawable/asset_icon_reschedule"
+        android:text="@string/fragment_chat_reschedule_my_appointment"
         android:textColor="@color/white"
         android:textStyle="bold"
-        app:cornerRadius="8dp"
         android:textSize="18sp"
-        app:strokeColor="@color/primaryBlue"
-        app:strokeWidth="1dp"
-        tools:visibility="visible" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_second_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:backgroundTint="@android:color/transparent"
-        tools:text="08 December"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:layout_marginStart="12dp"
         app:cornerRadius="8dp"
         app:strokeColor="@color/primaryBlue"
         app:strokeWidth="1dp"
         tools:visibility="visible" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_third_date"
+        android:id="@+id/btn_view_schedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
         android:textSize="18sp"
         android:backgroundTint="@android:color/transparent"
-        tools:text="09 December"
-        android:layout_marginStart="12dp"
+        android:drawableLeft="@drawable/asset_icon_calendar"
+        android:text="@string/fragment_chat_view_doctor_s_schedule"
         android:textColor="@color/white"
         android:textStyle="bold"
+        android:visibility="gone"
         app:cornerRadius="8dp"
         app:strokeColor="@color/primaryBlue"
         app:strokeWidth="1dp"
         tools:visibility="visible" />
+
 </LinearLayout>

@@ -311,6 +311,10 @@
             android:name="doctor"
             app:argType="com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel"
             app:nullable="true" />
+        <argument
+            android:name="appointmentId"
+            app:argType="integer"
+            app:nullable="false" />
     </fragment>
 
 </navigation>

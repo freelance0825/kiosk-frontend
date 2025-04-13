@@ -7,6 +7,7 @@
     android:layout_gravity="center"
     android:gravity="center|start"
     app:cardCornerRadius="12dp"
+    android:layout_marginTop="8dp"
     app:cardElevation="2dp">
 
     <TextView
@@ -17,6 +18,7 @@
         android:backgroundTint="#0FD8E7F6"
         android:gravity="center"
         android:padding="10dp"
+        android:textSize="18sp"
         android:text="08:00"
         android:textColor="@color/white"
         tools:backgroundTint="@color/primaryGray" />

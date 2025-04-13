@@ -1,16 +1,21 @@
 package com.fmv.healthkiosk.ui.telemedicine.chat;
 
-import android.os.Handler;
-import android.os.Looper;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 
 import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
-import com.fmv.healthkiosk.feature.auth.domain.usecase.AccountUseCase;
+import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentRequest;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.ChatMessage;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.SendMessageUseCase;
+import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.UpdateMyApppointmentsUseCase;
 
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -22,85 +27,68 @@ import io.reactivex.schedulers.Schedulers;
 @HiltViewModel
 public class ChatViewModel extends BaseViewModel {
 
-    private final AccountUseCase accountUseCase;
+    private final SendMessageUseCase sendMessageUseCase;
+    private final UpdateMyApppointmentsUseCase updateMyApppointmentsUseCase;
 
     final DoctorModel doctorModel;
+    final int appointmentId;
 
     final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+    final MutableLiveData<ArrayList<ChatMessage>> chatMessageList = new MutableLiveData<>(new ArrayList<>());
+    final MutableLiveData<Map<String, AppointmentModel>> updatedAppointment = new MutableLiveData<>(null);
     final MutableLiveData<String> errorMessage = new MutableLiveData<>();
-
-    final MutableLiveData<String> username = new MutableLiveData<>();
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
-    final MutableLiveData<String> timeString = new MutableLiveData<>();
-    private long elapsedSeconds = 0;
-    private Handler handler = new Handler(Looper.getMainLooper());
-    private Runnable timerRunnable;
-
     @Inject
-    public ChatViewModel(SavedStateHandle savedStateHandle, AccountUseCase accountUseCase) {
+    public ChatViewModel(SavedStateHandle savedStateHandle, SendMessageUseCase sendMessageUseCase, UpdateMyApppointmentsUseCase updateMyApppointmentsUseCase) {
         super(savedStateHandle);
-        this.accountUseCase = accountUseCase;
+        this.sendMessageUseCase = sendMessageUseCase;
+        this.updateMyApppointmentsUseCase = updateMyApppointmentsUseCase;
+
         this.doctorModel = getArgument("doctor");
+        this.appointmentId = getArgument("appointmentId");
 
-        observeProfileData();
-        startTimer();
+        sendMessage(null);
     }
 
-
-    private void observeProfileData() {
-        disposables.add(accountUseCase.getUsername()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(username::setValue, throwable -> username.setValue("Unknown")));
+    public void sendMessage(String message) {
+        disposables.add(
+                sendMessageUseCase.execute(message)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                chatMessageList::setValue,
+                                throwable -> Log.e("ChatViewModel", "Error handling message", throwable)
+                        )
+        );
     }
 
-    public void startTimer() {
-        stopTimer();
+    public void updateMyAppointments(String message, String dateTime) {
+        isLoading.setValue(true);
 
-        timerRunnable = new Runnable() {
-            @Override
-            public void run() {
-                elapsedSeconds++;
-                timeString.setValue(formatTime(elapsedSeconds));
-                handler.postDelayed(this, 1000);
-            }
-        };
-        handler.post(timerRunnable);
+        AppointmentRequest appointmentRequest = new AppointmentRequest();
+        appointmentRequest.setDateTime(dateTime);
+
+        disposables.add(
+                updateMyApppointmentsUseCase.execute(appointmentId, appointmentRequest)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doFinally(() -> isLoading.setValue(false))
+                        .subscribe(
+                                success -> {
+                                    Map<String, AppointmentModel> map = new HashMap<>();
+                                    map.put(message, success);
+                                    updatedAppointment.setValue(map);
+                                },
+                                throwable -> errorMessage.setValue(throwable.getMessage())
+                        )
+        );
     }
-
-    public void stopTimer() {
-        if (handler != null && timerRunnable != null) {
-            handler.removeCallbacks(timerRunnable);
-        }
-        elapsedSeconds = 0;
-        timeString.setValue(formatTime(elapsedSeconds));
-    }
-
-    public void pauseTimer() {
-        if (handler != null && timerRunnable != null) {
-            handler.removeCallbacks(timerRunnable);
-        }
-    }
-
-    private String formatTime(long seconds) {
-        long hrs = seconds / 3600;
-        long mins = (seconds % 3600) / 60;
-        long secs = seconds % 60;
-
-        if (hrs > 0) {
-            return String.format(Locale.getDefault(), "%02d:%02d:%02d", hrs, mins, secs);
-        } else {
-            return String.format(Locale.getDefault(), "%02d:%02d", mins, secs);
-        }
-    }
-
 
     @Override
     protected void onCleared() {
         super.onCleared();
-        stopTimer();
         disposables.clear();
     }
 }

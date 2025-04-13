@@ -3,27 +3,32 @@ package com.fmv.healthkiosk.feature.telemedicine.data.repo;
 
 import com.fmv.healthkiosk.feature.telemedicine.data.mapper.AppointmentMapper;
 import com.fmv.healthkiosk.feature.telemedicine.data.mapper.DoctorMapper;
+import com.fmv.healthkiosk.feature.telemedicine.data.source.local.DummyChatbotMessageGenerator;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.local.NotificationAppointmentDataGenerator;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.TelemedicineService;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentRequest;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentResponse;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.MakeAppointmentRequest;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.ChatMessage;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
 import com.fmv.healthkiosk.feature.telemedicine.domain.repo.TelemedicineRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 public class TelemedicineRepositoryImpl implements TelemedicineRepository {
 
     private final TelemedicineService telemedicineService;
+    private final DummyChatbotMessageGenerator dummyChatbotMessageGenerator = new DummyChatbotMessageGenerator();
 
     @Inject
     public TelemedicineRepositoryImpl(TelemedicineService telemedicineService) {
@@ -75,6 +80,10 @@ public class TelemedicineRepositoryImpl implements TelemedicineRepository {
         return telemedicineService.createAppointment(patientId, doctorId, makeAppointmentRequest).map(AppointmentMapper::mapToAppointmentModel);
     }
 
+    @Override
+    public Observable<ArrayList<ChatMessage>> handleUserMessage(String userInput) {
+        return Observable.fromCallable(() -> dummyChatbotMessageGenerator.handleUserMessage(userInput));
+    }
 
     // CURRENTLY NOTIFICATION IS NOT IMPLEMENTED IN THE BACKEND, MAKE THE DATA STATIC FOR NOW
     @Override

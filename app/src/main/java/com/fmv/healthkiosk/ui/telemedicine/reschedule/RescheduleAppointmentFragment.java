@@ -1,5 +1,7 @@
 package com.fmv.healthkiosk.ui.telemedicine.reschedule;
 
+import static androidx.navigation.Navigation.findNavController;
+
 import android.app.DatePickerDialog;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -29,6 +31,9 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class RescheduleAppointmentFragment extends BaseFragment<FragmentRescheduleAppointmentBinding, RescheduleAppointmentViewModel> {
 
+    public static final String REQUEST_RESCHEDULE_KEY_CHAT = "request_reschedule_key_chat";
+    public static final String REQUEST_RESCHEDULE_KEY_CHAT_UPDATED = "request_reschedule_key_chat_updated";
+
     List<String> timeSlots = Arrays.asList(
             "08:00", "10:00", "12:00", "14:00", "16:00", "18:00",
             "20:00", "21:00", "22:00", "22:30", "23:00", "23:30"
@@ -46,7 +51,15 @@ public class RescheduleAppointmentFragment extends BaseFragment<FragmentReschedu
 
     @Override
     protected void setupUI(Bundle savedInstanceState) {
+        getParentFragmentManager().setFragmentResultListener(REQUEST_RESCHEDULE_KEY_CHAT, getViewLifecycleOwner(), (key, bundle) -> {
+            boolean updated = bundle.getBoolean(REQUEST_RESCHEDULE_KEY_CHAT_UPDATED, false);
+            if (updated) {
+                navigateBack();
+            }
+        });
+
         observeViewModel();
+
         setViews();
         setListeners();
     }
@@ -124,7 +137,7 @@ public class RescheduleAppointmentFragment extends BaseFragment<FragmentReschedu
         });
 
         binding.btnAssistantHelp.setOnClickListener(v -> {
-           navigateToFragment(RescheduleAppointmentFragmentDirections.actionNavigationRescheduleAppointmentFragmentToNavigationChatFragment(viewModel.doctorModel), false);
+           navigateToFragment(RescheduleAppointmentFragmentDirections.actionNavigationRescheduleAppointmentFragmentToNavigationChatFragment(viewModel.doctorModel, viewModel.appointmentId), false);
         });
 
         binding.btnOkay.setOnClickListener(v -> {

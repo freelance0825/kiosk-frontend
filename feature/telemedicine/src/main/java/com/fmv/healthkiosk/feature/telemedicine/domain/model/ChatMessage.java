@@ -1,10 +1,12 @@
 package com.fmv.healthkiosk.feature.telemedicine.domain.model;
 
 public class ChatMessage {
+    private int id;
     private String message;
     private boolean isFromUser; // true = user, false = assistant
 
-    public ChatMessage(String message, boolean isFromUser) {
+    public ChatMessage(int id, String message, boolean isFromUser) {
+        this.id = id;
         this.message = message;
         this.isFromUser = isFromUser;
     }
@@ -15,5 +17,9 @@ public class ChatMessage {
 
     public boolean isFromUser() {
         return isFromUser;
+    }
+
+    public int getId() {
+        return this.id;
     }
 }

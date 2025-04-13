@@ -1,12 +1,20 @@
 package com.fmv.healthkiosk.ui.telemedicine.makeappointment;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -17,6 +25,7 @@ import com.fmv.healthkiosk.databinding.FragmentMakeAppointmentBinding;
 import com.fmv.healthkiosk.ui.telemedicine.makeappointment.adapter.TimeSlotAdapter;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -26,6 +35,9 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class MakeAppointmentFragment extends BaseFragment<FragmentMakeAppointmentBinding, MakeAppointmentViewModel> {
+
+    private SpeechRecognizer speechRecognizer;
+    private Intent speechRecognizerIntent;
 
     List<String> timeSlots = Arrays.asList(
             "08:00", "10:00", "12:00", "14:00", "16:00", "18:00",
@@ -44,6 +56,7 @@ public class MakeAppointmentFragment extends BaseFragment<FragmentMakeAppointmen
 
     @Override
     protected void setupUI(Bundle savedInstanceState) {
+        setupSpeechToText();
         observeViewModel();
 
         setViews();
@@ -59,6 +72,24 @@ public class MakeAppointmentFragment extends BaseFragment<FragmentMakeAppointmen
                 binding.makeAppointmentLayout.setVisibility(ViewGroup.VISIBLE);
                 binding.confirmAppointmentLayout.setVisibility(ViewGroup.GONE);
             }
+        });
+
+        viewModel.isStartingSpeech.observe(getViewLifecycleOwner(), isStarting -> {
+            if (isStarting) {
+                viewModel.isLoadingSpeech.setValue(true);
+                binding.btnTellComplaints.setVisibility(ViewGroup.GONE);
+                binding.layoutStartSpeech.setVisibility(ViewGroup.VISIBLE);
+                speechRecognizer.startListening(speechRecognizerIntent);
+            } else {
+                binding.btnTellComplaints.setVisibility(ViewGroup.VISIBLE);
+                binding.layoutStartSpeech.setVisibility(ViewGroup.GONE);
+                speechRecognizer.stopListening();
+            }
+        });
+
+        viewModel.isLoadingSpeech.observe(getViewLifecycleOwner(), isLoading -> {
+            binding.progressbarSpeech.setVisibility(isLoading ? ViewGroup.VISIBLE : ViewGroup.GONE);
+            binding.btnClearSpeech.setVisibility(isLoading ? ViewGroup.GONE : ViewGroup.VISIBLE);
         });
 
         viewModel.selectedDate.observe(getViewLifecycleOwner(), selectedDate -> {
@@ -105,8 +136,24 @@ public class MakeAppointmentFragment extends BaseFragment<FragmentMakeAppointmen
             showDatePicker();
         });
 
+        binding.btnTellComplaints.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.RECORD_AUDIO}, 1);
+            } else {
+                viewModel.isStartingSpeech.setValue(true);
+            }
+        });
+
+        binding.btnClearSpeech.setOnClickListener(v -> {
+            viewModel.isStartingSpeech.setValue(false);
+            binding.edSpeechText.setText("");
+            viewModel.healthComplaints.setValue("");
+        });
+
         binding.btnSubmit.setOnClickListener(v -> {
-            if (viewModel.selectedDate.getValue().isEmpty() || viewModel.selectedTime.getValue().isEmpty()) {
+            if (viewModel.healthComplaints.getValue().isEmpty()) {
+                Toast.makeText(requireContext(), "Please tell you Health Complaints first", Toast.LENGTH_SHORT).show();
+            } else if (viewModel.selectedDate.getValue().isEmpty() || viewModel.selectedTime.getValue().isEmpty()) {
                 Toast.makeText(requireContext(), "Please select date and time", Toast.LENGTH_SHORT).show();
             } else {
                 String dateTime = viewModel.selectedDate.getValue() + ", " + viewModel.selectedTime.getValue();
@@ -146,5 +193,64 @@ public class MakeAppointmentFragment extends BaseFragment<FragmentMakeAppointmen
         datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
 
         datePickerDialog.show();
+    }
+
+    private void setupSpeechToText() {
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(requireContext());
+        speechRecognizer.setRecognitionListener(new RecognitionListener() {
+            @Override
+            public void onReadyForSpeech(Bundle params) {}
+
+            @Override
+            public void onBeginningOfSpeech() {}
+
+            @Override
+            public void onRmsChanged(float rmsdB) {}
+
+            @Override
+            public void onBufferReceived(byte[] buffer) {}
+
+            @Override
+            public void onEndOfSpeech() {}
+
+            @Override
+            public void onError(int error) {}
+
+            @Override
+            public void onResults(Bundle results) {
+                ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                if (matches != null && !matches.isEmpty()) {
+                    String finalComplaints = matches.get(0);
+
+                    viewModel.isLoadingSpeech.setValue(false);
+                    binding.edSpeechText.setText(finalComplaints); // display final result
+                    viewModel.healthComplaints.setValue(finalComplaints);
+                }
+            }
+
+            @Override
+            public void onPartialResults(Bundle partialResults) {
+                ArrayList<String> partialMatches = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                if (partialMatches != null && !partialMatches.isEmpty()) {
+                    binding.edSpeechText.setText(partialMatches.get(0)); // live update while speaking
+                }
+            }
+
+            @Override
+            public void onEvent(int eventType, Bundle params) {}
+        });
+
+        speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (speechRecognizer != null) {
+            speechRecognizer.destroy();
+        }
     }
 }

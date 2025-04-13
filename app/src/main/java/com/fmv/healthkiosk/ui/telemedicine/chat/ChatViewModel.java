@@ -33,6 +33,10 @@ public class ChatViewModel extends BaseViewModel {
     final DoctorModel doctorModel;
     final int appointmentId;
 
+    final MutableLiveData<Boolean> isStartingSpeech = new MutableLiveData<>(false);
+    final MutableLiveData<Boolean> isLoadingSpeech = new MutableLiveData<>(false);
+    final MutableLiveData<String> speechMessage = new MutableLiveData<>("");
+
     final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     final MutableLiveData<ArrayList<ChatMessage>> chatMessageList = new MutableLiveData<>(new ArrayList<>());
     final MutableLiveData<Map<String, AppointmentModel>> updatedAppointment = new MutableLiveData<>(null);

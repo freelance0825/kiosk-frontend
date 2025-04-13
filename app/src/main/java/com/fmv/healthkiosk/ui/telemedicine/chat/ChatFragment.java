@@ -3,11 +3,18 @@ package com.fmv.healthkiosk.ui.telemedicine.chat;
 import static com.fmv.healthkiosk.ui.telemedicine.reschedule.RescheduleAppointmentFragment.REQUEST_RESCHEDULE_KEY_CHAT;
 import static com.fmv.healthkiosk.ui.telemedicine.reschedule.RescheduleAppointmentFragment.REQUEST_RESCHEDULE_KEY_CHAT_UPDATED;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -23,6 +30,7 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -30,6 +38,10 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class ChatFragment extends BaseFragment<FragmentChatBinding, ChatViewModel> {
+
+    private SpeechRecognizer speechRecognizer;
+    private Intent speechRecognizerIntent;
+
 
     private final ChatAdapter chatAdapter = new ChatAdapter();
 
@@ -45,6 +57,7 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding, ChatViewMode
 
     @Override
     protected void setupUI(Bundle savedInstanceState) {
+        setupSpeechToText();
         observeViewModel();
 
         setViews();
@@ -62,6 +75,24 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding, ChatViewMode
                 String firstKey = appointment.keySet().iterator().next();
                 viewModel.sendMessage(firstKey);
             }
+        });
+
+        viewModel.isStartingSpeech.observe(getViewLifecycleOwner(), isStarting -> {
+            if (isStarting) {
+                viewModel.isLoadingSpeech.setValue(true);
+                binding.btnSpeechToChat.setVisibility(ViewGroup.GONE);
+                binding.layoutStartSpeech.setVisibility(ViewGroup.VISIBLE);
+                speechRecognizer.startListening(speechRecognizerIntent);
+            } else {
+                binding.btnSpeechToChat.setVisibility(ViewGroup.VISIBLE);
+                binding.layoutStartSpeech.setVisibility(ViewGroup.GONE);
+                speechRecognizer.stopListening();
+            }
+        });
+
+        viewModel.isLoadingSpeech.observe(getViewLifecycleOwner(), isLoading -> {
+            binding.progressbarSpeech.setVisibility(isLoading ? ViewGroup.VISIBLE : ViewGroup.GONE);
+            binding.layoutSpeechButtons.setVisibility(isLoading ? ViewGroup.GONE : ViewGroup.VISIBLE);
         });
     }
 
@@ -81,6 +112,27 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding, ChatViewMode
     private void setListeners() {
         binding.btnFinish.setOnClickListener(v -> {
             navigateBack();
+        });
+
+        binding.btnSpeechToChat.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.RECORD_AUDIO}, 1);
+            } else {
+                viewModel.isStartingSpeech.setValue(true);
+            }
+        });
+
+        binding.btnClearSpeech.setOnClickListener(v -> {
+            viewModel.isStartingSpeech.setValue(false);
+            binding.edSpeechText.setText("");
+            viewModel.speechMessage.setValue("");
+        });
+
+        binding.btnSubmitSpeech.setOnClickListener(v -> {
+            viewModel.isStartingSpeech.setValue(false);
+            binding.edSpeechText.setText("");
+            viewModel.sendMessage(viewModel.speechMessage.getValue());
+            viewModel.speechMessage.setValue("");
         });
 
         chatAdapter.setOnItemClickListener(new ChatAdapter.OnItemClickListener() {
@@ -155,5 +207,63 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding, ChatViewMode
         Bundle result = new Bundle();
         result.putBoolean(REQUEST_RESCHEDULE_KEY_CHAT_UPDATED, true);
         getParentFragmentManager().setFragmentResult(REQUEST_RESCHEDULE_KEY_CHAT, result);
+    }
+
+    private void setupSpeechToText() {
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(requireContext());
+        speechRecognizer.setRecognitionListener(new RecognitionListener() {
+            @Override
+            public void onReadyForSpeech(Bundle params) {}
+
+            @Override
+            public void onBeginningOfSpeech() {}
+
+            @Override
+            public void onRmsChanged(float rmsdB) {}
+
+            @Override
+            public void onBufferReceived(byte[] buffer) {}
+
+            @Override
+            public void onEndOfSpeech() {}
+
+            @Override
+            public void onError(int error) {}
+
+            @Override
+            public void onResults(Bundle results) {
+                ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                if (matches != null && !matches.isEmpty()) {
+                    String finalMessage = matches.get(0);
+
+                    viewModel.isLoadingSpeech.setValue(false);
+                    binding.edSpeechText.setText(finalMessage); // display final result
+                    viewModel.speechMessage.setValue(finalMessage);
+                }
+            }
+
+            @Override
+            public void onPartialResults(Bundle partialResults) {
+                ArrayList<String> partialMatches = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                if (partialMatches != null && !partialMatches.isEmpty()) {
+                    binding.edSpeechText.setText(partialMatches.get(0)); // live update while speaking
+                }
+            }
+
+            @Override
+            public void onEvent(int eventType, Bundle params) {}
+        });
+
+        speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+    }
+
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (speechRecognizer != null) {
+            speechRecognizer.destroy();
+        }
     }
 }

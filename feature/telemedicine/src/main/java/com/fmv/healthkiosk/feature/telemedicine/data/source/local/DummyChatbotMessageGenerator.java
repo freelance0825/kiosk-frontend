@@ -3,8 +3,11 @@ package com.fmv.healthkiosk.feature.telemedicine.data.source.local;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.ChatMessage;
 import com.fmv.healthkiosk.feature.telemedicine.utils.ChatbotCommands;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class DummyChatbotMessageGenerator {
     private final ArrayList<ChatMessage> chatMessages = new ArrayList<>();
@@ -25,8 +28,12 @@ public class DummyChatbotMessageGenerator {
         } else {
             if (userInput.equals(ChatbotCommands.DONE_RESCHEDULE_DATE)) {
                 chatMessages.add(new ChatMessage(messageIdCounter++, "Select another date", true));
+            } else if (isValidDate(userInput)) {
+                chatMessages.add(new ChatMessage(messageIdCounter++, userInput, true));
             } else {
                 chatMessages.add(new ChatMessage(messageIdCounter++, userInput, true));
+                chatMessages.add(new ChatMessage(messageIdCounter++, "Sorry, AI is still in the developing process!", false));
+                return new ArrayList<>(chatMessages); // Important: return a copy to trigger LiveData observer
             }
 
             chatMessages.add(new ChatMessage(messageIdCounter++, "Thank you, your new appointment date has been created", false));
@@ -35,5 +42,16 @@ public class DummyChatbotMessageGenerator {
         }
 
         return new ArrayList<>(chatMessages); // Important: return a copy to trigger LiveData observer
+    }
+
+    private boolean isValidDate(String input) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM", Locale.ENGLISH);
+            sdf.setLenient(false); // Makes parsing stricter
+            sdf.parse(input);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
     }
 }

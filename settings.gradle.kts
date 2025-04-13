@@ -9,6 +9,8 @@ pluginManagement {
         }
         mavenCentral()
         maven("https://jitpack.io")
+        maven("https://github.com/jitsi/jitsi-maven-repository/raw/master/releases")
+        maven("https://maven.google.com")
         gradlePluginPortal()
     }
 }
@@ -18,6 +20,9 @@ dependencyResolutionManagement {
         google()
         maven("https://jitpack.io")
         mavenCentral()
+
+        maven("https://github.com/jitsi/jitsi-maven-repository/raw/master/releases")
+        maven("https://maven.google.com")
     }
 }
 

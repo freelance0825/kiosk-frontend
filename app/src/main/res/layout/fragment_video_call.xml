@@ -9,11 +9,17 @@
     android:padding="32dp"
     tools:context=".ui.auth.landing.LandingFragment">
 
+    <FrameLayout
+        android:id="@+id/jitsi_meet_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <LinearLayout
         android:id="@+id/layout_video_call"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
@@ -146,6 +152,7 @@
         android:layout_marginBottom="32dp"
         app:cardBackgroundColor="@color/primaryRed"
         app:cardCornerRadius="100dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/layout_video_call"
         app:layout_constraintEnd_toEndOf="@id/layout_video_call"
         app:layout_constraintStart_toStartOf="@id/layout_video_call">

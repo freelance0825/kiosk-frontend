@@ -28,7 +28,7 @@ android {
 
     defaultConfig {
         applicationId = "com.fmv.healthkiosk"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -61,6 +61,11 @@ dependencies {
 
     implementation(libs.material)
     implementation(libs.constraintlayout)
+
+    // JitsiMeet
+    implementation("org.jitsi.react:jitsi-meet-sdk:11.1.0") {
+        isTransitive = true
+    }
 
     // ThreeTenABP for backward-compatible date/time handling
     implementation("com.jakewharton.threetenabp:threetenabp:1.4.5")

@@ -106,7 +106,7 @@ public class PdfPrescriptionReportActivity extends BaseActivity<ActivityPdfPresc
             inputDate = inputDate.replace("T", " ");
 
             // Parse the ISO-like format
-            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS", Locale.ENGLISH);
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss[.SSSSSS]", Locale.ENGLISH);
             Date date = inputFormat.parse(inputDate);
 
             // Format to desired output

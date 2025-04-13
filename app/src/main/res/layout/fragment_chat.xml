@@ -92,16 +92,122 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_tell_complaints"
+            android:id="@+id/btn_speech_to_chat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:backgroundTint="@color/primaryBlue"
             android:drawableLeft="@drawable/icon_mic"
-            android:text="@string/fragment_make_appointment_tell_your_complaints"
+            android:text="@string/fragment_chat_speech_to_chat"
             android:textAllCaps="true"
             android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="visible"
+            tools:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/layout_start_speech"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fragment_make_appointment_speech_to_text"
+                    android:textColor="@color/textGreen"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center|start"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_mic"
+                        app:tint="@color/primaryGreen" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:gravity="center|start">
+
+                        <EditText
+                            android:id="@+id/ed_speech_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:hint="@string/fragment_make_appointment_start_speak"
+                            android:inputType="text"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/grayOpacity80"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <ProgressBar
+                            android:id="@+id/progressbar_speech"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="12dp"
+                            android:indeterminateTint="@color/primaryGreen"
+                            android:visibility="gone"
+                            tools:visibility="visible" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_speech_buttons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_clear_speech"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:backgroundTint="@android:color/transparent"
+                    android:text="@string/fragment_make_appointment_clear"
+                    android:textAllCaps="true"
+                    app:strokeColor="@color/white"
+                    app:strokeWidth="1dp"
+                    tools:visibility="visible" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_submit_speech"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="16dp"
+                    android:backgroundTint="@color/primaryBlue"
+                    android:text="@string/fragment_landing_submit"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    tools:visibility="visible" />
+            </LinearLayout>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

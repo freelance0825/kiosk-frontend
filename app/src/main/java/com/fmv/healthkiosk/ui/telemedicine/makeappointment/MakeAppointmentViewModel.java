@@ -31,6 +31,10 @@ public class MakeAppointmentViewModel extends BaseViewModel {
 
     final DoctorModel doctor;
 
+    final MutableLiveData<Boolean> isStartingSpeech = new MutableLiveData<>(false);
+    final MutableLiveData<Boolean> isLoadingSpeech = new MutableLiveData<>(false);
+    final MutableLiveData<String> healthComplaints = new MutableLiveData<>("");
+
     final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     final MutableLiveData<List<DoctorModel>> doctorList = new MutableLiveData<>();
@@ -68,7 +72,7 @@ public class MakeAppointmentViewModel extends BaseViewModel {
         String doctorName = doctor.getName();
         String specialization = doctor.getSpecialization();
 
-        String healthComplaints = "Health Complaints Dummy";
+        String healthComplaints = this.healthComplaints.getValue();
         String dateTimeTemp = selectedDate.getValue() + " " + selectedTime.getValue();
         String dateTime = convertDate(dateTimeTemp);
 

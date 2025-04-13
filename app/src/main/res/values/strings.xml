@@ -221,6 +221,7 @@
     <string name="fragment_chat_select_another_date">Select another date</string>
     <string name="fragment_chat_reschedule_my_appointment">Reschedule my appointment</string>
     <string name="fragment_chat_view_doctor_s_schedule">View doctor\'s schedule</string>
+    <string name="fragment_chat_speech_to_chat">Speech to chat</string>
 
     <string-array name="height_steps">
         <item>Stand on the height measurement device</item>

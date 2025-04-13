@@ -41,14 +41,17 @@ public class BookAppointmentViewModel extends BaseViewModel {
         disposables.add(
                 getAvailableDoctorsUseCase.execute()
                         .subscribeOn(Schedulers.io())
+                        .map(doctors -> {
+                            doctors.sort((d1, d2) -> Double.compare(d2.getReview(), d1.getReview()));
+                            return doctors;
+                        })
                         .observeOn(AndroidSchedulers.mainThread())
                         .doFinally(() -> isLoading.setValue(false))
                         .subscribe(
                                 doctorList::setValue,
-                                throwable -> {
-                                    errorMessage.setValue(throwable.getMessage());
-                                }
-                        ));
+                                throwable -> errorMessage.setValue(throwable.getMessage())
+                        )
+        );
     }
 
     @Override

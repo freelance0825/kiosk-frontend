@@ -4,6 +4,7 @@ import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.Appoint
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.DoctorResponse;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentRequest;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.MakeAppointmentRequest;
+import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.NotificationResponse;
 
 import java.util.List;
 
@@ -52,4 +53,8 @@ public interface TelemedicineService {
             @Query("chosenDoctor") long chosenDoctor,
             @Body MakeAppointmentRequest makeAppointmentRequest
     );
+
+    @Headers("Content-Type: application/json")
+    @GET("notifications/patient/{id}")
+    Single<List<NotificationResponse>> getPatientNotifications(@Path("id") int patientId, @Query("id") long currentPatient);
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.SavedStateHandle;
 import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
 import com.fmv.healthkiosk.feature.auth.domain.usecase.AccountUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.NotificationModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetAllNotificationsUseCase;
 
 import java.util.ArrayList;
@@ -27,8 +28,8 @@ public class NotificationViewModel extends BaseViewModel {
 
     final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     final MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    final MutableLiveData<List<Notification>> todayNotificationList = new MutableLiveData<>();
-    final MutableLiveData<List<Notification>> allNotificationList = new MutableLiveData<>();
+    final MutableLiveData<List<NotificationModel>> todayNotificationList = new MutableLiveData<>(new ArrayList<>());
+    final MutableLiveData<List<NotificationModel>> allNotificationList = new MutableLiveData<>(new ArrayList<>());
 
     final MutableLiveData<String> username = new MutableLiveData<>();
 
@@ -45,28 +46,31 @@ public class NotificationViewModel extends BaseViewModel {
     }
 
     public void getAllNotifications() {
+        int userId = accountUseCase.getUserID().blockingFirst();
         isLoading.setValue(true);
         errorMessage.setValue(null);
+
         disposables.add(
-                getAllNotificationsUseCase.execute()
+                getAllNotificationsUseCase.execute(userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doFinally(() -> isLoading.setValue(false))
                         .subscribe(
                                 notifications -> {
-                                    List<Notification> todayList = new ArrayList<>();
-                                    List<Notification> allList = new ArrayList<>();
-
-                                    for (Notification notif : notifications) {
-                                        allList.add(notif);
-
-                                        if (isToday(notif.getDateTime())) {
-                                            todayList.add(notif);
-                                        }
-                                    }
-
-                                    todayNotificationList.setValue(todayList);
-                                    allNotificationList.setValue(allList);
+                                    // Leave the TODAY Notification, for now we'll fetch all notification
+//                                    List<Notification> todayList = new ArrayList<>();
+//                                    List<Notification> allList = new ArrayList<>();
+//
+//                                    for (Notification notif : notifications) {
+//                                        allList.add(notif);
+//
+//                                        if (isToday(notif.getDateTime())) {
+//                                            todayList.add(notif);
+//                                        }
+//                                    }
+//
+//                                    todayNotificationList.setValue(todayList);
+                                    allNotificationList.setValue(notifications);
                                 },
                                 throwable -> errorMessage.setValue(throwable.getMessage())
                         )

@@ -3,6 +3,7 @@ package com.fmv.healthkiosk.feature.telemedicine.data.repo;
 
 import com.fmv.healthkiosk.feature.telemedicine.data.mapper.AppointmentMapper;
 import com.fmv.healthkiosk.feature.telemedicine.data.mapper.DoctorMapper;
+import com.fmv.healthkiosk.feature.telemedicine.data.mapper.NotificationMapper;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.local.DummyChatbotMessageGenerator;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.local.NotificationAppointmentDataGenerator;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.TelemedicineService;
@@ -13,6 +14,7 @@ import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.ChatMessage;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.NotificationModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.repo.TelemedicineRepository;
 
 import java.util.ArrayList;
@@ -85,9 +87,11 @@ public class TelemedicineRepositoryImpl implements TelemedicineRepository {
         return Observable.fromCallable(() -> dummyChatbotMessageGenerator.handleUserMessage(userInput));
     }
 
-    // CURRENTLY NOTIFICATION IS NOT IMPLEMENTED IN THE BACKEND, MAKE THE DATA STATIC FOR NOW
     @Override
-    public Single<List<Notification>> getAllNotifications() {
-        return Single.fromCallable(NotificationAppointmentDataGenerator::generateSampleAppointments);
+    public Single<List<NotificationModel>> getPatientNotifications(int userId) {
+        return telemedicineService.getPatientNotifications(userId,userId)
+                .map(doctorResponses -> doctorResponses.stream()
+                        .map(NotificationMapper::fromResponse)
+                        .collect(Collectors.toList()));
     }
 }

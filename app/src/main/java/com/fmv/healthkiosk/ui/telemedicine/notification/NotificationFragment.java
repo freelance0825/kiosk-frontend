@@ -44,7 +44,7 @@ public class NotificationFragment extends BaseFragment<FragmentNotificationBindi
             allNotificationAdapter.setUsername(username);
         });
 
-        viewModel.todayNotificationList.observe(getViewLifecycleOwner(), todayNotificationAdapter::submitList);
+//        viewModel.todayNotificationList.observe(getViewLifecycleOwner(), todayNotificationAdapter::submitList);
         viewModel.allNotificationList.observe(getViewLifecycleOwner(), allNotificationAdapter::submitList);
     }
 

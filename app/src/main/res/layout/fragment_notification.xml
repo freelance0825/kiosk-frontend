@@ -65,6 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/fragment_notification_today"
+                android:visibility="gone"
                 android:textColor="@color/textGreen"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -73,6 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:visibility="gone"
                 android:id="@+id/rv_today_notification"/>
 
             <TextView
@@ -81,6 +83,7 @@
                 android:text="@string/fragment_notification_all_notifications"
                 android:textColor="@color/textGreen"
                 android:textSize="18sp"
+                android:visibility="gone"
                 android:layout_marginTop="32dp"
                 android:textStyle="bold" />
 

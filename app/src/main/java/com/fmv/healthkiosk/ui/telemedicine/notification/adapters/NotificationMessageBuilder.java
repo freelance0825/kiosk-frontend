@@ -6,32 +6,23 @@ import java.util.Locale;
 
 public class NotificationMessageBuilder {
 
-    public static String getNowMessage(String userName, long dateTimeMillis, String doctorName) {
-        SimpleDateFormat timeFormat = new SimpleDateFormat("hh.mm a", Locale.getDefault());
-        String time = timeFormat.format(new Date(dateTimeMillis));
-
-        return "Hi, " + userName + ". Your appointment at " + time +
+    public static String getNowMessage(String userName, String date, String doctorName) {
+        return "Hi, " + userName + ". Your appointment at " + date +
                 " with " + doctorName + " is happening now. Don’t let your doctor waiting for long time.";
     }
 
-    public static String getCancelledMessage(String userName, long dateTimeMillis, String doctorName, String specialization) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy 'at' hh.mm a", Locale.getDefault());
-        String dateTime = dateFormat.format(new Date(dateTimeMillis));
-
+    public static String getCancelledMessage(String userName, String dateTime, String doctorName, String specialization) {
         return "Hi, " + userName + ". Your appointment at " + dateTime +
                 " with " + doctorName + ", " + specialization + " has been cancelled.";
     }
 
-    public static String getRescheduledMessage(String userName, long originalDateTime, long newDateTime, String doctorName) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM", Locale.getDefault());
-        SimpleDateFormat timeFormat = new SimpleDateFormat("hh.mm a", Locale.getDefault());
+    public static String getRescheduledMessage(String userName, String newDateTime, String doctorName) {
+        return "Hi, " + userName + ". Your appointment at with " + doctorName + " was going to be rescheduled to " +
+                newDateTime + ".";
+    }
 
-        String originalDate = dateFormat.format(new Date(originalDateTime));
-        String originalTime = timeFormat.format(new Date(originalDateTime));
-        String newTime = timeFormat.format(new Date(newDateTime));
-
-        return "Hi, " + userName + ". Your appointment at " + originalDate + ", " + originalTime +
-                " with " + doctorName + " was going to be rescheduled to " +
-                originalDate + ", " + newTime + " . Confirm with your doctor now";
+    public static String getBookedMessage(String userName, String newDateTime, String doctorName) {
+        return "Hi, " + userName + ". Your booked a new appointment with " + doctorName + " at " +
+                newDateTime + "!";
     }
 }

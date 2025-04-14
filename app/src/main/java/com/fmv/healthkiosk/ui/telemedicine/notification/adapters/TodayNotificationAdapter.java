@@ -46,36 +46,36 @@ public class TodayNotificationAdapter extends ListAdapter<Notification, TodayNot
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Notification notification = getItem(position);
-        long dateTime = notification.getDateTime();
-
-        holder.binding.tvDateTimeAppointment.setText(formatToCustomDateTime(dateTime));
-
-        if (notification.isCancelled()) {
-            holder.binding.tvAppointmentTitle.setText("Your appointment has been cancelled");
-            holder.binding.tvAppointmentDesc.setText(NotificationMessageBuilder.getCancelledMessage(username, dateTime, notification.getDoctor().getName(), notification.getDoctor().getSpecialization()));
-        } else if (notification.isRescheduled()) {
-            holder.binding.tvAppointmentTitle.setText("You have new notification time proposal");
-            // Currently no reschedule
-        } else if (isNow(dateTime)) {
-            holder.binding.tvAppointmentTitle.setText("Your appointment happening now");
-            holder.binding.tvAppointmentDesc.setText(NotificationMessageBuilder.getNowMessage(username, dateTime, notification.getDoctor().getName()));
-        }
-
-        holder.binding.layoutDoctorConfirmation.setVisibility(ViewGroup.VISIBLE);
-
-        holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
-        holder.binding.tvDoctorName.setText(notification.getDoctor().getName());
-        holder.binding.tvDoctorOccupation.setText(notification.getDoctor().getSpecialization());
-
-        holder.binding.tvDateTime.setText(formatDateTime(dateTime));
-        holder.binding.tvDateTime.setTextColor(ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.white));
-
-        holder.binding.btnJoinNow.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onJoinNowClick(notification, position);
-            }
-        });
+//        Notification notification = getItem(position);
+//        long dateTime = notification.getDateTime();
+//
+//        holder.binding.tvDateTimeAppointment.setText(formatToCustomDateTime(dateTime));
+//
+//        if (notification.isCancelled()) {
+//            holder.binding.tvAppointmentTitle.setText("Your appointment has been cancelled");
+//            holder.binding.tvAppointmentDesc.setText(NotificationMessageBuilder.getCancelledMessage(username, formatDateTime(dateTime), notification.getDoctor().getName(), notification.getDoctor().getSpecialization()));
+//        } else if (notification.isRescheduled()) {
+//            holder.binding.tvAppointmentTitle.setText("You have new notification time proposal");
+//            // Currently no reschedule
+//        } else if (isNow(dateTime)) {
+//            holder.binding.tvAppointmentTitle.setText("Your appointment happening now");
+//            holder.binding.tvAppointmentDesc.setText(NotificationMessageBuilder.getNowMessage(username, dateTime, notification.getDoctor().getName()));
+//        }
+//
+//        holder.binding.layoutDoctorConfirmation.setVisibility(ViewGroup.VISIBLE);
+//
+//        holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
+//        holder.binding.tvDoctorName.setText(notification.getDoctor().getName());
+//        holder.binding.tvDoctorOccupation.setText(notification.getDoctor().getSpecialization());
+//
+//        holder.binding.tvDateTime.setText(formatDateTime(dateTime));
+//        holder.binding.tvDateTime.setTextColor(ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.white));
+//
+//        holder.binding.btnJoinNow.setOnClickListener(v -> {
+//            if (listener != null) {
+//                listener.onJoinNowClick(notification, position);
+//            }
+//        });
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

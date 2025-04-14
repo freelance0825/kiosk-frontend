@@ -7,6 +7,7 @@ import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.ChatMessage;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.NotificationModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public interface TelemedicineRepository {
 
     Single<AppointmentModel> cancelMyAppointments(int appointmentId);
 
-    Single<List<Notification>> getAllNotifications();
+    Single<List<NotificationModel>> getPatientNotifications(int userId);
 
     Observable<ArrayList<ChatMessage>> handleUserMessage(String userInput);
 

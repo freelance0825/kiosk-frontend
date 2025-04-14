@@ -1,6 +1,7 @@
 package com.fmv.healthkiosk.feature.telemedicine.domain.interactor;
 
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.NotificationModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.repo.TelemedicineRepository;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetAllNotificationsUseCase;
 
@@ -20,7 +21,7 @@ public class GetAllNotificationsInteractor implements GetAllNotificationsUseCase
     }
 
     @Override
-    public Single<List<Notification>> execute() {
-        return repository.getAllNotifications();
+    public Single<List<NotificationModel>> execute(int userId) {
+        return repository.getPatientNotifications(userId);
     }
 }

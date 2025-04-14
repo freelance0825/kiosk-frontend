@@ -13,6 +13,10 @@ import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
 import com.fmv.healthkiosk.ui.telemedicine.consultationhistory.adapters.ConsultationHistoryAdapter;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -39,7 +43,15 @@ public class ConsultationHistoryFragment extends BaseFragment<FragmentConsultati
     }
 
     private void observeViewModel() {
-        viewModel.myAppointmentList.observe(getViewLifecycleOwner(), consultationHistoryAdapter::submitList);
+        viewModel.myAppointmentList.observe(getViewLifecycleOwner(), appointments -> {
+            if (appointments == null) return;
+
+            // Sort by appointmentDate DESCENDING (latest first)
+            List<AppointmentModel> sortedList = new ArrayList<>(appointments);
+            Collections.sort(sortedList, (a1, a2) -> a2.getDateTime().compareTo(a1.getDateTime()));
+
+            consultationHistoryAdapter.submitList(sortedList);
+        });
     }
 
     private void setViews() {

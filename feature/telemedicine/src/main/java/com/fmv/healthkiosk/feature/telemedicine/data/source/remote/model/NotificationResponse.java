@@ -37,7 +37,7 @@ public class NotificationResponse{
 	@SerializedName("apptUserName")
 	private String apptUserName;
 
-	@SerializedName("createAt")
+	@SerializedName("createdAt")
 	private String createAt;
 
 	public boolean isIsRescheduled(){

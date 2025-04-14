@@ -129,13 +129,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
             popupMenu.setOnMenuItemClickListener(item -> {
                 int id = item.getItemId();
-//                if (id == R.id.menu_edit_profile) {
-//                    // Handle Edit My Profile
-//                    NavController navControllerEdit = Navigation.findNavController(this, R.id.nav_host_fragment);
-//                    navControllerEdit.navigate(R.id.navigation_edit_profile);
-//                    return true;
-//                } else
-                if (id == R.id.menu_logout) {
+                if (id == R.id.menu_edit_profile) {
+                    // Handle Edit My Profile
+                    NavController navControllerEdit = Navigation.findNavController(this, R.id.nav_host_fragment);
+                    navControllerEdit.navigate(R.id.navigation_edit_profile);
+                    return true;
+                } else if (id == R.id.menu_logout) {
                     // Handle Logout
                     viewModel.logout();
                     return true;

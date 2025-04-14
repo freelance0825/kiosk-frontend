@@ -51,7 +51,7 @@ public class AllNotificationAdapter extends ListAdapter<NotificationModel, AllNo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         NotificationModel notification = getItem(position);
-        holder.binding.tvDateTimeAppointment.setText(formatDate(notification.getApptDateTime()));
+        holder.binding.tvDateTimeAppointment.setText(formatDate(notification.getCreateAt()));
 
         LocalDateTime ldt = LocalDateTime.parse(notification.getApptDateTime());
 

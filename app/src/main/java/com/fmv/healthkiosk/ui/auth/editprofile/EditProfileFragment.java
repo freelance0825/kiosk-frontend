@@ -126,6 +126,7 @@ public class EditProfileFragment extends BaseFragment<FragmentEditProfileBinding
                     (view, selectedYear, selectedMonth, selectedDay) -> {
                         String formattedDate = String.format("%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear);
                         binding.edDateOfBirth.setText(formattedDate);
+                        viewModel.updateAge(formattedDate);
                     },
                     year, month, day
             );

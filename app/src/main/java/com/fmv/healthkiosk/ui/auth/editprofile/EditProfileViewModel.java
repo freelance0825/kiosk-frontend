@@ -1,10 +1,18 @@
 package com.fmv.healthkiosk.ui.auth.editprofile;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 
 import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
 import com.fmv.healthkiosk.feature.auth.domain.usecase.EditProfileUseCase;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -28,6 +36,8 @@ public class EditProfileViewModel extends BaseViewModel {
     final MutableLiveData<String> phoneNumber = new MutableLiveData<>();
     final MutableLiveData<String> email = new MutableLiveData<>();
     final MutableLiveData<String> dateOfBirth = new MutableLiveData<>();
+
+    final MutableLiveData<String> userAge = new MutableLiveData<>();
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     @Inject
@@ -75,12 +85,37 @@ public class EditProfileViewModel extends BaseViewModel {
     public void update(Integer userId, String name, String gender, String phoneNumber, String email, String dob) {
         isLoading.setValue(true);
         errorMessage.setValue(null);
-        disposables.add(editProfileUseCase.execute(userId, name, gender, phoneNumber, email, dob)
+        disposables.add(editProfileUseCase.execute(userId, name, gender, phoneNumber, email, dob, userAge.getValue())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally(() -> isLoading.setValue(false))
                 .subscribe(updateSuccessMessage::setValue, throwable -> errorMessage.setValue(throwable.getMessage())
                 ));
+    }
+
+    public void updateAge(String dob) {
+        if (dob == null || dob.isEmpty()) return;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        try {
+            Date birthDate = sdf.parse(dob);
+            if (birthDate == null) return;
+
+            Calendar dobCalendar = Calendar.getInstance();
+            dobCalendar.setTime(birthDate);
+
+            Calendar today = Calendar.getInstance();
+
+            int age = today.get(Calendar.YEAR) - dobCalendar.get(Calendar.YEAR);
+
+            if (age < 0) {
+                age = 0;
+            }
+
+            userAge.setValue(String.valueOf(age));
+        } catch (ParseException e) {
+            Log.e("RegisterViewModel", "updateAge: " + e.getMessage());
+        }
     }
 
     @Override

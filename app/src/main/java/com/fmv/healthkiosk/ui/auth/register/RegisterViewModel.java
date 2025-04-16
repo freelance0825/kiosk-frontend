@@ -61,14 +61,17 @@ public class RegisterViewModel extends BaseViewModel {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         try {
             Date birthDate = sdf.parse(dob);
+            if (birthDate == null) return;
+
             Calendar dobCalendar = Calendar.getInstance();
             dobCalendar.setTime(birthDate);
 
             Calendar today = Calendar.getInstance();
+
             int age = today.get(Calendar.YEAR) - dobCalendar.get(Calendar.YEAR);
 
-            if (today.get(Calendar.DAY_OF_YEAR) < dobCalendar.get(Calendar.DAY_OF_YEAR)) {
-                age--;
+            if (age < 0) {
+                age = 0;
             }
 
             userAge.setValue(String.valueOf(age));

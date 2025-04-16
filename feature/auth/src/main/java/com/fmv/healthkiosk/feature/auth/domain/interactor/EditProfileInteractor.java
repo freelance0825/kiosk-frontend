@@ -15,8 +15,8 @@ public class EditProfileInteractor implements EditProfileUseCase {
     }
 
     @Override
-    public Single<String> execute(Integer userId,String name, String gender, String phoneNumber, String email, String dob) {
-        return authRepository.updateUser(userId, name, gender, phoneNumber, email, dob);
+    public Single<String> execute(Integer userId,String name, String gender, String phoneNumber, String email, String dob, String age) {
+        return authRepository.updateUser(userId, name, gender, phoneNumber, email, dob, age);
     }
 
     @Override

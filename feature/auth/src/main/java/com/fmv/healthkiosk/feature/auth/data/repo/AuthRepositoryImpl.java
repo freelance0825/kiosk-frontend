@@ -85,21 +85,23 @@ public class AuthRepositoryImpl implements AuthRepository {
     }
 
     @Override
-    public Single<String> updateUser(Integer userId, String name, String gender, String phoneNumber, String email, String dob) {
+    public Single<String> updateUser(Integer userId, String name, String gender, String phoneNumber, String email, String dob, String age) {
         RequestBody namePart = RequestBody.create(name, MediaType.parse("text/plain"));
+        RequestBody agePart = RequestBody.create(age, MediaType.parse("text/plain"));
         RequestBody genderPart = RequestBody.create(gender, MediaType.parse("text/plain"));
         RequestBody phoneNumberPart = RequestBody.create(phoneNumber, MediaType.parse("text/plain"));
         RequestBody emailPart = RequestBody.create(email, MediaType.parse("text/plain"));
         RequestBody dobPart = RequestBody.create(dob, MediaType.parse("text/plain"));
 
-        return authService.update(userId, namePart, genderPart, emailPart, phoneNumberPart, dobPart)
+        return authService.update(userId, namePart, genderPart, emailPart, phoneNumberPart, dobPart, agePart)
                 .flatMap(authResponse -> Completable.concatArray(
                         authDataStore.setPhoneNumber(phoneNumber),
                         authDataStore.setEmail(authResponse.getEmail()),
                         authDataStore.setUsername(authResponse.getName()),
                         authDataStore.setDateOfBirth(authResponse.getDateOfBirth()),
                         authDataStore.setGender(authResponse.getGender()),
-                        authDataStore.setEmail(authResponse.getEmail())
+                        authDataStore.setEmail(authResponse.getEmail()),
+                        authDataStore.setAge(Integer.parseInt(authResponse.getAge()))
                 ).toSingleDefault("Update successful!"));
     }
 

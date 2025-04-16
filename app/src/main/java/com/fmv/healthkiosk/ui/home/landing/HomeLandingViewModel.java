@@ -26,7 +26,8 @@ public class HomeLandingViewModel extends BaseViewModel {
 
     List<MenuItem> menuList = Arrays.asList(
             new MenuItem("general_checkup", "General Checkup", R.drawable.asset_icon_checkup),
-//            new MenuItem("report", "Report", R.drawable.asset_icon_health_report),
+            new MenuItem("advanced_test", "Advanced Test", R.drawable.asset_icon_advanced_test),
+            new MenuItem("report", "Report", R.drawable.asset_icon_health_report),
 //            new MenuItem("e_health_record", "E-Health Record", R.drawable.asset_icon_health_record),
             new MenuItem("telemedicine", "Telemedicine", R.drawable.asset_icon_telemedicine)
     );

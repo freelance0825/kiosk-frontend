@@ -55,15 +55,15 @@ public class HomeLandingFragment extends BaseFragment<FragmentHomeLandingBinding
     private void handleMenuClick(String menuId) {
         switch (menuId) {
             case "general_checkup":
-                navigateToFragment(HomeLandingFragmentDirections.actionNavigationHomeLandingToNavigationMedicalPackage(), false);
-//                MedicalPackage medicalPackage = new MedicalPackage(getString(R.string.fragment_customize_test_general_checkup), "", "", 0);
-//                navigateToFragment(HomeLandingFragmentDirections.actionNavigationHomeLandingToNavigationCustomizeTest(medicalPackage), false);
-                break;
-//            case "advanced_test":
 //                navigateToFragment(HomeLandingFragmentDirections.actionNavigationHomeLandingToNavigationMedicalPackage(), false);
-//                break;
-//            case "report":
-//                break;
+                MedicalPackage medicalPackage = new MedicalPackage(getString(R.string.fragment_customize_test_general_checkup), "", "", 0);
+                navigateToFragment(HomeLandingFragmentDirections.actionNavigationHomeLandingToNavigationCustomizeTest(medicalPackage), false);
+                break;
+            case "advanced_test":
+                navigateToFragment(HomeLandingFragmentDirections.actionNavigationHomeLandingToNavigationMedicalPackage(), false);
+                break;
+            case "report":
+                break;
 //            case "e_health_record":
 //                break;
             case "telemedicine":

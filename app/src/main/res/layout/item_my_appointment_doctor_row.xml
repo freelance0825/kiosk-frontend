@@ -3,15 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
-    android:background="@drawable/bg_rounded_child_card"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_rounded_child_card_no_border"
     android:clickable="true"
     android:focusable="true"
     android:gravity="center|start"
     android:orientation="horizontal"
-    android:paddingHorizontal="24dp"
-    android:paddingVertical="12dp">
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -20,8 +19,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/image_doctor_layout"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:elevation="1dp"
             app:cardCornerRadius="12dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,16 +43,17 @@
             android:background="@drawable/bg_rounded_white_border"
             android:backgroundTint="@android:color/holo_red_dark"
             android:elevation="2dp"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="4dp"
+            android:paddingHorizontal="8dp"
+            android:textSize="10sp"
+            android:paddingVertical="2dp"
             android:text="@string/fragment_telemedicine_live"
             android:textColor="@color/white"
             android:visibility="invisible"
-            tools:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@id/image_doctor_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image_doctor_layout" />
+            app:layout_constraintTop_toBottomOf="@id/image_doctor_layout"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

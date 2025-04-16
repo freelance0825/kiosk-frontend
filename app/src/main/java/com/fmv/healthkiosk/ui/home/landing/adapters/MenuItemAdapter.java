@@ -1,6 +1,7 @@
 package com.fmv.healthkiosk.ui.home.landing.adapters;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -34,12 +35,22 @@ public class MenuItemAdapter extends ListAdapter<MenuItem, MenuItemAdapter.ViewH
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MenuItem menuItem = getItem(position);
-        holder.binding.tvMenuName.setText(menuItem.getName());
-        holder.binding.ivMenu.setImageResource(menuItem.getLogo());
+        if (menuItem == null) {
+            holder.binding.getRoot().setVisibility(View.INVISIBLE);
+        } else {
+            holder.binding.getRoot().setVisibility(View.VISIBLE);
+            holder.binding.tvMenuName.setText(menuItem.getName());
+            holder.binding.ivMenu.setImageResource(menuItem.getLogo());
 
-        holder.binding.getRoot().setOnClickListener(v -> {
-            if (listener != null) listener.onItemClick(menuItem, position);
-        });
+            holder.binding.getRoot().setOnClickListener(v -> {
+                if (listener != null) listener.onItemClick(menuItem, position);
+            });
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return 3;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -38,28 +38,33 @@ public class ConsultNowAdapter extends ListAdapter<DoctorModel, ConsultNowAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         DoctorModel doctor = getItem(position);
-
-        if (doctor.getImageBase64() == null) {
-            holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
+        if (doctor == null) {
+            holder.binding.getRoot().setVisibility(View.INVISIBLE);
         } else {
-            holder.binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(doctor.getImageBase64()));
+            holder.binding.getRoot().setVisibility(View.VISIBLE);
+
+            if (doctor.getImageBase64() == null) {
+                holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
+            } else {
+                holder.binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(doctor.getImageBase64()));
+            }
+
+            holder.binding.tvDoctorName.setText(doctor.getName());
+            holder.binding.tvDoctorOccupation.setText(doctor.getSpecialization());
+            holder.binding.tvRatings.setText(String.valueOf(doctor.getReview()));
+
+            // Use .equals() for string comparison to check if the status is "live"
+            if ("live".equals(doctor.getStatus())) {
+                holder.binding.tvLiveStatus.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.tvLiveStatus.setVisibility(View.INVISIBLE);
+            }
+
+            holder.binding.btnConsultNow.setVisibility(View.VISIBLE);
+            holder.binding.btnConsultNow.setOnClickListener(v -> {
+                if (listener != null) listener.onConsultNowClick(doctor, position);
+            });
         }
-
-        holder.binding.tvDoctorName.setText(doctor.getName());
-        holder.binding.tvDoctorOccupation.setText(doctor.getSpecialization());
-        holder.binding.tvRatings.setText(String.valueOf(doctor.getReview()));
-
-        // Use .equals() for string comparison to check if the status is "live"
-        if ("live".equals(doctor.getStatus())) {
-            holder.binding.tvLiveStatus.setVisibility(View.VISIBLE);
-        } else {
-            holder.binding.tvLiveStatus.setVisibility(View.INVISIBLE);
-        }
-
-        holder.binding.btnConsultNow.setVisibility(View.VISIBLE);
-        holder.binding.btnConsultNow.setOnClickListener(v -> {
-            if (listener != null) listener.onConsultNowClick(doctor, position);
-        });
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -70,6 +75,11 @@ public class ConsultNowAdapter extends ListAdapter<DoctorModel, ConsultNowAdapte
             this.binding = binding;
         }
     }
+
+//    @Override
+//    public int getItemCount() {
+//        return 3;
+//    }
 
     private static final DiffUtil.ItemCallback<DoctorModel> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<>() {

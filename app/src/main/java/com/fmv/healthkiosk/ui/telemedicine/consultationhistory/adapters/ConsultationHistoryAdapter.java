@@ -44,42 +44,46 @@ public class ConsultationHistoryAdapter extends ListAdapter<AppointmentModel, Co
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         AppointmentModel appointment = getItem(position);
-        DoctorModel doctor = appointment.getDoctor();
-
-        // Flag for Consultation History Row
-        holder.binding.layoutButtonConsultationHistory.setVisibility(View.VISIBLE);
-
-        if (doctor.getImageBase64() == null) {
-            holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
+        if (appointment == null) {
+            holder.binding.getRoot().setVisibility(View.INVISIBLE);
         } else {
-            holder.binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(doctor.getImageBase64()));
+            holder.binding.getRoot().setVisibility(View.VISIBLE);
+
+            DoctorModel doctor = appointment.getDoctor();
+            holder.binding.layoutButtonConsultationHistory.setVisibility(View.VISIBLE);
+
+            if (doctor.getImageBase64() == null) {
+                holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
+            } else {
+                holder.binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(doctor.getImageBase64()));
+            }
+
+            holder.binding.tvDoctorName.setText(doctor.getName());
+            holder.binding.tvDoctorOccupation.setText(doctor.getSpecialization());
+
+            // Use .equals() for string comparison to check if the status is "live"
+            if ("live".equals(doctor.getStatus())) {
+                holder.binding.tvLiveStatus.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.tvLiveStatus.setVisibility(View.INVISIBLE);
+            }
+
+            LocalDateTime ldt = LocalDateTime.parse(appointment.getDateTime());
+
+            // Dynamically format the date/time using the formatDateTime method
+            String formattedDate = formatDateTime(ldt);
+            holder.binding.tvDateTime.setText(formattedDate);
+            holder.binding.tvDateTime.setTextColor(ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.white));
+
+            // Handle button clicks for rebooking and viewing reports
+            holder.binding.btnBookAgain.setOnClickListener(v -> {
+                if (listener != null) listener.onBookAgainClick(appointment, position);
+            });
+
+            holder.binding.btnViewReport.setOnClickListener(v -> {
+                if (listener != null) listener.onViewReportClick(appointment, position);
+            });
         }
-
-        holder.binding.tvDoctorName.setText(doctor.getName());
-        holder.binding.tvDoctorOccupation.setText(doctor.getSpecialization());
-
-        // Use .equals() for string comparison to check if the status is "live"
-        if ("live".equals(doctor.getStatus())) {
-            holder.binding.tvLiveStatus.setVisibility(View.VISIBLE);
-        } else {
-            holder.binding.tvLiveStatus.setVisibility(View.INVISIBLE);
-        }
-
-        LocalDateTime ldt = LocalDateTime.parse(appointment.getDateTime());
-
-        // Dynamically format the date/time using the formatDateTime method
-        String formattedDate = formatDateTime(ldt);
-        holder.binding.tvDateTime.setText(formattedDate);
-        holder.binding.tvDateTime.setTextColor(ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.white));
-
-        // Handle button clicks for rebooking and viewing reports
-        holder.binding.btnBookAgain.setOnClickListener(v -> {
-            if (listener != null) listener.onBookAgainClick(appointment, position);
-        });
-
-        holder.binding.btnViewReport.setOnClickListener(v -> {
-            if (listener != null) listener.onViewReportClick(appointment, position);
-        });
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

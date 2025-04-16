@@ -38,28 +38,33 @@ public class BookAppointmentAdapter extends ListAdapter<DoctorModel, BookAppoint
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         DoctorModel doctor = getItem(position);
-
-        if (doctor.getImageBase64() == null) {
-            holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
+        if (doctor == null) {
+            holder.binding.getRoot().setVisibility(View.INVISIBLE);
         } else {
-            holder.binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(doctor.getImageBase64()));
+            holder.binding.getRoot().setVisibility(View.VISIBLE);
+
+            if (doctor.getImageBase64() == null) {
+                holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
+            } else {
+                holder.binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(doctor.getImageBase64()));
+            }
+
+            holder.binding.tvDoctorName.setText(doctor.getName());
+            holder.binding.tvDoctorOccupation.setText(doctor.getSpecialization());
+            holder.binding.tvRatings.setText(String.valueOf(doctor.getReview()));
+
+            // Use .equals() for string comparison to check if the status is "live"
+            if ("live".equals(doctor.getStatus())) {
+                holder.binding.tvLiveStatus.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.tvLiveStatus.setVisibility(View.INVISIBLE);
+            }
+
+            holder.binding.btnBookAppointment.setVisibility(View.VISIBLE);
+            holder.binding.btnBookAppointment.setOnClickListener(v -> {
+                if (listener != null) listener.onBookAppointmentClick(doctor, position);
+            });
         }
-
-        holder.binding.tvDoctorName.setText(doctor.getName());
-        holder.binding.tvDoctorOccupation.setText(doctor.getSpecialization());
-        holder.binding.tvRatings.setText(String.valueOf(doctor.getReview()));
-
-        // Use .equals() for string comparison to check if the status is "live"
-        if ("live".equals(doctor.getStatus())) {
-            holder.binding.tvLiveStatus.setVisibility(View.VISIBLE);
-        } else {
-            holder.binding.tvLiveStatus.setVisibility(View.INVISIBLE);
-        }
-
-        holder.binding.btnBookAppointment.setVisibility(View.VISIBLE);
-        holder.binding.btnBookAppointment.setOnClickListener(v -> {
-            if (listener != null) listener.onBookAppointmentClick(doctor, position);
-        });
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

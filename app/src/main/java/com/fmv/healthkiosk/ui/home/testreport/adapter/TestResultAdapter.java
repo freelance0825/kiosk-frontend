@@ -1,6 +1,7 @@
 package com.fmv.healthkiosk.ui.home.testreport.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -33,12 +34,20 @@ public class TestResultAdapter extends ListAdapter<TestResult, TestResultAdapter
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TestResult testResult = getItem(position);
-        if (testResult != null) {
+        if (testResult == null) {
+            holder.binding.getRoot().setVisibility(View.INVISIBLE);
+        } else {
+            holder.binding.getRoot().setVisibility(View.VISIBLE);
             holder.binding.tvResultName.setText(testResult.getName());
             holder.binding.tvResultValue.setText(String.valueOf(testResult.getValue()));
             holder.binding.tvResultExtension.setText(testResult.getExtension());
             holder.binding.tvResultStatus.setText(testResult.getStatus());
         }
+    }
+
+    @Override
+    public int getItemCount() {
+        return 4;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -53,15 +62,15 @@ public class TestResultAdapter extends ListAdapter<TestResult, TestResultAdapter
     private static final DiffUtil.ItemCallback<TestResult> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<>() {
                 @Override
-                public boolean areItemsTheSame(@NonNull TestResult oldStory,
-                                               @NonNull TestResult newStory) {
-                    return oldStory.equals(newStory);
+                public boolean areItemsTheSame(@NonNull TestResult oldItem,
+                                               @NonNull TestResult newItem) {
+                    return oldItem.equals(newItem);
                 }
 
                 @Override
-                public boolean areContentsTheSame(@NonNull TestResult oldStory,
-                                                  @NonNull TestResult newStory) {
-                    return Objects.equals(oldStory.getName(), newStory.getName());
+                public boolean areContentsTheSame(@NonNull TestResult oldItem,
+                                                  @NonNull TestResult newItem) {
+                    return Objects.equals(oldItem.getName(), newItem.getName());
                 }
             };
 }

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginEnd="24dp"
-    android:layout_marginBottom="16dp"
     android:background="@drawable/bg_rounded_child_card"
     android:clickable="true"
     android:focusable="true"

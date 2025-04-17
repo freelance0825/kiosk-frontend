@@ -40,65 +40,71 @@ public class MyAppointmentAdapter extends ListAdapter<AppointmentModel, MyAppoin
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         AppointmentModel appointment = getItem(position);
-        DoctorModel doctor = appointment.getDoctor(); // This is how you get the DoctorForNotification
-
-        // Flag for My Notification Row
-        holder.binding.layoutButtonMyAppointment.setVisibility(View.VISIBLE);
-
-        if (doctor.getImageBase64() == null) {
-            holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
+        if (appointment == null) {
+            holder.binding.getRoot().setVisibility(View.INVISIBLE);
         } else {
-            holder.binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(doctor.getImageBase64()));
-        }
+            holder.binding.getRoot().setVisibility(View.VISIBLE);
 
-        holder.binding.tvDoctorName.setText(doctor.getName());
-        holder.binding.tvDoctorOccupation.setText(doctor.getSpecialization());
+            DoctorModel doctor = appointment.getDoctor();
 
-        if ("live".equals(doctor.getStatus())) {
-            holder.binding.tvLiveStatus.setVisibility(View.VISIBLE);
-        } else {
-            holder.binding.tvLiveStatus.setVisibility(View.INVISIBLE);
-        }
+            // Flag for My Notification Row
+            holder.binding.layoutButtonMyAppointment.setVisibility(View.VISIBLE);
 
-        holder.binding.btnConsultNow.setVisibility(View.VISIBLE);
-        holder.binding.btnConsultNow.setOnClickListener(v -> {
-            if (listener != null) listener.onConsultNowClick(appointment, position);
-        });
+            if (doctor.getImageBase64() == null) {
+                holder.binding.ivDoctor.setImageDrawable(ContextCompat.getDrawable(holder.binding.getRoot().getContext(), R.drawable.asset_image_height_placeholder));
+            } else {
+                holder.binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(doctor.getImageBase64()));
+            }
 
-        LocalDateTime ldt = LocalDateTime.parse(appointment.getDateTime());
+            holder.binding.tvDoctorName.setText(doctor.getName());
+            holder.binding.tvDoctorOccupation.setText(doctor.getSpecialization());
 
-        // Use the "isNow" method to determine if the appointment is happening now
-        if (isNow(ldt)) {
-            holder.binding.tvDateTime.setText("HAPPEN NOW");
-            holder.binding.tvDateTime.setTextColor(ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.primaryBlue));
+            if ("live".equals(doctor.getStatus())) {
+                holder.binding.tvLiveStatus.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.tvLiveStatus.setVisibility(View.INVISIBLE);
+            }
 
             holder.binding.btnConsultNow.setVisibility(View.VISIBLE);
-            holder.binding.btnReschedule.setVisibility(View.GONE);
-            holder.binding.btnCancel.setVisibility(View.GONE);
+            holder.binding.btnConsultNow.setOnClickListener(v -> {
+                if (listener != null) listener.onConsultNowClick(appointment, position);
+            });
 
-        } else {
-            // Format the date/time dynamically every time it binds
-            String formattedDate = formatDateTime(ldt);
-            holder.binding.tvDateTime.setText(formattedDate);
-            holder.binding.tvDateTime.setTextColor(ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.white));
+            LocalDateTime ldt = LocalDateTime.parse(appointment.getDateTime());
 
-            holder.binding.btnConsultNow.setVisibility(View.GONE);
-            holder.binding.btnReschedule.setVisibility(View.VISIBLE);
-            holder.binding.btnCancel.setVisibility(View.VISIBLE);
+            // Use the "isNow" method to determine if the appointment is happening now
+            if (isNow(ldt)) {
+                holder.binding.tvDateTime.setText("HAPPEN NOW");
+                holder.binding.tvDateTime.setTextColor(ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.primaryBlue));
+
+                holder.binding.btnConsultNow.setVisibility(View.VISIBLE);
+                holder.binding.btnReschedule.setVisibility(View.GONE);
+                holder.binding.btnCancel.setVisibility(View.GONE);
+
+            } else {
+                // Format the date/time dynamically every time it binds
+                String formattedDate = formatDateTime(ldt);
+                holder.binding.tvDateTime.setText(formattedDate);
+                holder.binding.tvDateTime.setTextColor(ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.white));
+
+                holder.binding.btnConsultNow.setVisibility(View.GONE);
+                holder.binding.btnReschedule.setVisibility(View.VISIBLE);
+                holder.binding.btnCancel.setVisibility(View.VISIBLE);
+            }
+
+            // Button listeners
+            holder.binding.btnConsultNow.setOnClickListener(v -> {
+                if (listener != null) listener.onConsultNowClick(appointment, position);
+            });
+
+            holder.binding.btnReschedule.setOnClickListener(v -> {
+                if (listener != null) listener.onConsultRescheduleClick(appointment, position);
+            });
+
+            holder.binding.btnCancel.setOnClickListener(v -> {
+                if (listener != null) listener.onConsultCancelClick(appointment, position);
+            });
         }
-
-        // Button listeners
-        holder.binding.btnConsultNow.setOnClickListener(v -> {
-            if (listener != null) listener.onConsultNowClick(appointment, position);
-        });
-
-        holder.binding.btnReschedule.setOnClickListener(v -> {
-            if (listener != null) listener.onConsultRescheduleClick(appointment, position);
-        });
-
-        holder.binding.btnCancel.setOnClickListener(v -> {
-            if (listener != null) listener.onConsultCancelClick(appointment, position);
-        });
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

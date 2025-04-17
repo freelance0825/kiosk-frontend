@@ -9,7 +9,7 @@ public interface AuthRepository {
 
     Single<String> registerUser(String name, String gender, String age, String dob, String phoneNumber, String email);
 
-    Single<String> updateUser(Integer userId, String name, String gender, String phoneNumber, String email, String dob);
+    Single<String> updateUser(Integer userId, String name, String gender, String phoneNumber, String email, String dob, String age);
 
     Completable logout();
 

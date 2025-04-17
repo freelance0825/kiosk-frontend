@@ -8,6 +8,7 @@ import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
 import com.fmv.healthkiosk.feature.auth.domain.usecase.AccountUseCase;
 import com.fmv.healthkiosk.ui.home.model.MenuItem;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,6 +33,15 @@ public class HomeLandingViewModel extends BaseViewModel {
             new MenuItem("telemedicine", "Telemedicine", R.drawable.asset_icon_telemedicine)
     );
 
+    // PAGINATION CONFIG
+    final MutableLiveData<List<MenuItem>> pagedMenuItems = new MutableLiveData<>();
+
+    public final MutableLiveData<Boolean> showNextMenuButton = new MutableLiveData<>(false);
+    public final MutableLiveData<Boolean> showBackMenuButton = new MutableLiveData<>(false);
+
+    private final int MENU_PAGE_SIZE = 3;
+    private int currentPageIndex = 0;
+
 
     final MutableLiveData<String> username = new MutableLiveData<>();
 
@@ -41,6 +51,7 @@ public class HomeLandingViewModel extends BaseViewModel {
 
         this.accountUseCase = accountUseCase;
         observeProfileData();
+        loadCurrentPage();
     }
 
     private void observeProfileData() {
@@ -51,6 +62,38 @@ public class HomeLandingViewModel extends BaseViewModel {
                     username.setValue(name.replaceAll("\\s.*", ""));
                 }, throwable -> username.setValue("Unknown")));
     }
+
+    private void loadCurrentPage() {
+        int fromIndex = currentPageIndex * MENU_PAGE_SIZE;
+        int toIndex = Math.min(fromIndex + MENU_PAGE_SIZE, menuList.size());
+
+        List<MenuItem> pageItems = new ArrayList<>(menuList.subList(fromIndex, toIndex));
+        while (pageItems.size() < MENU_PAGE_SIZE) {
+            pageItems.add(null);
+        }
+
+        pagedMenuItems.setValue(pageItems);
+
+        int maxPage = (int) Math.ceil((double) menuList.size() / MENU_PAGE_SIZE);
+        showBackMenuButton.setValue(currentPageIndex > 0);
+        showNextMenuButton.setValue(currentPageIndex < maxPage - 1);
+    }
+
+    public void nextPage() {
+        int maxPage = (int) Math.ceil((double) menuList.size() / MENU_PAGE_SIZE);
+        if (currentPageIndex < maxPage - 1) {
+            currentPageIndex++;
+            loadCurrentPage();
+        }
+    }
+
+    public void previousPage() {
+        if (currentPageIndex > 0) {
+            currentPageIndex--;
+            loadCurrentPage();
+        }
+    }
+
 
     @Override
     protected void onCleared() {

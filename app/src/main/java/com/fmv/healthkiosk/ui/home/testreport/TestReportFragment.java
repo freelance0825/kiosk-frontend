@@ -4,10 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
+import com.fmv.healthkiosk.core.customview.MarginItemDecoration;
 import com.fmv.healthkiosk.databinding.FragmentTestReportBinding;
 import com.fmv.healthkiosk.ui.home.testreport.adapter.TestResultAdapter;
 import com.fmv.healthkiosk.ui.report.testing.PdfTestingReportActivity;
@@ -47,14 +48,18 @@ public class TestReportFragment extends BaseFragment<FragmentTestReportBinding, 
             binding.tvTitle.setText(getString(R.string.fragment_test_report_report, getString(R.string.fragment_test_custom_test)));
         }
 
-        viewModel.inflatedTestResult.observe(getViewLifecycleOwner(), testResults -> {
+        viewModel.pagedTestResult.observe(getViewLifecycleOwner(), testResults -> {
             testResultAdapter.submitList(testResults);
         });
+
+        viewModel.showNextTestResultButton.observe(getViewLifecycleOwner(), show -> binding.btnNextTestResult.setVisibility(show ? android.view.View.VISIBLE : android.view.View.GONE));
+        viewModel.showBackTestResultButton.observe(getViewLifecycleOwner(), show -> binding.btnBackTestResult.setVisibility(show ? android.view.View.VISIBLE : android.view.View.GONE));
     }
 
     private void setViews() {
         binding.rvTestResult.setAdapter(testResultAdapter);
-        binding.rvTestResult.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        binding.rvTestResult.addItemDecoration(new MarginItemDecoration(0, 36, 0, 0, MarginItemDecoration.LastPaddingToBeExcluded.RIGHT));
+        binding.rvTestResult.setLayoutManager(new GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false));
     }
 
     private void setListeners() {
@@ -66,9 +71,12 @@ public class TestReportFragment extends BaseFragment<FragmentTestReportBinding, 
         binding.rangeBar.setProgressRange(0.2f, 0.7f); // Customize range dynamically
 
 
+        binding.btnNextTestResult.setOnClickListener(v -> viewModel.nextTestResultPage());
+        binding.btnBackTestResult.setOnClickListener(v -> viewModel.previousTestResultPage());
+
         binding.btnExportToPdf.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList(PdfTestingReportActivity.EXTRA_TESTING_RESULT, new ArrayList<>(Objects.requireNonNull(viewModel.inflatedTestResult.getValue())));
+            bundle.putParcelableArrayList(PdfTestingReportActivity.EXTRA_TESTING_RESULT, new ArrayList<>(Objects.requireNonNull(viewModel.inflatedTestResult)));
             bundle.putParcelable(PdfTestingReportActivity.EXTRA_PACKAGE_NAME, viewModel.medicalPackage);
 
             navigateToActivity(PdfTestingReportActivity.class, bundle);

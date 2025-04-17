@@ -14,8 +14,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.fmv.healthkiosk.R;
+import com.fmv.healthkiosk.core.customview.GreenDotTransformationMethod;
 
 public class CustomPinView extends LinearLayout {
     private static final int PIN_LENGTH = 6;
@@ -52,8 +54,8 @@ public class CustomPinView extends LinearLayout {
             }
             editText.setLayoutParams(params);
             editText.setBackgroundResource(R.drawable.bg_rounded_child_card);
-            editText.setTextColor(Color.WHITE);
-            editText.setTextSize(24);
+            editText.setTextColor(ContextCompat.getColor(context, R.color.primaryGreen));
+            editText.setTextSize(60);
             editText.setGravity(android.view.Gravity.CENTER);
             editText.setInputType(InputType.TYPE_CLASS_NUMBER);
             editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
@@ -61,7 +63,8 @@ public class CustomPinView extends LinearLayout {
             editText.setTextAlignment(TEXT_ALIGNMENT_CENTER);
 
             // Saat input, langsung menjadi dotted (•)
-            editText.setTransformationMethod(new android.text.method.PasswordTransformationMethod());
+            editText.setTransformationMethod(new GreenDotTransformationMethod());
+//            editText.setTransformationMethod(new android.text.method.PasswordTransformationMethod());
 
             editText.setOnKeyListener((v, keyCode, event) -> {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {

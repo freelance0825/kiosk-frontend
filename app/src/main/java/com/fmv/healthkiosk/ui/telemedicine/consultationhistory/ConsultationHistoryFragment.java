@@ -5,9 +5,11 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
+import com.fmv.healthkiosk.core.customview.MarginItemDecoration;
 import com.fmv.healthkiosk.databinding.FragmentConsultationHistoryBinding;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
@@ -43,26 +45,25 @@ public class ConsultationHistoryFragment extends BaseFragment<FragmentConsultati
     }
 
     private void observeViewModel() {
-        viewModel.myAppointmentList.observe(getViewLifecycleOwner(), appointments -> {
-            if (appointments == null) return;
+        viewModel.pagedDoctorItems.observe(getViewLifecycleOwner(), consultationHistoryAdapter::submitList);
 
-            // Sort by appointmentDate DESCENDING (latest first)
-            List<AppointmentModel> sortedList = new ArrayList<>(appointments);
-            Collections.sort(sortedList, (a1, a2) -> a2.getDateTime().compareTo(a1.getDateTime()));
-
-            consultationHistoryAdapter.submitList(sortedList);
-        });
+        viewModel.showNextDoctorButton.observe(getViewLifecycleOwner(), show -> binding.btnNextDoctors.setVisibility(show ? android.view.View.VISIBLE : android.view.View.GONE));
+        viewModel.showBackDoctorButton.observe(getViewLifecycleOwner(), show -> binding.btnBackDoctors.setVisibility(show ? android.view.View.VISIBLE : android.view.View.GONE));
     }
 
     private void setViews() {
         binding.rvDoctors.setAdapter(consultationHistoryAdapter);
-        binding.rvDoctors.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.rvDoctors.addItemDecoration(new MarginItemDecoration(0, 0, 0, 36, MarginItemDecoration.LastPaddingToBeExcluded.BOTTOM));
+        binding.rvDoctors.setLayoutManager(new GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false));
     }
 
     private void setListeners() {
         binding.btnBack.setOnClickListener(v -> {
             navigateBack();
         });
+
+        binding.btnNextDoctors.setOnClickListener(v -> viewModel.nextDoctorPage());
+        binding.btnBackDoctors.setOnClickListener(v -> viewModel.previousDoctorPage());
 
         binding.btnNotification.setOnClickListener(v -> {
             navigateToFragment(ConsultationHistoryFragmentDirections.actionNavigationConsultationHistoryFragmentToNavigationNotificationFragment(), false);

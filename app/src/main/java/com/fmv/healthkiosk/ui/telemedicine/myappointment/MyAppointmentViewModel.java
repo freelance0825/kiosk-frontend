@@ -6,10 +6,14 @@ import androidx.lifecycle.SavedStateHandle;
 import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
 import com.fmv.healthkiosk.feature.auth.domain.usecase.AccountUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.CancelMyAppointmentsUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetMyAppointmentsUseCase;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -33,6 +37,15 @@ public class MyAppointmentViewModel extends BaseViewModel {
     final MutableLiveData<List<AppointmentModel>> myAppointmentList = new MutableLiveData<>();
 
     final MutableLiveData<Integer> selectedAppointmentToCancel = new MutableLiveData<>(null);
+
+    // PAGINATION CONFIG
+    final MutableLiveData<List<AppointmentModel>> pagedDoctorItems = new MutableLiveData<>();
+
+    public final MutableLiveData<Boolean> showNextDoctorButton = new MutableLiveData<>(false);
+    public final MutableLiveData<Boolean> showBackDoctorButton = new MutableLiveData<>(false);
+
+    private final int DOCTOR_PAGE_SIZE = 3;
+    private int currentPageIndex = 0;
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
@@ -61,11 +74,11 @@ public class MyAppointmentViewModel extends BaseViewModel {
                         .subscribe(
                                 list -> {
                                     // Filter only appointments with postConsultation present
-                                    List<AppointmentModel> filtered = list.stream()
-                                            .filter(item -> item.getPostConsultation() == null)
-                                            .collect(Collectors.toList());
+                                    List<AppointmentModel> sortedList = list.stream()
+                                            .filter(item -> item.getPostConsultation() == null).sorted((a1, a2) -> a2.getDateTime().compareTo(a1.getDateTime())).collect(Collectors.toList());
 
-                                    myAppointmentList.setValue(filtered);
+                                    myAppointmentList.setValue(sortedList);
+                                    loadCurrentPage();
                                 },
                                 throwable -> {
                                     errorMessage.setValue(throwable.getMessage());
@@ -88,6 +101,37 @@ public class MyAppointmentViewModel extends BaseViewModel {
                                 }
                         )
         );
+    }
+
+    private void loadCurrentPage() {
+        int fromIndex = currentPageIndex * DOCTOR_PAGE_SIZE;
+        int toIndex = Math.min(fromIndex + DOCTOR_PAGE_SIZE, Objects.requireNonNull(myAppointmentList.getValue()).size());
+
+        List<AppointmentModel> pageItems = new ArrayList<>(myAppointmentList.getValue().subList(fromIndex, toIndex));
+        while (pageItems.size() < DOCTOR_PAGE_SIZE) {
+            pageItems.add(null);
+        }
+
+        pagedDoctorItems.setValue(pageItems);
+
+        int maxPage = (int) Math.ceil((double) myAppointmentList.getValue().size() / DOCTOR_PAGE_SIZE);
+        showBackDoctorButton.setValue(currentPageIndex > 0);
+        showNextDoctorButton.setValue(currentPageIndex < maxPage - 1);
+    }
+
+    public void nextDoctorPage() {
+        int maxPage = (int) Math.ceil((double) myAppointmentList.getValue().size() / DOCTOR_PAGE_SIZE);
+        if (currentPageIndex < maxPage - 1) {
+            currentPageIndex++;
+            loadCurrentPage();
+        }
+    }
+
+    public void previousDoctorPage() {
+        if (currentPageIndex > 0) {
+            currentPageIndex--;
+            loadCurrentPage();
+        }
     }
 
     @Override

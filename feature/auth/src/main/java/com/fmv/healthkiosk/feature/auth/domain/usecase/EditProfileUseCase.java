@@ -5,7 +5,7 @@ import io.reactivex.Single;
 
 public interface EditProfileUseCase {
 
-    Single<String> execute(Integer userId,String name, String gender, String phoneNumber, String email, String dob);
+    Single<String> execute(Integer userId,String name, String gender, String phoneNumber, String email, String dob, String age);
 
     Observable<String> getUsername();
 

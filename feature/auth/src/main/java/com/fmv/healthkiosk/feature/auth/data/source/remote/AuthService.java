@@ -39,7 +39,8 @@ public interface AuthService {
             @Part("gender") RequestBody gender,
             @Part("email") RequestBody email,
             @Part("phoneNumber") RequestBody phoneNumber,
-            @Part("dob") RequestBody dob
+            @Part("dob") RequestBody dob,
+            @Part("age") RequestBody age
     );
 
 }

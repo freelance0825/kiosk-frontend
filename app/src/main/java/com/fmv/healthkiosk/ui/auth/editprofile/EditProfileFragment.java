@@ -170,15 +170,15 @@ public class EditProfileFragment extends BaseFragment<FragmentEditProfileBinding
 
             return false;
         } else if (phoneNumber.isEmpty()) {
-            Toast.makeText(requireContext(), "phnumb", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "phone number", Toast.LENGTH_SHORT).show();
 
             return false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(requireContext(), "name", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "email", Toast.LENGTH_SHORT).show();
 
             return false;
         } else if (dob.isEmpty()) {
-            Toast.makeText(requireContext(), "dob", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "date of birth", Toast.LENGTH_SHORT).show();
 
             return false;
         } else {

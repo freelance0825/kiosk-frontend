@@ -54,16 +54,10 @@ public class EditProfileViewModel extends BaseViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(userId::setValue, throwable -> userId.setValue(null)));
 
-
         disposables.add(editProfileUseCase.getUsername()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(username::setValue, throwable -> username.setValue("Unknown")));
-
-        disposables.add(editProfileUseCase.getDateOfBirth()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(dateOfBirth::setValue, throwable -> dateOfBirth.setValue("N/A")));
 
         disposables.add(editProfileUseCase.getGender()
                 .subscribeOn(Schedulers.io())
@@ -79,8 +73,21 @@ public class EditProfileViewModel extends BaseViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(email::setValue, throwable -> phoneNumber.setValue("Unknown")));
-    }
 
+        // Load and observe dateOfBirth, then compute age immediately
+        disposables.add(editProfileUseCase.getDateOfBirth()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(dob -> {
+                            dateOfBirth.setValue(dob);
+                            updateAge(dob); // Initialize userAge based on stored DOB
+                        },
+                        t -> {
+                            dateOfBirth.setValue("N/A");
+                            userAge.setValue("0");
+                        }
+                ));
+    }
 
     public void update(Integer userId, String name, String gender, String phoneNumber, String email, String dob) {
         isLoading.setValue(true);

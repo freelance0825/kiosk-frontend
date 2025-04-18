@@ -3,7 +3,6 @@ package com.fmv.healthkiosk.feature.auth.data.repo;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import com.fmv.healthkiosk.feature.auth.R;
 import com.fmv.healthkiosk.feature.auth.data.source.local.AuthDataStore;
@@ -42,15 +41,17 @@ public class AuthRepositoryImpl implements AuthRepository {
     public Single<String> login(String phoneNumber) {
         return authService.loginPhoneNumber(new LoginRequest(phoneNumber, "", ""))
                 .flatMap(authResponse ->
-                        Completable.concatArray(
-                                authDataStore.setUserId((int) authResponse.getId()),
-                                authDataStore.setEmail(authResponse.getEmail()),
-                                authDataStore.setPhoneNumber(phoneNumber),
-                                authDataStore.setUsername(authResponse.getName()),
-                                authDataStore.setDateOfBirth(authResponse.getDateOfBirth()),
-                                authDataStore.setGender(authResponse.getGender()),
-                                authDataStore.setAge(Integer.parseInt(authResponse.getAge()))
-                        ).toSingleDefault("Login successful!"));
+                        authDataStore.setUserId((int) authResponse.getId()) // Ensure userId is saved first
+                                .andThen(Completable.concatArray(
+                                        authDataStore.setEmail(authResponse.getEmail()),
+                                        authDataStore.setPhoneNumber(phoneNumber),
+                                        authDataStore.setUsername(authResponse.getName()),
+                                        authDataStore.setDateOfBirth(authResponse.getDateOfBirth()),
+                                        authDataStore.setGender(authResponse.getGender()),
+                                        authDataStore.setAge(Integer.parseInt(authResponse.getAge()))
+                                ))
+                                .toSingleDefault("Login successful!")
+                );
     }
 
     @Override
@@ -74,14 +75,18 @@ public class AuthRepositoryImpl implements AuthRepository {
         MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", imageFile.getName(), requestFile);
 
         return authService.register(namePart, addressPart, genderPart, agePart, dobPart, phoneNumberPart, emailPart, imagePart)
-                .flatMap(authResponse -> Completable.concatArray(
-                        authDataStore.setPhoneNumber(phoneNumber),
-                        authDataStore.setEmail(authResponse.getEmail()),
-                        authDataStore.setUsername(authResponse.getName()),
-                        authDataStore.setDateOfBirth(authResponse.getDateOfBirth()),
-                        authDataStore.setGender(authResponse.getGender()),
-                        authDataStore.setAge(Integer.parseInt(authResponse.getAge()))
-                ).toSingleDefault("Register successful!"));
+                .flatMap(authResponse ->
+                        authDataStore.setUserId((int) authResponse.getId()) // Ensure userId is saved first
+                                .andThen(Completable.concatArray(
+                                        authDataStore.setPhoneNumber(phoneNumber),
+                                        authDataStore.setEmail(authResponse.getEmail()),
+                                        authDataStore.setUsername(authResponse.getName()),
+                                        authDataStore.setDateOfBirth(authResponse.getDateOfBirth()),
+                                        authDataStore.setGender(authResponse.getGender()),
+                                        authDataStore.setAge(Integer.parseInt(authResponse.getAge()))
+                                ))
+                                .toSingleDefault("Register successful!")
+                );
     }
 
     @Override

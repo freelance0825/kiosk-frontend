@@ -10,7 +10,7 @@
 
     <stroke
         android:width="1dp"
-        android:color="@color/primaryGreen" />
+        android:color="@color/primaryGreenOpacity50" />
 
     <corners android:radius="18dp" />
 </shape>

@@ -1,0 +1,28 @@
+package com.fmv.healthkiosk.feature.telemedicine.domain.interactor;
+
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorTimeslotModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.repo.TelemedicineRepository;
+import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetAvailableDoctorsUseCase;
+import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetDoctorTimeslotsUseCase;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import io.reactivex.Single;
+
+public class GetDoctorTimeslotsInteractor implements GetDoctorTimeslotsUseCase {
+
+    private final TelemedicineRepository repository;
+
+    @Inject
+    public GetDoctorTimeslotsInteractor(TelemedicineRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public Single<DoctorTimeslotModel> execute(int doctorId, String date) {
+        return repository.getDoctorTimeslots(doctorId, date);
+    }
+}

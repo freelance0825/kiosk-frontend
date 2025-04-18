@@ -22,9 +22,7 @@ import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.core.base.ui.BaseFragment;
 import com.fmv.healthkiosk.core.utils.Base64Helper;
 import com.fmv.healthkiosk.databinding.FragmentChatBinding;
-import com.fmv.healthkiosk.databinding.FragmentVideoCallBinding;
 import com.fmv.healthkiosk.ui.telemedicine.chat.adapters.ChatAdapter;
-import com.fmv.healthkiosk.ui.telemedicine.videocall.VideoCallViewModel;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -94,6 +92,27 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding, ChatViewMode
             binding.progressbarSpeech.setVisibility(isLoading ? ViewGroup.VISIBLE : ViewGroup.GONE);
             binding.layoutSpeechButtons.setVisibility(isLoading ? ViewGroup.GONE : ViewGroup.VISIBLE);
         });
+
+        viewModel.selectedDate.observe(getViewLifecycleOwner(), selectedDate -> {
+            if (!selectedDate.isEmpty()) {
+                viewModel.getDoctorTimeslots(selectedDate);
+            }
+        });
+
+        viewModel.doctorTimeslots.observe(getViewLifecycleOwner(), doctorTimeslotModel -> {
+            if (doctorTimeslotModel != null) {
+                chatAdapter.setNewTimeSlots(doctorTimeslotModel.getAvailableTimeSlots());
+            }
+        });
+
+        viewModel.selectedTime.observe(getViewLifecycleOwner(), selectedTime -> {
+            viewModel.selectedDate.observe(getViewLifecycleOwner(), selectedDate -> {
+                if (!selectedDate.isEmpty() && !selectedTime.isEmpty()) {
+                    String dateTime = selectedDate + " " + selectedTime;
+                    viewModel.updateMyAppointments(convertDateToDayMonthTime(dateTime));
+                }
+            });
+        });
     }
 
     private void setViews() {
@@ -143,17 +162,22 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding, ChatViewMode
 
             @Override
             public void onFirstDateSuggestionClick(String selectedDate, int position) {
-                viewModel.updateMyAppointments(convertDateToDayMonth(selectedDate), selectedDate);
+                viewModel.selectedDate.setValue(selectedDate);
             }
 
             @Override
             public void onSecondDateSuggestionClick(String selectedDate, int position) {
-                viewModel.updateMyAppointments(convertDateToDayMonth(selectedDate), selectedDate);
+                viewModel.selectedDate.setValue(selectedDate);
             }
 
             @Override
             public void onThirdDateSuggestionClick(String selectedDate, int position) {
-                viewModel.updateMyAppointments(convertDateToDayMonth(selectedDate), selectedDate);
+                viewModel.selectedDate.setValue(selectedDate);
+            }
+
+            @Override
+            public void onSelectTimeSuggestionClick(String selectedTime, int position) {
+                viewModel.selectedTime.setValue(selectedTime);
             }
 
             @Override
@@ -182,10 +206,9 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding, ChatViewMode
                     selectedCal.set(Calendar.SECOND, 0);
                     selectedCal.set(Calendar.MILLISECOND, 0);
 
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS000", Locale.getDefault());
-                    String formattedDate = dateFormat.format(selectedCal.getTime());
+                    SimpleDateFormat dateFormatForRequestTimeslots = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
-                    viewModel.updateMyAppointments(message, formattedDate);
+                    viewModel.selectedDate.setValue(dateFormatForRequestTimeslots.format(selectedCal.getTime()));
                 },
                 year, month, day
         );
@@ -195,9 +218,9 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding, ChatViewMode
         datePickerDialog.show();
     }
 
-    private String convertDateToDayMonth(String inputDate) {
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss[.SSSSSS]");
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd MMMM", Locale.ENGLISH);
+    private String convertDateToDayMonthTime(String inputDate) {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd MMMM, HH:mm", Locale.ENGLISH);
 
         LocalDateTime dateTime = LocalDateTime.parse(inputDate, inputFormatter);
         return outputFormatter.format(dateTime);

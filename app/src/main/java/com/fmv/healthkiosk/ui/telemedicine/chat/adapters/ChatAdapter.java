@@ -1,10 +1,12 @@
 package com.fmv.healthkiosk.ui.telemedicine.chat.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,10 +14,13 @@ import com.fmv.healthkiosk.databinding.ItemDoctorChatDateRowBinding;
 import com.fmv.healthkiosk.databinding.ItemDoctorChatMenuRowBinding;
 import com.fmv.healthkiosk.databinding.ItemDoctorChatRowBinding;
 import com.fmv.healthkiosk.databinding.ItemDoctorChatSelectDateRowBinding;
+import com.fmv.healthkiosk.databinding.ItemDoctorChatTimeRowBinding;
 import com.fmv.healthkiosk.databinding.ItemPatientChatRowBinding;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.ChatMessage;
 import com.fmv.healthkiosk.feature.telemedicine.utils.ChatbotCommands;
+import com.fmv.healthkiosk.ui.telemedicine.reschedule.adapters.TimeSlotAdapter;
 
+import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeFormatterBuilder;
@@ -28,6 +33,12 @@ import java.util.Locale;
 public class ChatAdapter extends ListAdapter<ChatMessage, RecyclerView.ViewHolder> {
 
     private OnItemClickListener listener;
+    private ArrayList<String> timeSlots = new ArrayList<>();
+
+    public void setNewTimeSlots(List<String> newTimeSlots) {
+        this.timeSlots.clear();
+        this.timeSlots.addAll(newTimeSlots);
+    }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
@@ -37,7 +48,8 @@ public class ChatAdapter extends ListAdapter<ChatMessage, RecyclerView.ViewHolde
     private static final int VIEW_TYPE_ASSISTANT = 2;
     private static final int VIEW_TYPE_STARTING_MENU_ASSISTANT = 3;
     private static final int VIEW_TYPE_DATE_SUGGESTION_ASSISTANT = 4;
-    private static final int VIEW_TYPE_SELECT_ANOTHER_DATE_ASSISTANT = 5;
+    private static final int VIEW_TYPE_TIME_SUGGESTION_ASSISTANT = 5;
+    private static final int VIEW_TYPE_SELECT_ANOTHER_DATE_ASSISTANT = 6;
 
     public ChatAdapter() {
         super(DIFF_CALLBACK);
@@ -52,6 +64,8 @@ public class ChatAdapter extends ListAdapter<ChatMessage, RecyclerView.ViewHolde
                 return VIEW_TYPE_STARTING_MENU_ASSISTANT;
             } else if (getItem(position).getMessage().toLowerCase(Locale.ROOT).contains(ChatbotCommands.SUGGESTION_DATE_MENU)) {
                 return VIEW_TYPE_DATE_SUGGESTION_ASSISTANT;
+            } else if (getItem(position).getMessage().toLowerCase(Locale.ROOT).contains(ChatbotCommands.SUGGESTION_TIME_MENU)) {
+                return VIEW_TYPE_TIME_SUGGESTION_ASSISTANT;
             } else if (getItem(position).getMessage().toLowerCase(Locale.ROOT).contains(ChatbotCommands.ANOTHER_DATE_MENU)) {
                 return VIEW_TYPE_SELECT_ANOTHER_DATE_ASSISTANT;
             } else {
@@ -74,6 +88,9 @@ public class ChatAdapter extends ListAdapter<ChatMessage, RecyclerView.ViewHolde
         } else if (viewType == VIEW_TYPE_DATE_SUGGESTION_ASSISTANT) {
             ItemDoctorChatDateRowBinding binding = ItemDoctorChatDateRowBinding.inflate(inflater, parent, false);
             return new DateSuggestionAssistantViewHolder(binding);
+        } else if (viewType == VIEW_TYPE_TIME_SUGGESTION_ASSISTANT) {
+            ItemDoctorChatTimeRowBinding binding = ItemDoctorChatTimeRowBinding.inflate(inflater, parent, false);
+            return new TimeSuggestionAssistantViewHolder(binding);
         } else if (viewType == VIEW_TYPE_SELECT_ANOTHER_DATE_ASSISTANT) {
             ItemDoctorChatSelectDateRowBinding binding = ItemDoctorChatSelectDateRowBinding.inflate(inflater, parent, false);
             return new SelectDateAssistantViewHolder(binding);
@@ -102,6 +119,14 @@ public class ChatAdapter extends ListAdapter<ChatMessage, RecyclerView.ViewHolde
             ((DateSuggestionAssistantViewHolder) holder).binding.btnFirstDate.setOnClickListener(v -> listener.onFirstDateSuggestionClick(randomDates.get(0), position));
             ((DateSuggestionAssistantViewHolder) holder).binding.btnSecondDate.setOnClickListener(v -> listener.onSecondDateSuggestionClick(randomDates.get(1), position));
             ((DateSuggestionAssistantViewHolder) holder).binding.btnThirdDate.setOnClickListener(v -> listener.onThirdDateSuggestionClick(randomDates.get(2), position));
+        } else if (holder instanceof TimeSuggestionAssistantViewHolder) {
+            Context context = ((TimeSuggestionAssistantViewHolder) holder).binding.getRoot().getContext();
+            TimeSlotAdapter timeSlotAdapter = new TimeSlotAdapter(context, this.timeSlots, selectedTime -> {
+                listener.onSelectTimeSuggestionClick(selectedTime, position);
+            });
+
+            ((TimeSuggestionAssistantViewHolder) holder).binding.rvTime.setAdapter(timeSlotAdapter);
+            ((TimeSuggestionAssistantViewHolder) holder).binding.rvTime.setLayoutManager(new GridLayoutManager(context, 6, GridLayoutManager.VERTICAL, false));
         } else if (holder instanceof SelectDateAssistantViewHolder) {
             ((SelectDateAssistantViewHolder) holder).binding.btnSelectDate.setOnClickListener(v -> listener.onSelectAnotherDateClick(ChatbotCommands.DONE_RESCHEDULE_DATE, position));
         }
@@ -151,6 +176,15 @@ public class ChatAdapter extends ListAdapter<ChatMessage, RecyclerView.ViewHolde
         }
     }
 
+    static class TimeSuggestionAssistantViewHolder extends RecyclerView.ViewHolder {
+        private final ItemDoctorChatTimeRowBinding binding;
+
+        public TimeSuggestionAssistantViewHolder(@NonNull ItemDoctorChatTimeRowBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+    }
+
     static class SelectDateAssistantViewHolder extends RecyclerView.ViewHolder {
         private final ItemDoctorChatSelectDateRowBinding binding;
 
@@ -176,16 +210,12 @@ public class ChatAdapter extends ListAdapter<ChatMessage, RecyclerView.ViewHolde
     private List<String> generateRandomFutureDates(int count) {
         List<String> randomDates = new ArrayList<>();
 
-        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-                .appendPattern("yyyy-MM-dd'T'HH:mm:ss")
-                .appendLiteral('.')
-                .appendValue(ChronoField.MICRO_OF_SECOND, 6)
-                .toFormatter();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        LocalDateTime startDate = LocalDateTime.now().plusDays(1); // Start from tomorrow
+        LocalDate startDate = LocalDate.now().plusDays(1); // Start from tomorrow
 
         for (int i = 0; i < count; i++) {
-            LocalDateTime futureDate = startDate.plusDays(i);
+            LocalDate futureDate = startDate.plusDays(i);
             String formattedDate = futureDate.format(formatter);
             randomDates.add(formattedDate);
         }
@@ -194,11 +224,11 @@ public class ChatAdapter extends ListAdapter<ChatMessage, RecyclerView.ViewHolde
     }
 
     private String convertDateToDayMonth(String inputDate) {
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss[.SSSSSS]");
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
         DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd MMMM", Locale.ENGLISH);
 
-        LocalDateTime dateTime = LocalDateTime.parse(inputDate, inputFormatter);
-        return outputFormatter.format(dateTime);
+        LocalDate date = LocalDate.parse(inputDate, inputFormatter);
+        return outputFormatter.format(date);
     }
 
     public interface OnItemClickListener {
@@ -209,6 +239,8 @@ public class ChatAdapter extends ListAdapter<ChatMessage, RecyclerView.ViewHolde
         void onSecondDateSuggestionClick(String selectedDate, int position);
 
         void onThirdDateSuggestionClick(String selectedDate, int position);
+
+        void onSelectTimeSuggestionClick(String selectedTime, int position);
 
         void onSelectAnotherDateClick(String command, int position);
     }

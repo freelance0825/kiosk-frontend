@@ -10,7 +10,16 @@ import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.Appoint
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentResponse;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorTimeslotModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetDoctorTimeslotsUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.UpdateMyApppointmentsUseCase;
+
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.ZoneOffset;
+import org.threeten.bp.format.DateTimeFormatter;
+
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -23,6 +32,7 @@ import io.reactivex.schedulers.Schedulers;
 public class RescheduleAppointmentViewModel extends BaseViewModel {
 
     private final UpdateMyApppointmentsUseCase updateMyApppointmentsUseCase;
+    private final GetDoctorTimeslotsUseCase getDoctorTimeslotsUseCase;
 
     final int appointmentId;
     final DoctorModel doctorModel;
@@ -30,6 +40,7 @@ public class RescheduleAppointmentViewModel extends BaseViewModel {
     final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     final MutableLiveData<AppointmentModel> updatedAppointments = new MutableLiveData<>(null);
+    final MutableLiveData<DoctorTimeslotModel> doctorTimeslots = new MutableLiveData<>(null);
 
     final MutableLiveData<String> selectedDate = new MutableLiveData<>("");
     final MutableLiveData<String> selectedTime = new MutableLiveData<>("");
@@ -39,9 +50,10 @@ public class RescheduleAppointmentViewModel extends BaseViewModel {
 
 
     @Inject
-    public RescheduleAppointmentViewModel(SavedStateHandle savedStateHandle, UpdateMyApppointmentsUseCase updateMyApppointmentsUseCase) {
+    public RescheduleAppointmentViewModel(SavedStateHandle savedStateHandle, UpdateMyApppointmentsUseCase updateMyApppointmentsUseCase, GetDoctorTimeslotsUseCase getDoctorTimeslotsUseCase) {
         super(savedStateHandle);
         this.updateMyApppointmentsUseCase = updateMyApppointmentsUseCase;
+        this.getDoctorTimeslotsUseCase = getDoctorTimeslotsUseCase;
         this.doctorModel = getArgument("doctor");
 
         Integer id = savedStateHandle.get("appointmentId");
@@ -52,9 +64,12 @@ public class RescheduleAppointmentViewModel extends BaseViewModel {
         Log.d("RescheduleAppointmentViewModel", "Appointment ID in ViewModel: " + appointmentId);
     }
 
-    public void updateMyAppointments(String dateTime) {
+    public void updateMyAppointments() {
         Log.d("RescheduleAppointmentViewModel", "Updating appointment ID: " + appointmentId);
         isLoading.setValue(true);
+
+        String dateTimeTemp = selectedDate.getValue() + " " + selectedTime.getValue();
+        String dateTime = convertDate(dateTimeTemp);
 
         AppointmentRequest appointmentRequest = new AppointmentRequest();
         appointmentRequest.setDateTime(dateTime);
@@ -65,10 +80,41 @@ public class RescheduleAppointmentViewModel extends BaseViewModel {
                         .observeOn(AndroidSchedulers.mainThread())
                         .doFinally(() -> isLoading.setValue(false))
                         .subscribe(
-                                updatedAppointments::setValue,
+                                success -> {
+                                    updatedAppointments.setValue(success);
+                                    isAppointmentSubmitted.setValue(true);
+                                },
                                 throwable -> errorMessage.setValue(throwable.getMessage())
                         )
         );
+    }
+
+    public void getDoctorTimeslots(String date) {
+        int doctorId = doctorModel.getId();
+
+        isLoading.setValue(true);
+        disposables.add(
+                getDoctorTimeslotsUseCase.execute(doctorId, date)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doFinally(() -> isLoading.setValue(false))
+                        .subscribe(doctorTimeslots::setValue, throwable -> {
+                            errorMessage.setValue(throwable.getMessage());
+                        }));
+    }
+
+    private String convertDate(String input) {
+        // Parse the original string into a LocalDateTime
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm", Locale.ENGLISH);
+        LocalDateTime localDateTime = LocalDateTime.parse(input, inputFormatter);
+
+        // Convert to OffsetDateTime with UTC offset
+        OffsetDateTime offsetDateTime = localDateTime.atOffset(ZoneOffset.UTC);
+
+        // Format to ISO 8601 with offset
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+
+        return offsetDateTime.format(outputFormatter);
     }
 
     @Override

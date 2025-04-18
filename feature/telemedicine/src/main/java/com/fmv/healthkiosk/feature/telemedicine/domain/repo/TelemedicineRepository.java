@@ -6,6 +6,7 @@ import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.Appoint
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.ChatMessage;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorTimeslotModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.NotificationModel;
 
@@ -32,4 +33,6 @@ public interface TelemedicineRepository {
     Observable<ArrayList<ChatMessage>> handleUserMessage(String userInput);
 
     Single<AppointmentModel> createAppointment(int doctorId, int patientId, String doctorName, String healthComplaints, String specialization, String dateTime, String imageBase64);
+
+    Single<DoctorTimeslotModel> getDoctorTimeslots(int doctorId, String date);
 }

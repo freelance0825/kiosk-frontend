@@ -18,6 +18,7 @@ import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 
 import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.format.DateTimeFormatter;
 
@@ -68,7 +69,8 @@ public class ConsultationHistoryAdapter extends ListAdapter<AppointmentModel, Co
                 holder.binding.tvLiveStatus.setVisibility(View.INVISIBLE);
             }
 
-            LocalDateTime ldt = LocalDateTime.parse(appointment.getDateTime());
+            OffsetDateTime odt = OffsetDateTime.parse(appointment.getDateTime());
+            LocalDateTime ldt = odt.toLocalDateTime();
 
             // Dynamically format the date/time using the formatDateTime method
             String formattedDate = formatDateTime(ldt);

@@ -6,9 +6,13 @@ import androidx.lifecycle.SavedStateHandle;
 import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
 import com.fmv.healthkiosk.feature.auth.domain.usecase.AccountUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorTimeslotModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetDoctorTimeslotsUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.MakeAppointmentsUseCase;
 
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.ZoneOffset;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeFormatterBuilder;
 import org.threeten.bp.temporal.ChronoField;
@@ -27,6 +31,7 @@ import io.reactivex.schedulers.Schedulers;
 public class MakeAppointmentViewModel extends BaseViewModel {
 
     private final MakeAppointmentsUseCase makeAppointmentsUseCase;
+    private final GetDoctorTimeslotsUseCase getDoctorTimeslotsUseCase;
     private final AccountUseCase accountUseCase;
 
     final DoctorModel doctor;
@@ -38,6 +43,7 @@ public class MakeAppointmentViewModel extends BaseViewModel {
     final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     final MutableLiveData<List<DoctorModel>> doctorList = new MutableLiveData<>();
+    final MutableLiveData<DoctorTimeslotModel> doctorTimeslots = new MutableLiveData<>(null);
 
     final MutableLiveData<Integer> userId = new MutableLiveData<>(0);
 
@@ -50,9 +56,10 @@ public class MakeAppointmentViewModel extends BaseViewModel {
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     @Inject
-    public MakeAppointmentViewModel(SavedStateHandle savedStateHandle, MakeAppointmentsUseCase makeAppointmentsUseCase, AccountUseCase accountUseCase) {
+    public MakeAppointmentViewModel(SavedStateHandle savedStateHandle, MakeAppointmentsUseCase makeAppointmentsUseCase, GetDoctorTimeslotsUseCase getDoctorTimeslotsUseCase, AccountUseCase accountUseCase) {
         super(savedStateHandle);
         this.makeAppointmentsUseCase = makeAppointmentsUseCase;
+        this.getDoctorTimeslotsUseCase = getDoctorTimeslotsUseCase;
         this.accountUseCase = accountUseCase;
         this.doctor = getArgument("doctor");
 
@@ -89,18 +96,32 @@ public class MakeAppointmentViewModel extends BaseViewModel {
                         }));
     }
 
+    public void getDoctorTimeslots(String date) {
+        int doctorId = doctor.getId();
+
+        isLoading.setValue(true);
+        disposables.add(
+                getDoctorTimeslotsUseCase.execute(doctorId, date)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doFinally(() -> isLoading.setValue(false))
+                        .subscribe(doctorTimeslots::setValue, throwable -> {
+                            errorMessage.setValue(throwable.getMessage());
+                        }));
+    }
+
     private String convertDate(String input) {
-        // Parse the original string
+        // Parse the original string into a LocalDateTime
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm", Locale.ENGLISH);
-        LocalDateTime dateTime = LocalDateTime.parse(input, inputFormatter);
+        LocalDateTime localDateTime = LocalDateTime.parse(input, inputFormatter);
 
-        // Optional: set specific microseconds
-        dateTime = dateTime.withNano(941746000); // 941746 microseconds = 941746000 nanoseconds
+        // Convert to OffsetDateTime with UTC offset
+        OffsetDateTime offsetDateTime = localDateTime.atOffset(ZoneOffset.UTC);
 
-        // Format to ISO format with microsecond precision
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+        // Format to ISO 8601 with offset
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
-        return dateTime.format(outputFormatter);
+        return offsetDateTime.format(outputFormatter);
     }
 
     @Override

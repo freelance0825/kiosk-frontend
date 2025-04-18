@@ -39,10 +39,10 @@ public class MakeAppointmentFragment extends BaseFragment<FragmentMakeAppointmen
     private SpeechRecognizer speechRecognizer;
     private Intent speechRecognizerIntent;
 
-    List<String> timeSlots = Arrays.asList(
-            "08:00", "10:00", "12:00", "14:00", "16:00", "18:00",
-            "20:00", "21:00", "22:00", "22:30", "23:00", "23:30"
-    );
+//    List<String> timeSlots = Arrays.asList(
+//            "08:00", "10:00", "12:00", "14:00", "16:00", "18:00",
+//            "20:00", "21:00", "22:00", "22:30", "23:00", "23:30"
+//    );
 
     @Override
     protected Class<MakeAppointmentViewModel> getViewModelClass() {
@@ -107,16 +107,26 @@ public class MakeAppointmentFragment extends BaseFragment<FragmentMakeAppointmen
                 );
             }
         });
+
+        viewModel.doctorTimeslots.observe(getViewLifecycleOwner(), doctorTimeslots -> {
+            if (doctorTimeslots != null) {
+                TimeSlotAdapter adapter = new TimeSlotAdapter(requireContext(), doctorTimeslots.getAvailableTimeSlots(), selectedTime -> {
+                    viewModel.selectedTime.setValue(selectedTime);
+                });
+
+                binding.rvTime.setAdapter(adapter);
+                binding.rvTime.setLayoutManager(new GridLayoutManager(requireContext(), 6, GridLayoutManager.VERTICAL, false));
+
+                binding.tvSelectTime.setVisibility(ViewGroup.VISIBLE);
+                binding.rvTime.setVisibility(ViewGroup.VISIBLE);
+            } else {
+                binding.tvSelectTime.setVisibility(ViewGroup.GONE);
+                binding.rvTime.setVisibility(ViewGroup.GONE);
+            }
+        });
     }
 
     private void setViews() {
-        TimeSlotAdapter adapter = new TimeSlotAdapter(requireContext(), timeSlots, selectedTime -> {
-            viewModel.selectedTime.setValue(selectedTime);
-        });
-
-        binding.rvTime.setAdapter(adapter);
-        binding.rvTime.setLayoutManager(new GridLayoutManager(requireContext(), 6, GridLayoutManager.VERTICAL, false));
-
         if (viewModel.doctor.getImageBase64() != null) {
             if (!viewModel.doctor.getImageBase64().isEmpty()) {
                 binding.ivDoctor.setImageBitmap(Base64Helper.convertToBitmap(viewModel.doctor.getImageBase64()));
@@ -184,8 +194,12 @@ public class MakeAppointmentFragment extends BaseFragment<FragmentMakeAppointmen
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
                     String formattedDate = dateFormat.format(selectedCal.getTime());
 
+                    SimpleDateFormat dateFormatForRequestTimeslots = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
                     viewModel.selectedDate.setValue(formattedDate);
                     binding.tvSelectDate.setText(formattedDate);
+
+                    viewModel.getDoctorTimeslots(dateFormatForRequestTimeslots.format(selectedCal.getTime()));
                 },
                 year, month, day
         );

@@ -3,6 +3,7 @@ package com.fmv.healthkiosk.feature.telemedicine.di;
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.CancelMyAppointmentsInteractor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.GetAllNotificationsInteractor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.GetAvailableDoctorsInteractor;
+import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.GetDoctorTimeslotsInteractor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.GetMyAppointmentsInteractor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.MakeAppointmentsInteractor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.GetPostConsultationInteractor;
@@ -12,6 +13,7 @@ import com.fmv.healthkiosk.feature.telemedicine.domain.repo.TelemedicineReposito
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.CancelMyAppointmentsUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetAllNotificationsUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetAvailableDoctorsUseCase;
+import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetDoctorTimeslotsUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetMyAppointmentsUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.MakeAppointmentsUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetPostConsultationUseCase;
@@ -56,6 +58,7 @@ public class TelemedicineUseCaseModule {
     MakeAppointmentsUseCase provideMakeAppointmentsUseCase(TelemedicineRepository telemedicineRepository) {
         return new MakeAppointmentsInteractor(telemedicineRepository);
     }
+
     @Provides
     GetPostConsultationUseCase providePostConsultationUseCase(TelemedicineRepository telemedicineRepository) {
         return new GetPostConsultationInteractor(telemedicineRepository);
@@ -64,5 +67,10 @@ public class TelemedicineUseCaseModule {
     @Provides
     SendMessageUseCase provideSendMessageUseCase(TelemedicineRepository telemedicineRepository) {
         return new SendMessageInteractor(telemedicineRepository);
+    }
+
+    @Provides
+    GetDoctorTimeslotsUseCase provideGetDoctorTimeslotsUseCase(TelemedicineRepository telemedicineRepository) {
+        return new GetDoctorTimeslotsInteractor(telemedicineRepository);
     }
 }

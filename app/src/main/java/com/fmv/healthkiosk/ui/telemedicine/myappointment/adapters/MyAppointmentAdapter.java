@@ -15,7 +15,10 @@ import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
+
+import java.util.Objects;
 
 public class MyAppointmentAdapter extends ListAdapter<AppointmentModel, MyAppointmentAdapter.ViewHolder> {
     private OnItemClickListener listener;
@@ -70,7 +73,8 @@ public class MyAppointmentAdapter extends ListAdapter<AppointmentModel, MyAppoin
                 if (listener != null) listener.onConsultNowClick(appointment, position);
             });
 
-            LocalDateTime ldt = LocalDateTime.parse(appointment.getDateTime());
+            OffsetDateTime odt = OffsetDateTime.parse(appointment.getDateTime());
+            LocalDateTime ldt = odt.toLocalDateTime();
 
             // Use the "isNow" method to determine if the appointment is happening now
             if (isNow(ldt)) {
@@ -125,7 +129,7 @@ public class MyAppointmentAdapter extends ListAdapter<AppointmentModel, MyAppoin
 
                 @Override
                 public boolean areContentsTheSame(@NonNull AppointmentModel oldItem, @NonNull AppointmentModel newItem) {
-                    return oldItem.getId() == newItem.getId();
+                    return Objects.equals(oldItem.getDateTime(), newItem.getDateTime());
                 }
             };
 

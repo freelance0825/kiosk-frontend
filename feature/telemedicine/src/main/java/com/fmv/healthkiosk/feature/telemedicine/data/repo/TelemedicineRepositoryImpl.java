@@ -3,6 +3,7 @@ package com.fmv.healthkiosk.feature.telemedicine.data.repo;
 
 import com.fmv.healthkiosk.feature.telemedicine.data.mapper.AppointmentMapper;
 import com.fmv.healthkiosk.feature.telemedicine.data.mapper.DoctorMapper;
+import com.fmv.healthkiosk.feature.telemedicine.data.mapper.DoctorTimeslotMapper;
 import com.fmv.healthkiosk.feature.telemedicine.data.mapper.NotificationMapper;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.local.DummyChatbotMessageGenerator;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.local.NotificationAppointmentDataGenerator;
@@ -13,6 +14,7 @@ import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.MakeApp
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.ChatMessage;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorTimeslotModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.NotificationModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.repo.TelemedicineRepository;
@@ -56,7 +58,7 @@ public class TelemedicineRepositoryImpl implements TelemedicineRepository {
     @Override
     public Single<AppointmentModel> getAppointmentsById(int appointmentId) {
         return telemedicineService.getAppointmentsById(appointmentId)
-                .map(response -> AppointmentMapper.mapToAppointmentModel(response));
+                .map(AppointmentMapper::mapToAppointmentModel);
     }
 
 
@@ -80,6 +82,12 @@ public class TelemedicineRepositoryImpl implements TelemedicineRepository {
         makeAppointmentRequest.setDateTime(dateTime);
 
         return telemedicineService.createAppointment(patientId, doctorId, makeAppointmentRequest).map(AppointmentMapper::mapToAppointmentModel);
+    }
+
+    @Override
+    public Single<DoctorTimeslotModel> getDoctorTimeslots(int doctorId, String date) {
+        return telemedicineService.getDoctorTimeslots(doctorId, date)
+                .map(DoctorTimeslotMapper::mapToModel);
     }
 
     @Override

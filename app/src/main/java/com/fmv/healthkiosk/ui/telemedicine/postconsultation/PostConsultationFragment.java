@@ -16,6 +16,9 @@ import com.fmv.healthkiosk.ui.report.prescription.PdfPrescriptionReportActivity;
 import com.fmv.healthkiosk.ui.report.testing.PdfTestingReportActivity;
 import com.fmv.healthkiosk.ui.telemedicine.postconsultation.adapters.PostConsultationMedicineAdapter;
 
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,9 +82,7 @@ public class PostConsultationFragment extends BaseFragment<FragmentPostConsultat
             binding.tvDoctorSuggestions.setText("No suggestions available");
         }
 
-        binding.tvDateTime.setText(formatDateTime(appointment.getDateTime()));
-
-        Log.e("FTEST", "setViews: " + postConsultation.getMedicines().size() );
+        binding.tvDateTime.setText(appointment.getDateTime());
 
         postConsultationMedicineAdapter.submitList(postConsultation.getMedicines());
 
@@ -103,7 +104,12 @@ public class PostConsultationFragment extends BaseFragment<FragmentPostConsultat
         binding.btnExportToPdf.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             AppointmentModel appointmentModel = viewModel.appointment.getValue();
+            assert appointmentModel != null;
+            appointmentModel.setImageBase64(null);
             appointmentModel.getDoctor().setImageBase64(null);
+            appointmentModel.getPatient().setImageBase64(null);
+
+            Log.e("FTEST", "setListeners: " + appointmentModel );
 
             bundle.putParcelable(PdfPrescriptionReportActivity.EXTRA_APPOINTMENT_RESULT, appointmentModel);
 
@@ -115,14 +121,13 @@ public class PostConsultationFragment extends BaseFragment<FragmentPostConsultat
 
     private String formatDateTime(String isoDateTime) {
         try {
-            SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
-            Date date = isoFormat.parse(isoDateTime);
-            if (date != null) {
-                SimpleDateFormat displayFormat = new SimpleDateFormat("d MMMM yyyy, HH:mm", Locale.getDefault());
-                return displayFormat.format(date);
-            }
-        } catch (Exception ignored) {}
-        return "Invalid date";
+            OffsetDateTime odt = OffsetDateTime.parse(isoDateTime);
+            DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm", Locale.getDefault());
+            return odt.format(displayFormatter);
+        } catch (Exception e) {
+            e.printStackTrace(); // optional: for debugging
+            return "Invalid date";
+        }
     }
 
     private String safeText(String input, String fallback) {

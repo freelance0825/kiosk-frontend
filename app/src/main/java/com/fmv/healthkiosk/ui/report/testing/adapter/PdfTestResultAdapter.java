@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fmv.healthkiosk.databinding.ItemTestResultColumnBinding;
 import com.fmv.healthkiosk.databinding.ItemTestResultPdfGridBinding;
 import com.fmv.healthkiosk.feature.tests.domain.model.TestResult;
+import com.fmv.healthkiosk.feature.tests.domain.model.TestsResultModel;
 
 import java.util.Objects;
 
-public class PdfTestResultAdapter extends ListAdapter<TestResult, PdfTestResultAdapter.ViewHolder> {
+public class PdfTestResultAdapter extends ListAdapter<TestsResultModel, PdfTestResultAdapter.ViewHolder> {
     public PdfTestResultAdapter() {
         super(DIFF_CALLBACK);
     }
@@ -30,12 +31,19 @@ public class PdfTestResultAdapter extends ListAdapter<TestResult, PdfTestResultA
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TestResult testResult = getItem(position);
+        TestsResultModel testResult = getItem(position);
         if (testResult != null) {
+            String result = testResult.getResult();
+
+            String[] parts = result.split("\\s+");
+
+            String resultValue = parts[0];
+            String resultExtension = parts.length > 1 ? parts[1] : "";
+
             holder.binding.tvResultName.setText(testResult.getName());
-            holder.binding.tvResultValue.setText(String.valueOf(testResult.getValue()));
-            holder.binding.tvResultExtension.setText(testResult.getExtension());
-            holder.binding.tvResultStatus.setText(testResult.getStatus());
+            holder.binding.tvResultValue.setText(resultValue);
+            holder.binding.tvResultExtension.setText(resultExtension);
+            holder.binding.tvResultStatus.setText(testResult.getRange());
         }
     }
 
@@ -48,17 +56,17 @@ public class PdfTestResultAdapter extends ListAdapter<TestResult, PdfTestResultA
         }
     }
 
-    private static final DiffUtil.ItemCallback<TestResult> DIFF_CALLBACK =
+    private static final DiffUtil.ItemCallback<TestsResultModel> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<>() {
                 @Override
-                public boolean areItemsTheSame(@NonNull TestResult oldStory,
-                                               @NonNull TestResult newStory) {
+                public boolean areItemsTheSame(@NonNull TestsResultModel oldStory,
+                                               @NonNull TestsResultModel newStory) {
                     return oldStory.equals(newStory);
                 }
 
                 @Override
-                public boolean areContentsTheSame(@NonNull TestResult oldStory,
-                                                  @NonNull TestResult newStory) {
+                public boolean areContentsTheSame(@NonNull TestsResultModel oldStory,
+                                                  @NonNull TestsResultModel newStory) {
                     return Objects.equals(oldStory.getName(), newStory.getName());
                 }
             };

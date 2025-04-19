@@ -85,6 +85,23 @@ public class TestFragment extends BaseFragment<FragmentTestBinding, TestViewMode
         viewModel.selectedTestItem.observe(getViewLifecycleOwner(), testItem -> {
             if (testItem != null) testLayoutHandler.updateTestLayout(testItem);
         });
+
+        viewModel.testHistoryModel.observe(getViewLifecycleOwner(), testHistoryModel -> {
+            if (testHistoryModel != null) {
+                navigateToFragment(TestFragmentDirections.actionNavigationTestToNavigationTestReport(testHistoryModel), false);
+                viewModel.testHistoryModel.setValue(null);
+            }
+        });
+
+        viewModel.isLoading.observe(getViewLifecycleOwner(), isLoading -> {
+
+        });
+
+        viewModel.errorMessage.observe(getViewLifecycleOwner(), errorMessage -> {
+            if (errorMessage != null) {
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setViews() {
@@ -96,13 +113,10 @@ public class TestFragment extends BaseFragment<FragmentTestBinding, TestViewMode
         binding.btnBack.setOnClickListener(v -> navigateBack());
 
         binding.btnComplete.setOnClickListener(v -> {
-            TestItemList testItemList = new TestItemList(viewModel.testItemList.getValue());
-            MedicalPackage medicalPackage = viewModel.medicalPackage;
-
-            if (testItemList.getTestItemList().isEmpty()) {
+            if (Objects.requireNonNull(viewModel.testItemList.getValue()).isEmpty()) {
                 Toast.makeText(requireContext(), "Complete the remaining test first", Toast.LENGTH_SHORT).show();
             } else {
-                navigateToFragment(TestFragmentDirections.actionNavigationTestToNavigationTestReport(testItemList, medicalPackage), true);
+                viewModel.postTestHistory(viewModel.testItemList.getValue());
             }
         });
 
@@ -115,6 +129,5 @@ public class TestFragment extends BaseFragment<FragmentTestBinding, TestViewMode
     @Override
     public void onDestroy() {
         super.onDestroy();
-
     }
 }

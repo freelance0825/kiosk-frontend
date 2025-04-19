@@ -72,6 +72,16 @@
 
     <!-- MAIN FRAGMENTS-->
     <fragment
+        android:id="@+id/navigation_test_report_history"
+        android:name="com.fmv.healthkiosk.ui.home.testreporthistory.TestReportHistoryFragment"
+        android:label="@string/fragment_title_test_report_history"
+        tools:layout="@layout/fragment_test_report_history">
+        <action
+            android:id="@+id/action_navigation_test_report_history_to_navigation_test_report"
+            app:destination="@id/navigation_test_report" />
+    </fragment>
+
+    <fragment
         android:id="@+id/navigation_home_landing"
         android:name="com.fmv.healthkiosk.ui.home.landing.HomeLandingFragment"
         android:label="@string/fragment_title_home_landing"
@@ -85,6 +95,9 @@
         <action
             android:id="@+id/action_navigation_home_landing_to_navigation_telemedicine_fragment"
             app:destination="@id/navigation_telemedicine_fragment" />
+        <action
+            android:id="@+id/action_navigation_home_landing_to_navigation_test_report_history"
+            app:destination="@id/navigation_test_report_history" />
     </fragment>
 
     <fragment
@@ -135,13 +148,17 @@
         android:label="@string/fragment_title_test_report"
         tools:layout="@layout/fragment_test_report">
         <argument
-            android:name="testItemList"
-            app:argType="com.fmv.healthkiosk.feature.tests.domain.model.TestItemList"
+            android:name="testHistoryModel"
+            app:argType="com.fmv.healthkiosk.feature.tests.domain.model.TestHistoryModel"
             app:nullable="false" />
-        <argument
-            android:name="medicalPackage"
-            app:argType="com.fmv.healthkiosk.feature.tests.domain.model.MedicalPackage"
-            app:nullable="true" />
+<!--        <argument-->
+<!--            android:name="testItemList"-->
+<!--            app:argType="com.fmv.healthkiosk.feature.tests.domain.model.TestItemList"-->
+<!--            app:nullable="false" />-->
+<!--        <argument-->
+<!--            android:name="medicalPackage"-->
+<!--            app:argType="com.fmv.healthkiosk.feature.tests.domain.model.MedicalPackage"-->
+<!--            app:nullable="true" />-->
     </fragment>
 
     <fragment

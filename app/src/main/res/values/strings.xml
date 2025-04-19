@@ -44,6 +44,7 @@
     <string name="fragment_title_video_call">Video Call Fragment</string>
     <string name="fragment_title_reschedule_appointment">Reschedule Fragment</string>
     <string name="fragment_title_chat">Chat Fragment</string>
+    <string name="fragment_title_test_report_history">Test Report History Fragment</string>
 
     <!-- Fragment Landing -->
     <string name="fragment_landing_login_patient_account">Login Patient Account</string>
@@ -210,6 +211,7 @@
     <string name="activity_pdf_prescription_report_clinical_duration">Duration</string>
     <string name="activity_pdf_prescription_report_clinical_advice">Advice</string>
     <string name="activity_pdf_prescription_report_clinical_follow_up_date">Follow up date</string>
+    <string name="activity_pdf_testing_report_custom_test_report">Custom Test Report</string>
     <string name="activity_pdf_testing_report_medical_test_report">Medical Test Report</string>
     <string name="fragment_pdf_testing_report_health_score">Health Score</string>
     <string name="fragment_pdf_testing_report_package_name">%1$s Package</string>
@@ -222,6 +224,8 @@
     <string name="fragment_chat_reschedule_my_appointment">Reschedule my appointment</string>
     <string name="fragment_chat_view_doctor_s_schedule">View doctor\'s schedule</string>
     <string name="fragment_chat_speech_to_chat">Speech to chat</string>
+    <string name="fragment_test_report_history_test_report_history">Test Report History</string>
+    <string name="fragment_test_report_history_package_type">Package Type</string>
 
     <string-array name="height_steps">
         <item>Stand on the height measurement device</item>

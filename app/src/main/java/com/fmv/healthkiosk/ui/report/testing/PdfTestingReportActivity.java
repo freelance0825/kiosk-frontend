@@ -15,6 +15,7 @@ import com.fmv.healthkiosk.R;
 import com.fmv.healthkiosk.core.base.ui.BaseActivity;
 import com.fmv.healthkiosk.databinding.ActivityPdfTestingReportBinding;
 import com.fmv.healthkiosk.feature.tests.domain.model.MedicalPackage;
+import com.fmv.healthkiosk.feature.tests.domain.model.TestHistoryModel;
 import com.fmv.healthkiosk.feature.tests.domain.model.TestResult;
 import com.fmv.healthkiosk.ui.report.testing.adapter.PdfTestResultAdapter;
 
@@ -32,7 +33,6 @@ public class PdfTestingReportActivity extends BaseActivity<ActivityPdfTestingRep
     private final PdfTestResultAdapter advancedTestAdapter = new PdfTestResultAdapter();
 
     public static final String EXTRA_TESTING_RESULT = "extra_testing_result";
-    public static final String EXTRA_PACKAGE_NAME = "extra_package_name";
 
     @Override
     protected Class<PdfTestingReportViewModel> getViewModelClass() {
@@ -55,34 +55,28 @@ public class PdfTestingReportActivity extends BaseActivity<ActivityPdfTestingRep
     }
 
     private void observeViewModel() {
-        viewModel.medicalPackage.observe(this, medicalPackage -> {
-            String formattedDate = new SimpleDateFormat("dd MMMM yyyy, 'at' hh:mm a", Locale.getDefault()).format(new Date());
-            binding.tvReportDate.setText(formattedDate);
+        viewModel.testHistoryModel.observe(this, testHistoryModel -> {
+            if (testHistoryModel != null) {
+                if (testHistoryModel.getPackageName().toLowerCase().contains("custom")) {
+                    binding.tvPackageTitle.setText(getString(R.string.activity_pdf_testing_report_custom_test_report));
+                    binding.layoutPackageName.setVisibility(View.GONE);
+                } else {
+                    binding.tvPackageTitle.setText(getString(R.string.activity_pdf_testing_report_medical_test_report));
+                    binding.tvPackageName.setText(testHistoryModel.getPackageName());
+                    binding.layoutPackageName.setVisibility(View.VISIBLE);
+                }
 
-            if (medicalPackage != null) {
-                binding.tvPackageName.setText(medicalPackage.getName());
-            } else {
-                binding.tvPackageName.setText(getString(R.string.fragment_pdf_testing_report_package_name, getString(R.string.fragment_test_custom_test)));
-            }
-        });
+                binding.tvPatientName.setText(testHistoryModel.getUserName());
+                binding.tvPatientAddress.setText(testHistoryModel.getUserAddress());
+                binding.tvReportDate.setText(testHistoryModel.getCreatedAt());
 
-        viewModel.username.observe(this, binding.tvPatientName::setText);
-
-        viewModel.gender.observe(this, gender -> {
-            viewModel.age.observe(this, age -> {
-                String genderAge = String.format("%s, %d years old", gender, age);
+                String genderAge = String.format("%s, %s years old", testHistoryModel.getUserGender(), testHistoryModel.getUserAge());
 
                 binding.tvPatientGenderAge.setText(genderAge);
-            });
-        });
+                binding.tvPatientMobileNumber.setText(getString(R.string.activity_pdf_prescription_report_mob_no, testHistoryModel.getUserPhoneNumber()));
+                binding.tvPatientId.setText(getString(R.string.activity_pdf_prescription_report_patient_id, String.valueOf(testHistoryModel.getUserId())));
 
-        viewModel.phoneNumber.observe(this, phoneNumber -> {
-            binding.tvPatientMobileNumber.setText(getString(R.string.activity_pdf_prescription_report_mob_no, phoneNumber));
-        });
-
-
-        viewModel.userId.observe(this, userId -> {
-            binding.tvPatientId.setText(getString(R.string.activity_pdf_prescription_report_patient_id, String.valueOf(userId)));
+            }
         });
 
         viewModel.generalTestList.observe(this, generalTests -> {
@@ -119,12 +113,8 @@ public class PdfTestingReportActivity extends BaseActivity<ActivityPdfTestingRep
     private void extractIntentExtras() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            ArrayList<TestResult> testingResults = bundle.getParcelableArrayList(EXTRA_TESTING_RESULT);
-            MedicalPackage medicalPackage = bundle.getParcelable(EXTRA_PACKAGE_NAME);
-
-            if (testingResults == null) testingResults = new ArrayList<>();
-            viewModel.setData(testingResults, medicalPackage);
+            TestHistoryModel testHistoryModel = bundle.getParcelable(EXTRA_TESTING_RESULT);
+            viewModel.setData(testHistoryModel);
         }
     }
-
 }

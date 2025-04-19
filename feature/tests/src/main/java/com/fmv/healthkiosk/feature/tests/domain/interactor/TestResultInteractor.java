@@ -2,6 +2,7 @@ package com.fmv.healthkiosk.feature.tests.domain.interactor;
 
 import com.fmv.healthkiosk.feature.tests.domain.model.TestItem;
 import com.fmv.healthkiosk.feature.tests.domain.model.TestResult;
+import com.fmv.healthkiosk.feature.tests.domain.model.TestsResultModel;
 import com.fmv.healthkiosk.feature.tests.domain.repo.TestsRepository;
 import com.fmv.healthkiosk.feature.tests.domain.usecase.TestResultUseCase;
 import com.fmv.healthkiosk.feature.tests.domain.usecase.TestsPresetUseCase;
@@ -20,7 +21,7 @@ public class TestResultInteractor implements TestResultUseCase {
     }
 
     @Override
-    public List<TestResult> mapToTestResults(List<TestItem> testItems) {
+    public List<TestsResultModel> mapToTestResults(List<TestItem> testItems) {
         return testsRepository.mapToTestResults(testItems);
     }
 }

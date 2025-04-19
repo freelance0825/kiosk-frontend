@@ -34,11 +34,6 @@ public class RescheduleAppointmentFragment extends BaseFragment<FragmentReschedu
     public static final String REQUEST_RESCHEDULE_KEY_CHAT = "request_reschedule_key_chat";
     public static final String REQUEST_RESCHEDULE_KEY_CHAT_UPDATED = "request_reschedule_key_chat_updated";
 
-    List<String> timeSlots = Arrays.asList(
-            "08:00", "10:00", "12:00", "14:00", "16:00", "18:00",
-            "20:00", "21:00", "22:00", "22:30", "23:00", "23:30"
-    );
-
     @Override
     protected Class<RescheduleAppointmentViewModel> getViewModelClass() {
         return RescheduleAppointmentViewModel.class;
@@ -67,7 +62,7 @@ public class RescheduleAppointmentFragment extends BaseFragment<FragmentReschedu
     private void observeViewModel() {
         viewModel.updatedAppointments.observe(getViewLifecycleOwner(), updatedAppointment -> {
             if (updatedAppointment != null) {
-                Log.e("FTEST", "setViews: " + updatedAppointment.getDoctor().getImageBase64() );
+                Log.e("FTEST", "setViews: " + updatedAppointment.getDoctor().getImageBase64());
 
                 if (updatedAppointment.getDoctor().getImageBase64() != null) {
                     if (!updatedAppointment.getDoctor().getImageBase64().isEmpty()) {
@@ -99,15 +94,27 @@ public class RescheduleAppointmentFragment extends BaseFragment<FragmentReschedu
                 binding.ivSelectDateDropdown.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primaryBlue)));
             }
         });
+
+        viewModel.doctorTimeslots.observe(getViewLifecycleOwner(), doctorTimeslots -> {
+            if (doctorTimeslots != null) {
+                TimeSlotAdapter adapter = new TimeSlotAdapter(requireContext(), doctorTimeslots.getAvailableTimeSlots(), selectedTime -> {
+                    viewModel.selectedTime.setValue(selectedTime);
+                });
+
+                binding.rvTime.setAdapter(adapter);
+                binding.rvTime.setLayoutManager(new GridLayoutManager(requireContext(), 6, GridLayoutManager.VERTICAL, false));
+
+                binding.tvSelectTime.setVisibility(ViewGroup.VISIBLE);
+                binding.rvTime.setVisibility(ViewGroup.VISIBLE);
+            } else {
+                binding.tvSelectTime.setVisibility(ViewGroup.GONE);
+                binding.rvTime.setVisibility(ViewGroup.GONE);
+            }
+        });
     }
 
     private void setViews() {
-        TimeSlotAdapter adapter = new TimeSlotAdapter(requireContext(), timeSlots, selectedTime -> {
-            viewModel.selectedTime.setValue(selectedTime);
-        });
 
-        binding.rvTime.setAdapter(adapter);
-        binding.rvTime.setLayoutManager(new GridLayoutManager(requireContext(), 6, GridLayoutManager.VERTICAL, false));
     }
 
     private void setListeners() {
@@ -120,26 +127,18 @@ public class RescheduleAppointmentFragment extends BaseFragment<FragmentReschedu
         });
 
         binding.btnSubmit.setOnClickListener(v -> {
-            String selectedDate = viewModel.selectedDate.getValue();
-            String selectedTime = viewModel.selectedTime.getValue();
-
-            if (selectedDate.isEmpty() || selectedTime.isEmpty()) {
+            if (viewModel.selectedDate.getValue().isEmpty() || viewModel.selectedTime.getValue().isEmpty()) {
                 Toast.makeText(requireContext(), "Please select date and time", Toast.LENGTH_SHORT).show();
             } else {
-                // Format for backend submission
-                String dateTimeForSubmission = formatDateTime(selectedDate, selectedTime);
-                viewModel.updateMyAppointments(dateTimeForSubmission);
+                String dateTime = viewModel.selectedDate.getValue() + ", " + viewModel.selectedTime.getValue();
+                binding.tvDateTime.setText(dateTime);
 
-                // Format for confirmation UI
-                String dateTimeForDisplay = selectedDate + ", " + selectedTime;
-                binding.tvDateTime.setText(dateTimeForDisplay);
-
-                viewModel.isAppointmentSubmitted.setValue(true);
+                viewModel.updateMyAppointments();
             }
         });
 
         binding.btnAssistantHelp.setOnClickListener(v -> {
-           navigateToFragment(RescheduleAppointmentFragmentDirections.actionNavigationRescheduleAppointmentFragmentToNavigationChatFragment(viewModel.doctorModel, viewModel.appointmentId), false);
+            navigateToFragment(RescheduleAppointmentFragmentDirections.actionNavigationRescheduleAppointmentFragmentToNavigationChatFragment(viewModel.doctorModel, viewModel.appointmentId), false);
         });
 
         binding.btnOkay.setOnClickListener(v -> {
@@ -163,8 +162,12 @@ public class RescheduleAppointmentFragment extends BaseFragment<FragmentReschedu
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
                     String formattedDate = dateFormat.format(selectedCal.getTime());
 
+                    SimpleDateFormat dateFormatForRequestTimeslots = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
                     viewModel.selectedDate.setValue(formattedDate);
                     binding.tvSelectDate.setText(formattedDate);
+
+                    viewModel.getDoctorTimeslots(dateFormatForRequestTimeslots.format(selectedCal.getTime()));
                 },
                 year, month, day
         );
@@ -174,33 +177,9 @@ public class RescheduleAppointmentFragment extends BaseFragment<FragmentReschedu
         datePickerDialog.show();
     }
 
-    // Helper method for formatting date and time into ISO 8601 format
-    private String formatDateTime(String selectedDate, String selectedTime) {
-        try {
-            // Log inputs
-            Log.d("Reschedule", "Selected date: " + selectedDate + " | Selected time: " + selectedTime);
-
-            // Expected input: "22 April 2025" and "10:00"
-            SimpleDateFormat inputFormat = new SimpleDateFormat("dd MMMM yyyy, HH:mm", Locale.ENGLISH); // force English
-            SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-
-            String inputDateTime = selectedDate + ", " + selectedTime;
-            Date parsedDate = inputFormat.parse(inputDateTime);
-
-            if (parsedDate == null) {
-                Toast.makeText(requireContext(), "Failed to parse date/time", Toast.LENGTH_SHORT).show();
-                Log.e("Reschedule", "Parsed date is null for input: " + inputDateTime);
-                return "";
-            }
-
-            String formattedDateTime = isoFormat.format(parsedDate);
-            Log.d("Reschedule", "Formatted datetime: " + formattedDateTime);
-            return formattedDateTime;
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(requireContext(), "Failed to format date and time", Toast.LENGTH_SHORT).show();
-            return "";
-        }
+    private void notifyRescheduledAppointment() {
+        Bundle result = new Bundle();
+        result.putBoolean(REQUEST_RESCHEDULE_KEY_CHAT_UPDATED, true);
+        getParentFragmentManager().setFragmentResult(REQUEST_RESCHEDULE_KEY_CHAT, result);
     }
-
 }

@@ -1,5 +1,7 @@
 package com.fmv.healthkiosk.ui.telemedicine.myappointment;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 
@@ -106,6 +108,15 @@ public class MyAppointmentViewModel extends BaseViewModel {
     private void loadCurrentPage() {
         int fromIndex = currentPageIndex * DOCTOR_PAGE_SIZE;
         int toIndex = Math.min(fromIndex + DOCTOR_PAGE_SIZE, Objects.requireNonNull(myAppointmentList.getValue()).size());
+
+        List<AppointmentModel> appointments = myAppointmentList.getValue();
+        if (appointments != null) {
+            for (AppointmentModel appointment : appointments) {
+                appointment.setImageBase64(null);
+                Log.e("FTEST", "loadCurrentPage: " + appointment.getDoctor().getName() + ", " + appointment.getDateTime());
+            }
+        }
+
 
         List<AppointmentModel> pageItems = new ArrayList<>(myAppointmentList.getValue().subList(fromIndex, toIndex));
         while (pageItems.size() < DOCTOR_PAGE_SIZE) {

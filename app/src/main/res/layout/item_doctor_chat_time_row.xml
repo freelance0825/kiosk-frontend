@@ -5,20 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:gravity="center|end"
     android:layout_marginTop="8dp"
+    android:gravity="center|start"
+    android:orientation="horizontal"
     app:cardCornerRadius="12dp"
-    app:cardElevation="2dp">
+    app:cardElevation="2dp"
+    tools:background="@color/primaryGray">
 
-    <TextView
-        android:id="@+id/tv_chat"
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_time"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rounded_white_border"
-        android:backgroundTint="#E53C6EFF"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="08:00"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:layout_marginEnd="150dp" />
 </LinearLayout>

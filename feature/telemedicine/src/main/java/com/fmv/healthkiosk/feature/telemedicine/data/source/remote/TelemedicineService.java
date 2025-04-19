@@ -3,6 +3,7 @@ package com.fmv.healthkiosk.feature.telemedicine.data.source.remote;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentResponse;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.DoctorResponse;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentRequest;
+import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.DoctorTimeslotResponse;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.MakeAppointmentRequest;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.NotificationResponse;
 
@@ -57,4 +58,11 @@ public interface TelemedicineService {
     @Headers("Content-Type: application/json")
     @GET("notifications/patient/{id}")
     Single<List<NotificationResponse>> getPatientNotifications(@Path("id") int patientId, @Query("id") long currentPatient);
+
+    @Headers("Content-Type: application/json")
+    @GET("appointments/timeslots/{doctorId}")
+    Single<DoctorTimeslotResponse> getDoctorTimeslots(
+            @Path("doctorId") int doctorId,
+            @Query("date") String date
+    );
 }

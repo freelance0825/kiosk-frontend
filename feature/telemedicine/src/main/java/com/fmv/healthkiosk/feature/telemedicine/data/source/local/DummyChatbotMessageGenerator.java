@@ -25,6 +25,8 @@ public class DummyChatbotMessageGenerator {
             chatMessages.add(new ChatMessage(messageIdCounter++, ChatbotCommands.SUGGESTION_DATE_MENU, false));
             chatMessages.add(new ChatMessage(messageIdCounter++, "Not suitable for you?", false));
             chatMessages.add(new ChatMessage(messageIdCounter++, ChatbotCommands.ANOTHER_DATE_MENU, false));
+        } else if (userInput.equals(ChatbotCommands.RESCHEDULE_TIME)) {
+            chatMessages.add(new ChatMessage(messageIdCounter++, ChatbotCommands.SUGGESTION_TIME_MENU, false));
         } else {
             if (userInput.equals(ChatbotCommands.DONE_RESCHEDULE_DATE)) {
                 chatMessages.add(new ChatMessage(messageIdCounter++, "Select another date", true));

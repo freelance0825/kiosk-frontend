@@ -69,8 +69,8 @@ public class ConsultationHistoryAdapter extends ListAdapter<AppointmentModel, Co
                 holder.binding.tvLiveStatus.setVisibility(View.INVISIBLE);
             }
 
-            OffsetDateTime odt = OffsetDateTime.parse(appointment.getDateTime());
-            LocalDateTime ldt = odt.toLocalDateTime();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm");
+            LocalDateTime ldt = LocalDateTime.parse(appointment.getDateTime(), formatter);
 
             // Dynamically format the date/time using the formatDateTime method
             String formattedDate = formatDateTime(ldt);
@@ -116,9 +116,7 @@ public class ConsultationHistoryAdapter extends ListAdapter<AppointmentModel, Co
         void onViewReportClick(AppointmentModel appointment, int position);
     }
 
-    // Method to format the date dynamically from the timestamp
     public String formatDateTime(LocalDateTime dateTime) {
-        // Format to desired output: "10 December 2024, 12:00"
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm");
         return formatter.format(dateTime);
     }

@@ -73,8 +73,8 @@ public class MyAppointmentAdapter extends ListAdapter<AppointmentModel, MyAppoin
                 if (listener != null) listener.onConsultNowClick(appointment, position);
             });
 
-            OffsetDateTime odt = OffsetDateTime.parse(appointment.getDateTime());
-            LocalDateTime ldt = odt.toLocalDateTime();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm");
+            LocalDateTime ldt = LocalDateTime.parse(appointment.getDateTime(), formatter);
 
             // Use the "isNow" method to determine if the appointment is happening now
             if (isNow(ldt)) {

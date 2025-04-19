@@ -1,6 +1,7 @@
 package com.fmv.healthkiosk.ui.home.testreport;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -42,10 +43,12 @@ public class TestReportFragment extends BaseFragment<FragmentTestReportBinding, 
     }
 
     private void observeViewModel() {
-        if (viewModel.medicalPackage != null) {
-            binding.tvTitle.setText(getString(R.string.fragment_test_report_report, viewModel.medicalPackage.getName()));
-        } else {
+        Log.e("FTEST", "observeViewModel TEstReport: " + viewModel.testHistoryModel.getPackageName() );
+
+        if (viewModel.testHistoryModel.getPackageName().toLowerCase().contains("custom")) {
             binding.tvTitle.setText(getString(R.string.fragment_test_report_report, getString(R.string.fragment_test_custom_test)));
+        } else {
+            binding.tvTitle.setText(getString(R.string.fragment_test_report_report, viewModel.testHistoryModel.getPackageName()));
         }
 
         viewModel.pagedTestResult.observe(getViewLifecycleOwner(), testResults -> {
@@ -76,8 +79,7 @@ public class TestReportFragment extends BaseFragment<FragmentTestReportBinding, 
 
         binding.btnExportToPdf.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList(PdfTestingReportActivity.EXTRA_TESTING_RESULT, new ArrayList<>(Objects.requireNonNull(viewModel.inflatedTestResult)));
-            bundle.putParcelable(PdfTestingReportActivity.EXTRA_PACKAGE_NAME, viewModel.medicalPackage);
+            bundle.putParcelable(PdfTestingReportActivity.EXTRA_TESTING_RESULT, viewModel.testHistoryModel);
 
             navigateToActivity(PdfTestingReportActivity.class, bundle);
         });

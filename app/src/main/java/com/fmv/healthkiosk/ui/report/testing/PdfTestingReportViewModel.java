@@ -6,9 +6,12 @@ import androidx.lifecycle.SavedStateHandle;
 import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
 import com.fmv.healthkiosk.feature.auth.domain.usecase.AccountUseCase;
 import com.fmv.healthkiosk.feature.tests.domain.model.MedicalPackage;
+import com.fmv.healthkiosk.feature.tests.domain.model.TestHistoryModel;
 import com.fmv.healthkiosk.feature.tests.domain.model.TestResult;
+import com.fmv.healthkiosk.feature.tests.domain.model.TestsResultModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -20,19 +23,9 @@ import io.reactivex.schedulers.Schedulers;
 @HiltViewModel
 public class PdfTestingReportViewModel extends BaseViewModel {
 
-    private final AccountUseCase accountUseCase;
-
-    final MutableLiveData<MedicalPackage> medicalPackage = new MutableLiveData<>(null);
-    final MutableLiveData<ArrayList<TestResult>> generalTestList = new MutableLiveData<>(new ArrayList<>());
-    final MutableLiveData<ArrayList<TestResult>> advancedTestList = new MutableLiveData<>(new ArrayList<>());
-
-
-    final MutableLiveData<String> username = new MutableLiveData<>();
-    final MutableLiveData<String> dateOfBirth = new MutableLiveData<>();
-    final MutableLiveData<String> gender = new MutableLiveData<>();
-    final MutableLiveData<String> phoneNumber = new MutableLiveData<>();
-    final MutableLiveData<Integer> age = new MutableLiveData<>();
-    final MutableLiveData<Integer> userId = new MutableLiveData<>();
+    final MutableLiveData<TestHistoryModel> testHistoryModel = new MutableLiveData<>(null);
+    final MutableLiveData<ArrayList<TestsResultModel>> generalTestList = new MutableLiveData<>(new ArrayList<>());
+    final MutableLiveData<ArrayList<TestsResultModel>> advancedTestList = new MutableLiveData<>(new ArrayList<>());
 
 
     private final CompositeDisposable disposables = new CompositeDisposable();
@@ -40,56 +33,22 @@ public class PdfTestingReportViewModel extends BaseViewModel {
 
     @Inject
     public PdfTestingReportViewModel(
-            SavedStateHandle savedStateHandle, AccountUseCase accountUseCase
+            SavedStateHandle savedStateHandle
     ) {
         super(savedStateHandle);
-        this.accountUseCase = accountUseCase;
-
-        observeProfileData();
     }
 
-    private void observeProfileData() {
-        disposables.add(accountUseCase.getUserID()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(userId::setValue, throwable -> userId.setValue(0)));
 
-        disposables.add(accountUseCase.getUsername()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(username::setValue, throwable -> username.setValue("Unknown")));
-
-        disposables.add(accountUseCase.getDateOfBirth()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(dateOfBirth::setValue, throwable -> dateOfBirth.setValue("N/A")));
-
-        disposables.add(accountUseCase.getGender()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(gender::setValue, throwable -> gender.setValue("Unknown")));
-
-        disposables.add(accountUseCase.getPhoneNumber()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(phoneNumber::setValue, throwable -> phoneNumber.setValue("Unknown")));
-
-        disposables.add(accountUseCase.getAge()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(age::setValue, throwable -> age.setValue(0)));
+    public void setData(TestHistoryModel testHistoryModel) {
+        this.testHistoryModel.setValue(testHistoryModel);
+        mapTestResultsToLists(testHistoryModel.getTests());
     }
 
-    public void setData(ArrayList<TestResult> testingResults, MedicalPackage medicalPackage) {
-        this.medicalPackage.setValue(medicalPackage);
-        mapTestResultsToLists(testingResults);
-    }
+    private void mapTestResultsToLists(List<TestsResultModel> testingResults) {
+        ArrayList<TestsResultModel> generalTest = new ArrayList<>();
+        ArrayList<TestsResultModel> advancedTest = new ArrayList<>();
 
-    private void mapTestResultsToLists(ArrayList<TestResult> testingResults) {
-        ArrayList<TestResult> generalTest = new ArrayList<>();
-        ArrayList<TestResult> advancedTest = new ArrayList<>();
-
-        for (TestResult testResult : testingResults) {
+        for (TestsResultModel testResult : testingResults) {
             if (testResult.getIsGeneralTest()) {
                 generalTest.add(testResult);
             } else {

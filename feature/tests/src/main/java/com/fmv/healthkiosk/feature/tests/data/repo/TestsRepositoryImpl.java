@@ -7,13 +7,18 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.fmv.healthkiosk.feature.tests.R;
+import com.fmv.healthkiosk.feature.tests.data.mapper.TestHistoryMapper;
 import com.fmv.healthkiosk.feature.tests.data.mapper.TestResultMapper;
 import com.fmv.healthkiosk.feature.tests.data.source.local.TestItems;
 import com.fmv.healthkiosk.feature.tests.data.source.remote.TestsService;
 import com.fmv.healthkiosk.feature.tests.data.source.remote.model.MedicalPackageResponseItem;
+import com.fmv.healthkiosk.feature.tests.data.source.remote.model.TestHistoryRequest;
+import com.fmv.healthkiosk.feature.tests.data.source.remote.model.TestHistoryResponse;
 import com.fmv.healthkiosk.feature.tests.domain.model.MedicalPackage;
+import com.fmv.healthkiosk.feature.tests.domain.model.TestHistoryModel;
 import com.fmv.healthkiosk.feature.tests.domain.model.TestItem;
 import com.fmv.healthkiosk.feature.tests.domain.model.TestResult;
+import com.fmv.healthkiosk.feature.tests.domain.model.TestsResultModel;
 import com.fmv.healthkiosk.feature.tests.domain.repo.TestsRepository;
 
 import org.json.JSONArray;
@@ -79,8 +84,6 @@ public class TestsRepositoryImpl implements TestsRepository {
     }
 
     private String mapTestPresets(String testPreset) {
-        Log.e("FTEST", "getTestItemsAAA: " + testPreset);
-
         // Regex pattern to match "name": "<value>" in the format {"name":"<value>"}
         Pattern pattern = Pattern.compile("name=([^,}\\]]+)");
         Matcher matcher = pattern.matcher(testPreset);
@@ -95,15 +98,29 @@ public class TestsRepositoryImpl implements TestsRepository {
 
         // Join the names into a single string in the desired format
         String result = "[" + String.join(", ", names) + "]";
-
-        Log.e("FTEST", "getTestItemsBBB: " + result);
-
         return result;
     }
 
 
     @Override
-    public List<TestResult> mapToTestResults(List<TestItem> testItems) {
-        return new TestResultMapper().mapToTestResults(testItems);
+    public Single<TestHistoryModel> postTestHistory(TestHistoryModel testHistoryModel) {
+        TestHistoryRequest testHistoryRequest = TestHistoryMapper.mapToRequest(testHistoryModel);
+
+        if (testHistoryRequest.getPackageName().toLowerCase().contains("custom")) {
+            return testsService.postCustomTestHistory(testHistoryRequest).map(TestHistoryMapper::mapToModel);
+        } else {
+            return testsService.postMedicalTestHistory(testHistoryRequest).map(TestHistoryMapper::mapToModel);
+        }
+    }
+
+    @Override
+    public Single<List<TestHistoryModel>> getUserTestHistories(int userId) {
+        return testsService.getUserTestHistory(userId)
+                .map(TestHistoryMapper::mapToModelList);
+    }
+
+    @Override
+    public List<TestsResultModel> mapToTestResults(List<TestItem> testItems) {
+        return new TestResultMapper().mapToTestsResults(testItems);
     }
 }

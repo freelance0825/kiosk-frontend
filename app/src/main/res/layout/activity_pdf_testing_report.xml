@@ -69,6 +69,7 @@
                     android:src="@drawable/asset_logo_fischer_blue" />
 
                 <TextView
+                    android:id="@+id/tv_package_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -290,6 +291,7 @@
 
                 <!-- Package Name Layout-->
                 <LinearLayout
+                    android:id="@+id/layout_package_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -297,7 +299,7 @@
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="20dp"
-                    tools:visibility="gone">
+                    tools:visibility="visible">
 
                     <TextView
                         android:id="@+id/tv_package_name"

@@ -68,6 +68,7 @@ public class HomeLandingFragment extends BaseFragment<FragmentHomeLandingBinding
                 navigateToFragment(HomeLandingFragmentDirections.actionNavigationHomeLandingToNavigationMedicalPackage(), false);
                 break;
             case "report":
+                navigateToFragment(HomeLandingFragmentDirections.actionNavigationHomeLandingToNavigationTestReportHistory(), false);
                 break;
 //            case "e_health_record":
 //                break;

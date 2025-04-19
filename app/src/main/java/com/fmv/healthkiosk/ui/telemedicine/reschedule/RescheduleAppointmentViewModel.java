@@ -62,6 +62,7 @@ public class RescheduleAppointmentViewModel extends BaseViewModel {
         }
         this.appointmentId = id;
         Log.d("RescheduleAppointmentViewModel", "Appointment ID in ViewModel: " + appointmentId);
+        getDoctorTimeslots(null);
     }
 
     public void updateMyAppointments() {

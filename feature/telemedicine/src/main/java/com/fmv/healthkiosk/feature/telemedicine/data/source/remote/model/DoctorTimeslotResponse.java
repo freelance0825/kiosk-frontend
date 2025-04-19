@@ -9,13 +9,13 @@ public class DoctorTimeslotResponse{
 	private String date;
 
 	@SerializedName("availableTimeSlots")
-	private List<String> availableTimeSlots;
+	private List<TimeslotResponse> availableTimeSlots;
 
 	public String getDate(){
 		return date;
 	}
 
-	public List<String> getAvailableTimeSlots(){
+	public List<TimeslotResponse> getAvailableTimeSlots(){
 		return availableTimeSlots;
 	}
 }

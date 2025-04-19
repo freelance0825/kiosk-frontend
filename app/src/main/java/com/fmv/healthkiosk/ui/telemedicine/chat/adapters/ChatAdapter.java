@@ -17,8 +17,9 @@ import com.fmv.healthkiosk.databinding.ItemDoctorChatSelectDateRowBinding;
 import com.fmv.healthkiosk.databinding.ItemDoctorChatTimeRowBinding;
 import com.fmv.healthkiosk.databinding.ItemPatientChatRowBinding;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.ChatMessage;
+import com.fmv.healthkiosk.feature.telemedicine.domain.model.TimeslotModel;
 import com.fmv.healthkiosk.feature.telemedicine.utils.ChatbotCommands;
-import com.fmv.healthkiosk.ui.telemedicine.reschedule.adapters.TimeSlotAdapter;
+import com.fmv.healthkiosk.ui.telemedicine.makeappointment.adapter.TimeSlotAdapter;
 
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
@@ -33,9 +34,9 @@ import java.util.Locale;
 public class ChatAdapter extends ListAdapter<ChatMessage, RecyclerView.ViewHolder> {
 
     private OnItemClickListener listener;
-    private ArrayList<String> timeSlots = new ArrayList<>();
+    private ArrayList<TimeslotModel> timeSlots = new ArrayList<>();
 
-    public void setNewTimeSlots(List<String> newTimeSlots) {
+    public void setNewTimeSlots(List<TimeslotModel> newTimeSlots) {
         this.timeSlots.clear();
         this.timeSlots.addAll(newTimeSlots);
     }

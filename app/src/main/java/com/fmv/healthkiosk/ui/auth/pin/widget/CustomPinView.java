@@ -53,8 +53,8 @@ public class CustomPinView extends LinearLayout {
                 params.setMargins(containerSpacing, 0, 0, 0); // Spasi antar kotak
             }
             editText.setLayoutParams(params);
-            editText.setBackgroundResource(R.drawable.bg_rounded_child_card);
-            editText.setTextColor(ContextCompat.getColor(context, R.color.primaryGreen));
+            editText.setBackgroundResource(R.drawable.bg_rounded_child_card_border_opacity);
+            editText.setTextColor(ContextCompat.getColor(context, R.color.primaryBlue));
             editText.setTextSize(60);
             editText.setGravity(android.view.Gravity.CENTER);
             editText.setInputType(InputType.TYPE_CLASS_NUMBER);

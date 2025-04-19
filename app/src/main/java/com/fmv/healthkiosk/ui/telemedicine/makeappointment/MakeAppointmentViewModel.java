@@ -64,6 +64,7 @@ public class MakeAppointmentViewModel extends BaseViewModel {
         this.doctor = getArgument("doctor");
 
         observeProfileData();
+        getDoctorTimeslots(null);
     }
 
     private void observeProfileData() {

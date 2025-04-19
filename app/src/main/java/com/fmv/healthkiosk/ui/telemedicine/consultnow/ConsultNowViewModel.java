@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle;
 
 import com.fmv.healthkiosk.core.base.ui.BaseViewModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
-import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetAvailableDoctorsUseCase;
+import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetLiveAvailableDoctorsUseCase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import io.reactivex.schedulers.Schedulers;
 @HiltViewModel
 public class ConsultNowViewModel extends BaseViewModel {
 
-    private final GetAvailableDoctorsUseCase getAvailableDoctorsUseCase;
+    private final GetLiveAvailableDoctorsUseCase getLiveAvailableDoctorsUseCase;
 
     final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     final MutableLiveData<String> errorMessage = new MutableLiveData<>();
@@ -39,9 +39,9 @@ public class ConsultNowViewModel extends BaseViewModel {
     private int currentPageIndex = 0;
 
     @Inject
-    public ConsultNowViewModel(SavedStateHandle savedStateHandle, GetAvailableDoctorsUseCase getAvailableDoctorsUseCase) {
+    public ConsultNowViewModel(SavedStateHandle savedStateHandle, GetLiveAvailableDoctorsUseCase getLiveAvailableDoctorsUseCase) {
         super(savedStateHandle);
-        this.getAvailableDoctorsUseCase = getAvailableDoctorsUseCase;
+        this.getLiveAvailableDoctorsUseCase = getLiveAvailableDoctorsUseCase;
 
         getAvailableDoctors();
     }
@@ -50,7 +50,7 @@ public class ConsultNowViewModel extends BaseViewModel {
         isLoading.setValue(true);
         errorMessage.setValue(null);
         disposables.add(
-                getAvailableDoctorsUseCase.execute()
+                getLiveAvailableDoctorsUseCase.execute()
                         .subscribeOn(Schedulers.io())
                         .map(doctors -> {
                             doctors.sort((d1, d2) -> Double.compare(d2.getReview(), d1.getReview()));

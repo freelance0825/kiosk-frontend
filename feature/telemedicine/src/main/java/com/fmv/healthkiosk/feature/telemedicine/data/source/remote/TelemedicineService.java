@@ -26,6 +26,10 @@ public interface TelemedicineService {
     Single<List<DoctorResponse>> getAvailableDoctors();
 
     @Headers("Content-Type: application/json")
+    @GET("doctors/live")
+    Single<List<DoctorResponse>> getLiveAvailableDoctors();
+
+    @Headers("Content-Type: application/json")
     @GET("appointments/patient/{id}")
     Single<List<AppointmentResponse>> getMyAppointments(
             @Path("id") int userId

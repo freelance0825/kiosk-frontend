@@ -6,16 +6,13 @@ import com.fmv.healthkiosk.feature.telemedicine.data.mapper.DoctorMapper;
 import com.fmv.healthkiosk.feature.telemedicine.data.mapper.DoctorTimeslotMapper;
 import com.fmv.healthkiosk.feature.telemedicine.data.mapper.NotificationMapper;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.local.DummyChatbotMessageGenerator;
-import com.fmv.healthkiosk.feature.telemedicine.data.source.local.NotificationAppointmentDataGenerator;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.TelemedicineService;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentRequest;
-import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentResponse;
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.MakeAppointmentRequest;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.ChatMessage;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorTimeslotModel;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.NotificationModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.repo.TelemedicineRepository;
 
@@ -25,7 +22,6 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
@@ -47,6 +43,13 @@ public class TelemedicineRepositoryImpl implements TelemedicineRepository {
                         .collect(Collectors.toList()));
     }
 
+    @Override
+    public Single<List<DoctorModel>> getLiveAvailableDoctors() {
+        return telemedicineService.getLiveAvailableDoctors()
+                .map(doctorResponses -> doctorResponses.stream()
+                        .map(DoctorMapper::mapToDoctorModel)
+                        .collect(Collectors.toList()));
+    }
     @Override
     public Single<List<AppointmentModel>> getMyAppointments(int userId) {
         return telemedicineService.getMyAppointments(userId)

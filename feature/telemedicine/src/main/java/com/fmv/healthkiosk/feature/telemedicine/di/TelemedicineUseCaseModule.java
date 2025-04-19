@@ -4,6 +4,7 @@ import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.CancelMyAppoin
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.GetAllNotificationsInteractor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.GetAvailableDoctorsInteractor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.GetDoctorTimeslotsInteractor;
+import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.GetLiveAvailableDoctorsInteractor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.GetMyAppointmentsInteractor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.MakeAppointmentsInteractor;
 import com.fmv.healthkiosk.feature.telemedicine.domain.interactor.GetPostConsultationInteractor;
@@ -14,6 +15,7 @@ import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.CancelMyAppointme
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetAllNotificationsUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetAvailableDoctorsUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetDoctorTimeslotsUseCase;
+import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetLiveAvailableDoctorsUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetMyAppointmentsUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.MakeAppointmentsUseCase;
 import com.fmv.healthkiosk.feature.telemedicine.domain.usecase.GetPostConsultationUseCase;
@@ -39,6 +41,10 @@ public class TelemedicineUseCaseModule {
         return new GetAvailableDoctorsInteractor(telemedicineRepository);
     }
 
+    @Provides
+    GetLiveAvailableDoctorsUseCase provideGetLiveAvailableDoctorsUseCase(TelemedicineRepository telemedicineRepository) {
+        return new GetLiveAvailableDoctorsInteractor(telemedicineRepository);
+    }
     @Provides
     GetAllNotificationsUseCase provideGetAllNotificationsUseCase(TelemedicineRepository telemedicineRepository) {
         return new GetAllNotificationsInteractor(telemedicineRepository);

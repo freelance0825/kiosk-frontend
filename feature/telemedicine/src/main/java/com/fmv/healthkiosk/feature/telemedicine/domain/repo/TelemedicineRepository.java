@@ -2,12 +2,10 @@ package com.fmv.healthkiosk.feature.telemedicine.domain.repo;
 
 
 import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentRequest;
-import com.fmv.healthkiosk.feature.telemedicine.data.source.remote.model.AppointmentResponse;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.AppointmentModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.ChatMessage;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorModel;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.DoctorTimeslotModel;
-import com.fmv.healthkiosk.feature.telemedicine.domain.model.Notification;
 import com.fmv.healthkiosk.feature.telemedicine.domain.model.NotificationModel;
 
 import java.util.ArrayList;
@@ -18,6 +16,8 @@ import io.reactivex.Single;
 
 public interface TelemedicineRepository {
     Single<List<DoctorModel>> getAvailableDoctors();
+
+    Single<List<DoctorModel>> getLiveAvailableDoctors();
 
     Single<List<AppointmentModel>> getMyAppointments(int userId);
 

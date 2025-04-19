@@ -71,8 +71,6 @@ public class TestViewModel extends BaseViewModel {
 
         TestHistoryModel testHistoryModelRequest = new TestHistoryModel();
 
-        Log.e("FTEST", "observeViewModel TestFragment Posttest: " + String.valueOf(medicalPackage.getName()) );
-
         testHistoryModelRequest.setPackageName((medicalPackage != null && medicalPackage.getName() != null) ? medicalPackage.getName() : null);
         testHistoryModelRequest.setUserId(userId);
         testHistoryModelRequest.setTests(testsResultModels);

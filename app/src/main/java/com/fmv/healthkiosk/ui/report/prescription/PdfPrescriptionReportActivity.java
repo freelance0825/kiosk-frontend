@@ -68,7 +68,7 @@ public class PdfPrescriptionReportActivity extends BaseActivity<ActivityPdfPresc
                 binding.tvPatientMobileNumber.setText(getString(R.string.activity_pdf_prescription_report_mob_no, patientModel.getPhoneNumber()));
                 binding.tvPatientId.setText(getString(R.string.activity_pdf_prescription_report_patient_id, String.valueOf(patientModel.getId())));
 
-                binding.tvDateTime.setText(formatDate(appointmentModel.getDateTime()));
+                binding.tvDateTime.setText(appointmentModel.getDateTime());
                 binding.tvDiagnosis.setText(appointmentModel.getPostConsultation().getDiagnosis());
                 binding.tvPatientComplaints.setText(appointmentModel.getHealthComplaints());
                 binding.tvAdvice.setText(appointmentModel.getPostConsultation().getSuggestions());
